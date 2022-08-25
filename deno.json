@@ -1,0 +1,9 @@
+{
+    "tasks": {
+        "dev": "deno task dev:solid & deno task dev:server",
+        "dev:solid": "cd solid && npm run dev",
+        "dev:server": "denon run --allow-env --allow-net --allow-read deno/server.js",
+        "build": "cd solid && npm run build",
+        "serve": "deno run --allow-env --allow-net --allow-read deno/server.js"
+    }
+}
