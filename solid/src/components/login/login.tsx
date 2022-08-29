@@ -15,11 +15,7 @@ const Login: Component = () => {
 
     return (
         <div>
-
-            <div class={styles.logo}>
-                <img src={logo} alt="logo"/>
-            </div>
-
+            <img class={styles.logo} src={logo} alt="logo"/>
             <InputContaier/>
 
             {/*<div class={styles.inputContainer}>
