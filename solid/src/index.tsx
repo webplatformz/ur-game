@@ -2,6 +2,7 @@
 import { render } from 'solid-js/web';
 
 import './index.css';
-import App from './App';
+import Login from './components/login/login';
+import "bootstrap/dist/css/bootstrap.min.css";
 
-render(() => <App />, document.getElementById('root') as HTMLElement);
+render(() => <Login />, document.getElementById('root') as HTMLElement);
