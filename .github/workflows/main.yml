@@ -35,5 +35,5 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "webplatformz-ur-game"
-          entrypoint: "./server.js"
+          entrypoint: "./server.ts"
           root: dist

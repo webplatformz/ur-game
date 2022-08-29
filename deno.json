@@ -2,9 +2,9 @@
     "tasks": {
         "dev": "deno task dev:solid & deno task dev:server",
         "dev:solid": "cd solid && npm run dev",
-        "dev:server": "deno run --watch --allow-env --allow-net --allow-read deno/server.js",
+        "dev:server": "deno run --watch --allow-env --allow-net --allow-read deno/server.ts",
         "build:solid": "cd solid && npm run build",
-        "serve": "deno run --allow-env --allow-net --allow-read deno/server.js",
+        "serve": "deno run --allow-env --allow-net --allow-read deno/server.ts",
         "serve:solid-server": "deno task serve --dist=solid/dist"
     }
 }
