@@ -1,0 +1,33 @@
+{
+    // Verwendet IntelliSense zum Ermitteln möglicher Attribute.
+    // Zeigen Sie auf vorhandene Attribute, um die zugehörigen Beschreibungen anzuzeigen.
+    // Weitere Informationen finden Sie unter https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "solid:dev",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/solid",
+            "runtimeArgs": [
+                "run",
+                "dev"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
+            "name": "deno:server:dev",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "/usr/local/bin/deno",
+            "runtimeArgs": [
+                "task",
+                "dev:server"
+            ],
+            "type": "node"
+        }
+    ]
+}
