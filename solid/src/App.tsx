@@ -4,8 +4,8 @@ import logo from './logo.svg';
 import styles from './App.module.css';
 
 const App: Component = () => {
-
-  const socket = new WebSocket('ws://localhost:42069/ws');
+  const {host, protocol} = location;
+  const socket = new WebSocket(`${protocol === 'https:' ? 'wss' : 'ws'}://${host}/ws`);
   socket.addEventListener('message', event => console.log('Message from server:', event.data));
 
   const sendMsg = () => socket.send('Echo?');
