@@ -1,4 +1,4 @@
 export interface Player {
-    name: string,
-    isWhite: boolean
+  name: string;
+  isWhite: boolean;
 }

@@ -4,7 +4,7 @@ import { DiceValue } from "./dice-value.model.ts";
 import { WsMessage } from "./ws-message.model.ts";
 
 export interface DiceRoll extends WsMessage {
-    type: 'diceroll',
-    values: [DiceValue, DiceValue, DiceValue, DiceValue],
-    validTargets: number[]
+  type: "diceroll";
+  values: [DiceValue, DiceValue, DiceValue, DiceValue];
+  validTargets: number[];
 }
