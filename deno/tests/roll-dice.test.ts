@@ -1,4 +1,4 @@
-import { assertAlmostEquals, assertEquals } from "https://deno.land/std@0.153.0/testing/asserts.ts";
+import { assertAlmostEquals, assertEquals } from "asserts";
 import { rollDice } from "../game/roll-dice.ts";
 
 Deno.test('roll dice returns array with 4 items', () => {
