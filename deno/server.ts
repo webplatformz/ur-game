@@ -1,8 +1,6 @@
-import { serve } from "https://deno.land/std/http/mod.ts";
-import { serveFile } from "https://deno.land/std@0.153.0/http/file_server.ts";
-import { parse } from "https://deno.land/std/flags/mod.ts";
+import { parse, serve, serveFile } from "./deps.ts";
 
-async function reqHandler(req) {
+function reqHandler(req: Request) {
 	const appDistDir = parse(Deno.args).dist || 'solid';
 	const url = new URL(req.url);
 	if (url.pathname.startsWith('/ws')) {
