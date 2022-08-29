@@ -25,8 +25,15 @@ jobs:
           npm run build
         working-directory: ./solid
 
+      - name: Copy to dist folder
+        run: |
+          mkdir -p dist/solid
+          cp deno/* dist/
+          cp solid/dist/* dist/solid/
+
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
           project: "webplatformz-ur-game"
-          entrypoint: "./deno/server.js"
+          entrypoint: "./server.js"
+          root: dist
