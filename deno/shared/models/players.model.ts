@@ -4,6 +4,6 @@ import { Player } from "./player.model.ts";
 import { WsMessage } from "./ws-message.model.ts";
 
 export interface Players extends WsMessage {
-    type: 'players',
-    players: [Player, Player]
-};
+  type: "players";
+  players: [Player, Player];
+}

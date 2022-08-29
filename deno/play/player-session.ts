@@ -1,3 +1,3 @@
 export interface PlayerSession {
-    connection: WebSocket;
+  connection: WebSocket;
 }

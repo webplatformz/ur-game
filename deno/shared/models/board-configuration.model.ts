@@ -4,6 +4,6 @@ import { Field } from "./Field.model.ts";
 import { WsMessage } from "./ws-message.model.ts";
 
 export interface BoardConfiguration extends WsMessage {
-    type: 'boardconfig',
-    fields: Field[],
-} 
+  type: "boardconfig";
+  fields: Field[];
+}

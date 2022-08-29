@@ -2,5 +2,5 @@
 import { MessageType } from "./message-types.model.ts";
 
 export interface WsMessage {
-    type: MessageType
+  type: MessageType;
 }
