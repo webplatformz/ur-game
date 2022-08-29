@@ -16,6 +16,12 @@ const boardConfig: Field[] = [
         capacity: 1
     }, 
     {
+        idx: 2, 
+        isSafe: true, 
+        isBattleField: false,
+        canThrowAgain: false, 
+        capacity: 1
+    }, {
         idx: 3, 
         isSafe: true, 
         isBattleField: false,
@@ -49,7 +55,7 @@ const boardConfig: Field[] = [
         idx: 8, 
         isSafe: true, 
         isBattleField: true,
-        canThrowAgain: false, 
+        canThrowAgain: true, 
         capacity: 1
     },{
         idx: 9, 
