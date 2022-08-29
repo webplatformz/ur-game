@@ -28,8 +28,8 @@ jobs:
       - name: Copy to dist folder
         run: |
           mkdir -p dist/solid
-          cp deno/* dist/
-          cp solid/dist/* dist/solid/
+          cp -r deno/* dist/
+          cp -r solid/dist/* dist/solid/
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
