@@ -6,7 +6,7 @@ import MenuScreen from './screens/menu-screen/menu-screen';
 import PreGameLobby from './screens/pre-game-lobby/pre-game-lobby';
 import Header from './components/header/header';
 
-type State = 'LOGGED_OUT' | 'IN_MENU_SCREEN' | 'IN_QUICKMATCH_PRE_GAME_LOBBY' | 'IN_PRIVATE_PRE_GAME_LOBBY' | 'IN_GAME';
+type NavigationState = 'LOGGED_OUT' | 'IN_MENU_SCREEN' | 'IN_QUICKMATCH_PRE_GAME_LOBBY' | 'IN_PRIVATE_PRE_GAME_LOBBY' | 'IN_GAME';
 
 function setupSocket(sessionId?: string): void {
   const {host, protocol} = location;
@@ -25,17 +25,17 @@ const App: Component = () => {
   socket.addEventListener('message', event => console.log('Message from server:', event.data));
   const sendMsg = () => socket.send('Echo?');
 
-  const [state, setState] = createSignal<State>('LOGGED_OUT');
+  const [state, setState] = createSignal<NavigationState>('LOGGED_OUT');
 
   function handleQuickStart() {
     setState('IN_QUICKMATCH_PRE_GAME_LOBBY')
   }
   function handleJoin() {
-    // setupSocket(sessionId)
+    // TODO: setupSocket(sessionId)
     setState('IN_GAME')
   }
   function handleHost() {
-    // setupSocket()
+    // TODO: setupSocket()
     setState('IN_PRIVATE_PRE_GAME_LOBBY')
   }
   function handleCloseLobby() {
