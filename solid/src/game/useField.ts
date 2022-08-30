@@ -1,4 +1,4 @@
-import { GameState } from "./game";
+import { GameState } from "../../../deno/shared/models/game-state.model";
 import { boardBlack, boardConfig, boardWhite } from "./game";
 
 export type FieldOwner = GameState["currentPlayer"] | "battle";

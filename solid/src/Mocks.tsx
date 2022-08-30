@@ -1,13 +1,9 @@
 import { Component } from "solid-js";
-import {
-  boardBlack,
-  BoardConfiguration,
-  GameState,
-  load,
-  update,
-} from "./game/game";
+import { boardBlack, updateGame } from "./game/game";
+import { Field } from "../../deno/shared/models/field.model";
+import { GameState } from "../../deno/shared/models/game-state.model";
 
-const mockBoardConfig: BoardConfiguration = [
+const mockBoardConfig: Field[] = [
   {
     idx: 0,
     isSafe: true,
@@ -122,11 +118,14 @@ const mockBoardConfig: BoardConfiguration = [
   },
 ];
 
+const mockBoard = [7, ...Array(mockBoardConfig.length - 1).fill(0)];
+
 const mockInitialGameState: GameState = {
-  boardBlack: [7, ...Array(mockBoardConfig.length - 1).fill(0)],
-  boardWhite: [7, ...Array(mockBoardConfig.length - 1).fill(0)],
+  boardBlack: mockBoard,
+  boardWhite: mockBoard,
   isFinished: false,
   currentPlayer: "white",
+  boardConfig: mockBoardConfig,
 };
 
 const simulateMove = () => {
@@ -138,11 +137,11 @@ const simulateMove = () => {
   blackCopy[tokenIdx] = blackCopy[tokenIdx] - 1;
   blackCopy[tokenIdx + 1] = blackCopy[tokenIdx + 1] + 1;
 
-  update({ ...mockInitialGameState, boardBlack: blackCopy });
+  updateGame({ ...mockInitialGameState, boardBlack: blackCopy });
 };
 
 export const Mocks: Component = () => {
-  load(mockBoardConfig, mockInitialGameState);
+  updateGame(mockInitialGameState);
 
   return <button onClick={simulateMove}>Update board</button>;
 };
