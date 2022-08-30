@@ -4,8 +4,7 @@ import PreGameLobby from "./screens/pre-game-lobby/pre-game-lobby";
 import Header from "./components/header/header";
 import styles from "./App.module.css";
 import Login from "./screens/login/login";
-import Board from "./components/board/board";
-import { Mocks } from "./Mocks";
+import BoardScreen from "./screens/board-screen/board-screen";
 
 type NavigationState =
   | "LOGGED_OUT"
@@ -17,15 +16,14 @@ type NavigationState =
 function setupSocket(sessionId?: string): void {
   const { host, protocol } = location;
   const webSocketURL = new URL(
-    `${protocol === "https:" ? "wss" : "ws"}://${host}/ws`,
+    `${protocol === "https:" ? "wss" : "ws"}://${host}/ws`
   );
   if (sessionId) {
     webSocketURL.searchParams.append("sessionId", sessionId);
   }
   const socket = new WebSocket(webSocketURL);
-  socket.addEventListener(
-    "message",
-    (event) => console.log("Message from server:", event.data),
+  socket.addEventListener("message", (event) =>
+    console.log("Message from server:", event.data)
   );
   socket.onopen = () => socket.send("");
 }
@@ -79,8 +77,7 @@ const App: Component = () => {
           <PreGameLobby onClose={handleCloseLobby} isPrivateGame />
         </Match>
         <Match when={state() === "IN_GAME"}>
-          <Mocks />
-          <Board />
+          <BoardScreen />
         </Match>
       </Switch>
     </div>

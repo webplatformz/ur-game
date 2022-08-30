@@ -1,9 +1,5 @@
-import { createSignal } from "solid-js";
-import { GameState as GameStateMessage } from "../../../deno/shared/models/game-state.model";
-import { BoardConfiguration as BoardConfigurationMessage } from "../../../deno/shared/models/board-configuration.model";
-
-export type GameState = Omit<GameStateMessage, "type">;
-export type BoardConfiguration = BoardConfigurationMessage["fields"];
+import { batch, createSignal } from "solid-js";
+import { GameState } from "../../../deno/shared/models/game-state.model";
 
 const [boardBlack, setBoardBlack] = createSignal<GameState["boardBlack"]>([]);
 const [boardWhite, setBoardWhite] = createSignal<GameState["boardWhite"]>([]);
@@ -13,20 +9,18 @@ const [currentPlayer, setCurrentPlayer] = createSignal<
 const [isFinished, setIsFinished] = createSignal<GameState["isFinished"]>(
   false,
 );
-const [boardConfig, setBoardConfig] = createSignal<BoardConfiguration>([]);
+const [boardConfig, setBoardConfig] = createSignal<GameState["boardConfig"]>(
+  [],
+);
 
-export const update = (
-  { boardBlack, boardWhite, currentPlayer, isFinished }: GameState,
-) => {
-  setBoardBlack(boardBlack);
-  setBoardWhite(boardWhite);
-  setCurrentPlayer(currentPlayer);
-  setIsFinished(isFinished);
-};
-
-export const load = (config: BoardConfiguration, initialState: GameState) => {
-  setBoardConfig(config);
-  update(initialState);
+export const updateGame = (gameState: GameState) => {
+  batch(() => {
+    setBoardBlack(gameState.boardBlack);
+    setBoardWhite(gameState.boardWhite);
+    setCurrentPlayer(gameState.currentPlayer);
+    setIsFinished(gameState.isFinished);
+    setBoardConfig(gameState.boardConfig);
+  });
 };
 
 export { boardBlack, boardConfig, boardWhite, currentPlayer, isFinished };

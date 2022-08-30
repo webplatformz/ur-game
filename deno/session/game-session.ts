@@ -1,12 +1,13 @@
 import { PlayerSession } from "./player-session.ts";
 import { generateSessionId } from "../id-utils.ts";
-import { WsMessage } from "../shared/models/ws-message.model.ts";
+import { WebsocketMessages } from "../shared/models/message-types.model.ts";
+import { GameController } from "../game/game-controller.ts";
 
 export class GameSession {
   public readonly sessionId = generateSessionId();
-  private playerSessions: PlayerSession[] = [];
-
   public onCleanUp?: () => void;
+  private readonly gameController = new GameController();
+  private playerSessions: PlayerSession[] = [];
 
   constructor(socket: WebSocket) {
     this.addPlayer(socket);
@@ -14,7 +15,8 @@ export class GameSession {
 
   addPlayer(socket: WebSocket) {
     const playerIndex = this.playerSessions.length;
-    socket.onmessage = (evt) => this.onMessage(playerIndex, evt.data);
+    socket.onmessage = (evt) =>
+      this.onMessage(playerIndex, JSON.parse(evt.data));
     socket.onclose = () => this.removePlayer(socket);
     this.playerSessions.push({
       connection: socket,
@@ -30,13 +32,29 @@ export class GameSession {
     }
   }
 
-  private onMessage(playerIndex: number, message: WsMessage) {
+  sendMessageToPlayer(playerIndex: number, message: WebsocketMessages) {
+    this.playerSessions[playerIndex].connection.send(JSON.stringify(message));
+  }
+
+  private onMessage(playerIndex: number, message: WebsocketMessages) {
     switch (message.type) {
-      // TODO do stuff
+      case "roll":
+        const diceRoll = this.gameController.rollForPlayer();
+        this.sendMessageToPlayer(playerIndex, {
+          type: "diceroll",
+          ...diceRoll,
+        });
+        break;
+      case "gamestate":
+        break;
+      case "move":
+        break;
+      case "players":
+        break;
+      case "diceroll":
+        break;
+      case "ready":
+        break;
     }
-    const player = this.playerSessions[playerIndex];
-    player.connection.send(
-      `Deno says: «Hello». Your session id is: ${this.sessionId}`,
-    );
   }
 }

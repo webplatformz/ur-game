@@ -1,5 +1,5 @@
 import { assertAlmostEquals, assertEquals } from "asserts";
-import { rollDice } from "../game/roll-dice.ts";
+import { diceRollSum, rollDice } from "../game/roll-dice.ts";
 
 Deno.test("roll dice returns array with 4 items", () => {
   assertEquals(rollDice().length, 4);
@@ -19,7 +19,7 @@ Deno.test("roll dice returns four numbers either zero or one", () => {
 Deno.test("roll dice sums up to a value between zero and four", () => {
   new Array(20).fill(null).forEach(() => {
     assertAlmostEquals(
-      rollDice().reduce((acc, val) => acc + val, 0 as number),
+      diceRollSum(rollDice()),
       2,
       2,
     );
@@ -30,7 +30,7 @@ Deno.test("roll dice should have the correct probablities", () => {
   const runs = 1000000;
   const stats = new Array(runs).fill(null)
     .map(rollDice)
-    .map((dice) => dice.reduce((acc, val) => acc + val, 0 as number))
+    .map(diceRollSum)
     .reduce((acc, val) => {
       acc[val]++;
       return acc;

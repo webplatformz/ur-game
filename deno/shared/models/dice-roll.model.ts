@@ -1,10 +1,7 @@
 // @ts-ignore deno style imports
-import { DiceValue } from "./dice-value.model.ts";
-// @ts-ignore deno style imports
-import { WsMessage } from "./ws-message.model.ts";
+import { DiceValues } from "./dice-values.model.ts";
 
-export interface DiceRoll extends WsMessage {
-  type: "diceroll";
-  values: [DiceValue, DiceValue, DiceValue, DiceValue];
+export interface DiceRoll {
+  values: DiceValues;
   validTargets: number[];
 }
