@@ -20,16 +20,18 @@ export class GameSession {
   private gameState: GameState = getInitialGameState();
 
   constructor(socket: WebSocket) {
-    console.log(this.sessionId);
     this.addPlayer(socket);
   }
 
   addPlayer(socket: WebSocket) {
     const playerColor = this.players["black"] ? "white" : "black";
-    this.players[playerColor] = new PlayerSession(
+    const playerSession = new PlayerSession(
       socket,
-      () => this.removePlayer(playerColor),
     );
+    playerSession.onOpen = () =>
+      playerSession.send({ type: "gamesession", sessionId: this.sessionId });
+    playerSession.onClose = () => this.removePlayer(playerColor);
+    this.players[playerColor] = playerSession;
     if (Object.keys(this.players).length === 2) {
       this.start()
         .then(() => console.log("Game finished"))

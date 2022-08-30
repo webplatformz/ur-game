@@ -12,13 +12,12 @@ export class PlayerSession {
   private connection: WebSocket;
   private listeners: Listeners = {};
 
-  constructor(connection: WebSocket, onClose: (event: CloseEvent) => void) {
+  constructor(connection: WebSocket) {
     this.connection = connection;
     this.connection.onmessage = ({ data }) => {
       const parsedMessage: ClientWebsocketMessages = JSON.parse(data);
       this.listeners[parsedMessage.type]?.(parsedMessage);
     };
-    this.connection.onclose = onClose;
   }
 
   on(type: ClientWebsocketMessages["type"]): Promise<ClientWebsocketMessages> {
@@ -32,5 +31,13 @@ export class PlayerSession {
 
   send(message: ServerWebsocketMessages) {
     this.connection.send(JSON.stringify(message));
+  }
+
+  set onClose(fn: (closeEvent: CloseEvent) => void) {
+    this.connection.onclose = fn;
+  }
+
+  set onOpen(fn: () => void) {
+    this.connection.onopen = fn;
   }
 }
