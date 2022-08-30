@@ -1,4 +1,4 @@
-import type {Component, createSignal, Match, Switch} from 'solid-js';
+import { Component, createSignal, Match, Switch } from 'solid-js';
 import MenuScreen from './screens/menu-screen/menu-screen';
 import PreGameLobby from './screens/pre-game-lobby/pre-game-lobby';
 import Header from './components/header/header';
