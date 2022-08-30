@@ -9,5 +9,5 @@ export function getInitialGameState(): GameState {
     isFinished: false,
     currentPlayer: "black",
     boardConfig: getBoardConfig(),
-  }
+  };
 }

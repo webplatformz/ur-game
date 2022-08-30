@@ -9,10 +9,10 @@ export async function gameLoop() {
   while (!gameState.isFinished) {
     try {
       sendToBothPlayers(gameState);
-      await waitForPlayerAction('roll', null);
+      await waitForPlayerAction("roll", null);
       const diceRoll = rollDice();
       sendToBothPlayers(diceRoll);
-      const moveTarget = await waitForPlayerAction('move', 5);
+      const moveTarget = await waitForPlayerAction("move", 5);
       const diceSum = diceRollSum(diceRoll);
       if (isValidMove(gameState, moveTarget, diceSum)) {
         gameState = moveToTargetIdx(gameState, moveTarget, diceSum);
@@ -32,6 +32,6 @@ function sendToBothPlayers(message: any) {
 }
 
 function waitForPlayerAction<T>(action: string, value: T): Promise<T> {
-  console.log('waiting for:', action);
+  console.log("waiting for:", action);
   return new Promise((resolve) => setTimeout(() => resolve(value), 10000));
 }

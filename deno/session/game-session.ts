@@ -45,15 +45,15 @@ export class GameSession {
           ...diceRoll,
         });
         break;
-      case 'gamestate':
+      case "gamestate":
         break;
-      case 'move':
+      case "move":
         break;
-      case 'players':
+      case "players":
         break;
-      case 'diceroll':
+      case "diceroll":
         break;
-      case 'ready':
+      case "ready":
         break;
     }
   }
