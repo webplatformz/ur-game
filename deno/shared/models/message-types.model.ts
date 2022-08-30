@@ -16,11 +16,12 @@ export type ServerMessageType =
 export type MessageType = ClientMessageType | ServerMessageType;
 
 type WebsocketMessage<T extends MessageType, P> = { type: T } & P;
+type EmptyPayload = {};
 
 export type WebsocketMessages =
-  | WebsocketMessage<"roll", never>
+  | WebsocketMessage<"roll", EmptyPayload>
   | WebsocketMessage<"gamestate", GameState>
   | WebsocketMessage<"move", Move>
   | WebsocketMessage<"players", Players>
   | WebsocketMessage<"diceroll", DiceRoll>
-  | WebsocketMessage<"ready", never>;
+  | WebsocketMessage<"ready", EmptyPayload>;
