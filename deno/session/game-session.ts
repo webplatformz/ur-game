@@ -22,7 +22,9 @@ export class GameSession {
   }
 
   removePlayer(socket: WebSocket) {
-    this.playerSessions = this.playerSessions.filter(playerSession => playerSession.connection !== socket);
+    this.playerSessions = this.playerSessions.filter((playerSession) =>
+      playerSession.connection !== socket
+    );
     if (this.playerSessions.length === 0) {
       this.onCleanUp?.();
     }
