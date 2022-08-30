@@ -18,14 +18,20 @@ export type ServerMessageType =
   | "score";
 export type MessageType = ClientMessageType | ServerMessageType;
 
-type WebsocketMessage<T extends MessageType, P> = { type: T } & P;
+export type WebsocketMessage<T extends MessageType, P> = {
+  type: T;
+} & P;
 type EmptyPayload = {};
 
-export type WebsocketMessages =
-  | WebsocketMessage<"roll", EmptyPayload>
-  | WebsocketMessage<"gamestate", GameState>
+export type WebsocketClientMessages =
+  | WebsocketMessage<"ready", EmptyPayload>
   | WebsocketMessage<"move", Move>
+  | WebsocketMessage<"roll", EmptyPayload>;
+export type WebsocketServerMessages =
+  | WebsocketMessage<"gamestate", GameState>
   | WebsocketMessage<"players", Players>
   | WebsocketMessage<"diceroll", DiceRoll>
-  | WebsocketMessage<"ready", EmptyPayload>
   | WebsocketMessage<"score", Score>;
+export type WebsocketMessages =
+  | WebsocketClientMessages
+  | WebsocketServerMessages;
