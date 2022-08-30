@@ -4,6 +4,7 @@ import PreGameLobby from './screens/pre-game-lobby/pre-game-lobby';
 import Header from './components/header/header';
 import styles from './App.module.css';
 import Login from './screens/login/login';
+import BoardScreen from './screens/board-screen/board-screen';
 
 type NavigationState =
   'LOGGED_OUT'
@@ -68,7 +69,7 @@ const App: Component = () => {
           <PreGameLobby onClose={handleCloseLobby} isPrivateGame />
         </Match>
         <Match when={state() === 'IN_GAME'}>
-          <p>TODO: BoardScreen</p>
+          <BoardScreen />
         </Match>
       </Switch>
     </div>

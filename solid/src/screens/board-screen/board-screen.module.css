@@ -1,0 +1,22 @@
+.BoardScreen {
+    display: grid;
+    grid-template-areas:  "startingPiecesPlayer1 dice"
+                          "board                 dice"
+                          "startingPiecesPlayer2 dice";
+}
+
+.StartingPiecesPlayer1 {
+    grid-area: startingPiecesPlayer1;
+}
+
+.StartingPiecesPlayer2 {
+    grid-area: startingPiecesPlayer2;
+}
+
+.Board {
+    grid-area: board;
+}
+
+.Dice {
+    grid-area: dice;
+}
