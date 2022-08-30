@@ -1,5 +1,5 @@
 import { Component, For } from "solid-js";
-import Field from "../field/Field";
+import Field from "../field/field";
 
 const Board: Component = () => {
   const safeFields = [0, 1, 2, 3, 4, 13, 14, 15];

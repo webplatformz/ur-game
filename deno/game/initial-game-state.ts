@@ -1,9 +1,8 @@
-import { getBoardConfig } from "../game/board.ts";
-import { getNewPlayerBoard } from "../game/player-board.ts";
+import { getBoardConfig } from "./board.ts";
+import { getNewPlayerBoard } from "./player-board.ts";
 import { GameState } from "../shared/models/game-state.model.ts";
 
 const initialGameState: GameState = {
-  type: "gamestate",
   boardBlack: getNewPlayerBoard(),
   boardWhite: getNewPlayerBoard(),
   isFinished: false,
