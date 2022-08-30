@@ -6,7 +6,7 @@ const sessions: GameSession[] = [];
 export function handleWebsocketConnection(
   socket: WebSocket,
   quickMatch: boolean,
-  sessionId?: string,
+  sessionId: string | null,
 ) {
   if (quickMatch) {
     if (quickMatchWaitingPlayerSession) {
@@ -18,9 +18,7 @@ export function handleWebsocketConnection(
     }
   } else {
     if (sessionId) {
-      const foundSession = sessions.find((session) =>
-        session.sessionId === sessionId
-      );
+      const foundSession = sessions.find((session) => session.sessionId === sessionId);
       if (foundSession) {
         foundSession.addPlayer(socket);
       } else {
