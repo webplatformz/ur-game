@@ -1,7 +1,7 @@
 // @ts-ignore deno style imports
-import { DiceValue } from "./dice-value.model.ts";
+import { DiceValues } from "./dice-values.model.ts";
 
 export interface DiceRoll {
-  values: [DiceValue, DiceValue, DiceValue, DiceValue];
+  values: DiceValues;
   validTargets: number[];
 }
