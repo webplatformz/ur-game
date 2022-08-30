@@ -1,3 +1,4 @@
+import { getScore } from "./get-score.ts";
 import { getInitialGameState } from "./initial-game-state.ts";
 import { isFinished } from "./is-finished.ts";
 import { isValidMove } from "./is-valid-move.ts";
@@ -22,6 +23,7 @@ export async function gameLoop() {
       console.error(err.message);
       continue;
     }
+    sendToBothPlayers(getScore(gameState));
   }
 }
 
