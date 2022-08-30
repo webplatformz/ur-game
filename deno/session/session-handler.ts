@@ -1,4 +1,4 @@
-import {GameSession} from './session/game-session.ts';
+import {GameSession} from './game-session.ts';
 
 let quickMatchWaitingPlayerSession: GameSession | undefined = undefined;
 let sessions: GameSession[] = [];
