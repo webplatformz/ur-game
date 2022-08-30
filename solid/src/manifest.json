@@ -1,0 +1,21 @@
+{
+  "short_name": "Urly",
+  "name": "Urly",
+  "icons": [
+    {
+      "src": "./assets/favicon.ico",
+      "type": "image/x-icon",
+      "sizes": "48x48"
+    },
+    {
+      "src": "./assets/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": ".",
+  "display": "fullscreen",
+  "theme_color": "#5D4954",
+  "background_color": "#E6DBD0",
+  "orientation" : "portrait"
+}
