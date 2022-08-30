@@ -1,24 +1,19 @@
-import type {Component} from 'solid-js';
+import type { Component } from 'solid-js';
+import InputContainer from '../../components/inputContainer/inputContainer';
 
-import logo from '../../logo.svg';
-import styles from './login.module.css';
-import InputContainer from "../../components/inputContainer/inputContainer";
-import {createSignal} from "solid-js";
+type Props = {
+  onLogin: (name: string) => void
+}
 
-const Login: Component = () => {
-    const {host, protocol} = location;
-    const socket = new WebSocket(`${protocol === 'https:' ? 'wss' : 'ws'}://${host}/ws`);
-    socket.addEventListener('message', event => console.log('Message from server:', event.data));
+const Login: Component<Props> = ({onLogin}) => {
+  const sendPlayerName = (name: string) => onLogin(name);
 
-    // const sendPlayerName = (inputValue: string) => socket.send(inputValue);
-    const sendPlayerName = (inputValue: string) => console.log(inputValue);
-
-    return (
-        <div>
-            <img class={styles.logo} src={logo} alt="logo"/>
-            <InputContainer confirmInputValue={sendPlayerName} buttonText={"Login"} placeholderText={"Enter your name"}/>
-        </div>
-    );
+  return (
+    <div>
+      <InputContainer confirmInputValue={sendPlayerName} buttonText={'Login'}
+                      placeholderText={'Enter your name'} />
+    </div>
+  );
 };
 
 export default Login;

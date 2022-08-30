@@ -1,26 +1,22 @@
-import { Component, createSignal } from 'solid-js';
+import { Component } from 'solid-js';
 
 import styles from './menu-screen.module.css';
 import Header from '../../components/header/header';
+import InputContainer from '../../components/inputContainer/inputContainer';
 
 type Props = {
   onHost: () => void
-  onJoin: () => void
+  onJoin: (sessionId: string) => void
   onQuickStart: () => void
 }
 const MenuScreen: Component<Props> = ({onHost, onJoin, onQuickStart}) => {
-  const [joinInputValue, setJoinInputValue] = createSignal<string>('');
-
   return (
     <div class={styles.rootContainer}>
       <Header />
       <button onClick={onQuickStart}>
         Quick Start
       </button>
-      <div class={styles.joinContainer}>
-        <input onInput={(e) => setJoinInputValue(e.currentTarget.value)} value={joinInputValue()} />
-        <button onClick={onJoin}>Join</button>
-      </div>
+      <InputContainer confirmInputValue={onJoin} buttonText="Join" placeholderText="#0000" />
       <button onClick={onHost} >
         Host private game
       </button>

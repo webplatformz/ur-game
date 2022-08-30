@@ -3,6 +3,7 @@ import MenuScreen from './screens/menu-screen/menu-screen';
 import PreGameLobby from './screens/pre-game-lobby/pre-game-lobby';
 import Header from './components/header/header';
 import styles from './App.module.css';
+import Login from './screens/login/login';
 
 type NavigationState =
   'LOGGED_OUT'
@@ -31,7 +32,7 @@ const App: Component = () => {
     setState('IN_QUICKMATCH_PRE_GAME_LOBBY');
   }
 
-  function handleJoin() {
+  function handleJoin(sessionId: string) {
     // TODO: setupSocket(sessionId)
     setState('IN_GAME');
   }
@@ -45,13 +46,17 @@ const App: Component = () => {
     setState('IN_MENU_SCREEN');
   }
 
+  function handleLogin(name: string) {
+    // TODO: send or persist player name
+    setState('IN_MENU_SCREEN')
+  }
+
   return (
     <div class={styles.App}>
       <Switch>
         <Match when={state() === 'LOGGED_OUT'}>
           <Header />
-          <p>TODO: LoginScreen</p>
-          <button onClick={() => {setState('IN_MENU_SCREEN');}}>Login</button>
+          <Login onLogin={handleLogin}/>
         </Match>
         <Match when={state() === 'IN_MENU_SCREEN'}>
           <MenuScreen onHost={handleHost} onJoin={handleJoin} onQuickStart={handleQuickStart} />
