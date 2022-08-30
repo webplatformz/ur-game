@@ -1,10 +1,8 @@
-import type { Component } from 'solid-js';
-
-import styles from './App.module.css';
-import { createSignal, Match, Switch } from 'solid-js';
+import type {Component, createSignal, Match, Switch} from 'solid-js';
 import MenuScreen from './screens/menu-screen/menu-screen';
 import PreGameLobby from './screens/pre-game-lobby/pre-game-lobby';
 import Header from './components/header/header';
+import styles from './App.module.css';
 
 type NavigationState = 'LOGGED_OUT' | 'IN_MENU_SCREEN' | 'IN_QUICKMATCH_PRE_GAME_LOBBY' | 'IN_PRIVATE_PRE_GAME_LOBBY' | 'IN_GAME';
 
@@ -21,9 +19,6 @@ function setupSocket(sessionId?: string): void {
 
 const App: Component = () => {
   const [sessionId, setSessionId] = createSignal('');
-  const socket = new WebSocket('ws://localhost:42069/');
-  socket.addEventListener('message', event => console.log('Message from server:', event.data));
-  const sendMsg = () => socket.send('Echo?');
 
   const [state, setState] = createSignal<NavigationState>('LOGGED_OUT');
 

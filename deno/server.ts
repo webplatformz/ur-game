@@ -12,8 +12,8 @@ function reqHandler(req: Request) {
         url.searchParams.has("quickmatch"),
         url.searchParams.get("sessionId"),
       );
-    } catch (error: Error) {
-      return new Response(error.message, { status: 400 });
+    } catch (error: any) {
+      return new Response(error?.message, { status: 400 });
     }
 
     return response;
