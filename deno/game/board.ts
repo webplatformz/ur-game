@@ -122,3 +122,7 @@ export function getBoardConfig() {
 export function isSafeField(targetIdx: number){
     return boardConfig[targetIdx].isSafe;
 }
+
+export function canRollAgainField(targetIdx: number){
+    return boardConfig[targetIdx].canThrowAgain;
+}

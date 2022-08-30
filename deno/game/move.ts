@@ -1,6 +1,7 @@
 
 import { GameState } from '../shared/models/game-state.model.ts';
 import { isSafeField } from './board.ts';
+import { getNextPlayer } from './player.ts';
 
 export function moveToTargetIdx(gameState: GameState, targetIdx: number, diceValue: number): GameState{
     const { currentPlayer } = gameState;
@@ -11,13 +12,16 @@ export function moveToTargetIdx(gameState: GameState, targetIdx: number, diceVal
 
     const updatedCurrPlayerBoard = moveToken(currentPlayerBoard, currTokenIdx, targetIdx);
     const updatedOpponentBoard = updateOpponentBoard(opponentPlayerBoard, targetIdx);
+    const nextPlayer = getNextPlayer(gameState.currentPlayer, targetIdx);
    
     return {
         ...gameState, 
+        currentPlayer: nextPlayer,
         ...(isCurrentPlayerWhite ? {boardWhite: updatedCurrPlayerBoard} : {boardBlack: updatedCurrPlayerBoard}),
         ...(isCurrentPlayerWhite ? {boardBlack: updatedOpponentBoard} : {boardWhite: updatedOpponentBoard}),
     };
 }
+
 
 function getPlayerBoards(gameState: GameState): {currentPlayerBoard: number[], opponentPlayerBoard: number[]}{
     const { boardBlack, boardWhite, currentPlayer } = gameState;
