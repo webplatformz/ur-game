@@ -1,10 +1,11 @@
-import {GameSession} from './game-session.ts';
+import { GameSession } from "./game-session.ts";
 
 let quickMatchWaitingPlayerSession: GameSession | undefined = undefined;
 let sessions: GameSession[] = [];
 
 function createCleanupSessionFunction(sessionId: string) {
-  return () => sessions = sessions.filter((session) => session.sessionId !== sessionId);
+  return () =>
+    sessions = sessions.filter((session) => session.sessionId !== sessionId);
 }
 
 export function handleWebsocketConnection(
@@ -13,7 +14,9 @@ export function handleWebsocketConnection(
   sessionId: string | null,
 ) {
   if (sessionId) {
-    const foundSession = sessions.find((session) => session.sessionId === sessionId);
+    const foundSession = sessions.find((session) =>
+      session.sessionId === sessionId
+    );
     if (foundSession) {
       foundSession.addPlayer(socket);
     } else {
@@ -23,11 +26,14 @@ export function handleWebsocketConnection(
     if (quickMatchWaitingPlayerSession) {
       quickMatchWaitingPlayerSession.addPlayer(socket);
       sessions.push(quickMatchWaitingPlayerSession);
-      quickMatchWaitingPlayerSession.onCleanUp = createCleanupSessionFunction(quickMatchWaitingPlayerSession.sessionId);
+      quickMatchWaitingPlayerSession.onCleanUp = createCleanupSessionFunction(
+        quickMatchWaitingPlayerSession.sessionId,
+      );
       quickMatchWaitingPlayerSession = undefined;
     } else {
       quickMatchWaitingPlayerSession = new GameSession(socket);
-      quickMatchWaitingPlayerSession.onCleanUp = () => quickMatchWaitingPlayerSession = undefined;
+      quickMatchWaitingPlayerSession.onCleanUp = () =>
+        quickMatchWaitingPlayerSession = undefined;
     }
   } else {
     const gameSession = new GameSession(socket);

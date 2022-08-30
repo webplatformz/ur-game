@@ -1,4 +1,4 @@
-import { GameState } from '../shared/models/game-state.model.ts';
+import { GameState } from "../shared/models/game-state.model.ts";
 
 const initialGameState: GameState = {
   type: "gamestate",
@@ -8,7 +8,10 @@ const initialGameState: GameState = {
   currentPlayer: "black",
 };
 
-export function getStateWithBoards(boardBlack?: number[], boardWhite?: number[]) {
+export function getStateWithBoards(
+  boardBlack?: number[],
+  boardWhite?: number[],
+) {
   return {
     ...initialGameState,
     ...(boardBlack != null && { boardBlack: boardBlack }),
