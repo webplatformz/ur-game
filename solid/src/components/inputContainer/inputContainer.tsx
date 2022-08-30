@@ -19,6 +19,9 @@ const InputContainer: Component<InputContainerProps> = ({confirmInputValue, butt
                        onInput={(e) => {
                            setInputValue(e.currentTarget.value);
                        }}
+                       onKeyPress={event => {
+                           if (event.key === 'Enter') { confirmInputValue(inputValue()) }
+                       }}
                 />
                 <button id="btnSubmit" disabled={!inputValue()} onClick={() => confirmInputValue(inputValue())}>{buttonText}</button>
             </div>
