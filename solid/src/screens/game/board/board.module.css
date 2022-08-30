@@ -1,0 +1,26 @@
+* {
+  background-color: unset;
+}
+
+.board {
+  background-image: url("../../../assets/board.svg");
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  padding: 5px;
+}
+
+.columnSeven {
+  grid-column: 7;
+}
+
+.columnEight {
+  grid-column: 8;
+}
+
+.square {
+  width: 100%;
+}

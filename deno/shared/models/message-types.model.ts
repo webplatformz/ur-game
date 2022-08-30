@@ -8,30 +8,27 @@ import { DiceRoll } from "./dice-roll.model.ts";
 import { Move } from "./move.model.ts";
 // @ts-ignore deno style imports
 import { Score } from "./score.model.ts";
+// @ts-ignore deno style imports
+import { ErrorPayload } from "./error.model.ts";
+// @ts-ignore deno style imports
+import { GameSession } from "./game-session.model.ts";
 
-export type ClientMessageType = "ready" | "roll" | "move";
-export type ServerMessageType =
-  | "players"
-  | "boardconfig"
-  | "gamestate"
-  | "diceroll"
-  | "score";
-export type MessageType = ClientMessageType | ServerMessageType;
-
-export type WebsocketMessage<T extends MessageType, P> = {
-  type: T;
-} & P;
+type WebsocketMessage<T extends string, P> = { type: T } & P;
 type EmptyPayload = {};
 
-export type WebsocketClientMessages =
+export type ClientWebsocketMessages =
   | WebsocketMessage<"ready", EmptyPayload>
-  | WebsocketMessage<"move", Move>
-  | WebsocketMessage<"roll", EmptyPayload>;
-export type WebsocketServerMessages =
+  | WebsocketMessage<"roll", EmptyPayload>
+  | WebsocketMessage<"move", Move>;
+
+export type ServerWebsocketMessages =
+  | WebsocketMessage<"gamesession", GameSession>
   | WebsocketMessage<"gamestate", GameState>
   | WebsocketMessage<"players", Players>
   | WebsocketMessage<"diceroll", DiceRoll>
+  | WebsocketMessage<"error", ErrorPayload>
   | WebsocketMessage<"score", Score>;
+
 export type WebsocketMessages =
-  | WebsocketClientMessages
-  | WebsocketServerMessages;
+  | ClientWebsocketMessages
+  | ServerWebsocketMessages;

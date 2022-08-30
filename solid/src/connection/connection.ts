@@ -1,7 +1,7 @@
 import { createSignal } from "solid-js";
 import {
-  WebsocketClientMessages,
-  WebsocketServerMessages,
+  ClientWebsocketMessages,
+  ServerWebsocketMessages,
 } from "../../../deno/shared/models/message-types.model";
 import { handle } from "./handlers";
 
@@ -29,7 +29,7 @@ const startSocketListeners = (socket: WebSocket) => {
     console.log(event);
     console.log(JSON.parse(event.data));
 
-    const message: WebsocketServerMessages = JSON.parse(event.data);
+    const message: ServerWebsocketMessages = JSON.parse(event.data);
     handle(message);
   };
 
@@ -50,7 +50,7 @@ const startSocketListeners = (socket: WebSocket) => {
 };
 
 export const sendMessage = (
-  msg: WebsocketClientMessages,
+  msg: ClientWebsocketMessages,
 ) => {
   const socketIns = socket();
 

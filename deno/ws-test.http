@@ -1,8 +1,2 @@
 WEBSOCKET ws://localhost:42069/ws
 Content-Type: application-json
-
-{
-  "type": "roll"
-}
-
-=== wait-for-server

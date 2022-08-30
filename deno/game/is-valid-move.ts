@@ -1,32 +1,47 @@
 import { GameState } from "../shared/models/game-state.model.ts";
+import { getCurrentPlayerBoards } from "./player-board.ts";
 
 export function isValidMove(
   gameState: GameState,
-  target: number,
+  targetIdx: number,
   diceValue: number,
 ): boolean {
-  if (diceValue === 0) return true;
-  const playerBoard = gameState.currentPlayer === "white"
-    ? gameState.boardWhite
-    : gameState.boardBlack;
-  const opponentBoard = gameState.currentPlayer === "white"
-    ? gameState.boardBlack
-    : gameState.boardWhite;
-  const targetField = gameState.boardConfig[target];
-  const hasTokenToMove = playerBoard[target - diceValue] > 0;
-  const targetOnBoard = target >= 0 && target < gameState.boardConfig.length;
-  const validDiceValue = diceValue >= 0 && diceValue <= 4;
-  const targetHasCapacity = playerBoard[target] < targetField.capacity &&
-    (opponentBoard[target] === 0 || !targetField.isBattleField);
-  const hasReachedEnd = target === gameState.boardConfig.length - 1;
-  const capturable = opponentBoard[target] !== 0 && targetField.isBattleField &&
-    !targetField.isSafe;
-  return hasTokenToMove &&
-    targetOnBoard &&
-    validDiceValue &&
+  if (diceValue === 0) {
+    return true;
+  }
+  const { currentPlayerBoard, opponentPlayerBoard } = getCurrentPlayerBoards(
+    gameState,
+  );
+  const targetField = gameState.boardConfig[targetIdx];
+
+  const hasTargetCapacity =
+    currentPlayerBoard[targetIdx] < targetField.capacity &&
+    (opponentPlayerBoard[targetIdx] === 0 || !targetField.isBattleField);
+  const hasReachedEnd = targetIdx === gameState.boardConfig.length - 1;
+  const isCapturableField = opponentPlayerBoard[targetIdx] !== 0 &&
+    targetField.isBattleField && !targetField.isSafe;
+
+  return isValidMoveInput(
+    currentPlayerBoard,
+    targetIdx,
+    diceValue,
+    gameState.boardConfig.length,
+  ) &&
     (
-      targetHasCapacity ||
+      hasTargetCapacity ||
       hasReachedEnd ||
-      capturable
+      isCapturableField
     );
+}
+
+function isValidMoveInput(
+  currentPlayerBoard: number[],
+  targetIdx: number,
+  diceValue: number,
+  boardSize: number,
+) {
+  const hasTokenToMove = currentPlayerBoard[targetIdx - diceValue] > 0;
+  const isTargetOnBoard = targetIdx >= 0 && targetIdx < boardSize;
+  const isValidDiceValue = diceValue >= 0 && diceValue <= 4;
+  return hasTokenToMove && isTargetOnBoard && isValidDiceValue;
 }
