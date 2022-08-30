@@ -5,6 +5,7 @@ import Header from "./components/header/header";
 import styles from "./App.module.css";
 import Login from "./screens/login/login";
 import BoardScreen from "./screens/board-screen/board-screen";
+import { connectSocket } from "./connection/connection";
 
 type NavigationState =
   | "LOGGED_OUT"
@@ -13,25 +14,10 @@ type NavigationState =
   | "IN_PRIVATE_PRE_GAME_LOBBY"
   | "IN_GAME";
 
-function setupSocket(sessionId?: string): void {
-  const { host, protocol } = location;
-  const webSocketURL = new URL(
-    `${protocol === "https:" ? "wss" : "ws"}://${host}/ws`
-  );
-  if (sessionId) {
-    webSocketURL.searchParams.append("sessionId", sessionId);
-  }
-  const socket = new WebSocket(webSocketURL);
-  socket.addEventListener("message", (event) =>
-    console.log("Message from server:", event.data)
-  );
-  socket.onopen = () => socket.send("");
-}
-
 const App: Component = () => {
-  const [sessionId, setSessionId] = createSignal("");
+  connectSocket();
 
-  const [state, setState] = createSignal<NavigationState>("IN_GAME");
+  const [state, setState] = createSignal<NavigationState>("IN_MENU_SCREEN");
 
   function handleQuickStart() {
     setState("IN_QUICKMATCH_PRE_GAME_LOBBY");
