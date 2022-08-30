@@ -1,22 +1,11 @@
-import { getBoardConfig } from "../game/board.ts";
-import { getNewPlayerBoard } from "../game/player-board.ts";
-import { GameState } from "../shared/models/game-state.model.ts";
-
-const initialGameState: GameState = {
-  type: "gamestate",
-  boardBlack: getNewPlayerBoard(),
-  boardWhite: getNewPlayerBoard(),
-  isFinished: false,
-  currentPlayer: "black",
-  boardConfig: getBoardConfig(),
-};
+import { getInitialGameState } from "../game/initial-game-state.ts";
 
 export function getStateWithBoards(
   boardBlack?: number[],
   boardWhite?: number[],
 ) {
   return {
-    ...initialGameState,
+    ...getInitialGameState(),
     ...(boardBlack != null && { boardBlack: boardBlack }),
     ...(boardWhite != null && { boardWhite: boardWhite }),
   };
