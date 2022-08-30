@@ -1,6 +1,6 @@
 import { assertEquals } from "https://deno.land/std@0.153.0/testing/asserts.ts";
 import { getPossibleTargetFields, moveToTargetIdx } from "../game/move.ts";
-import { getNewPlayerBoard } from '../game/player-board.ts';
+import { getNewPlayerBoard } from "../game/player-board.ts";
 import { getStateWithBoards } from "./test-helper.ts";
 
 Deno.test("should move current player token from start to first field", () => {
