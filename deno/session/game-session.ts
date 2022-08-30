@@ -1,60 +1,87 @@
 import { PlayerSession } from "./player-session.ts";
 import { generateSessionId } from "../id-utils.ts";
-import { WebsocketMessages } from "../shared/models/message-types.model.ts";
-import { GameController } from "../game/game-controller.ts";
+import { GameState, PlayerColor } from "../shared/models/game-state.model.ts";
+import { getScore } from "../game/get-score.ts";
+import { getInitialGameState } from "../game/initial-game-state.ts";
+import {
+  ClientWebsocketMessages,
+  ServerWebsocketMessages,
+} from "../shared/models/message-types.model.ts";
+import { diceRollSum, rollDice } from "../game/roll-dice.ts";
+import { isValidMove } from "../game/is-valid-move.ts";
+import { getPossibleTargetFields, moveToTargetIdx } from "../game/move.ts";
+import { Move } from "../shared/models/move.model.ts";
+import { isFinished } from "../game/is-finished.ts";
 
 export class GameSession {
   public readonly sessionId = generateSessionId();
   public onCleanUp?: () => void;
-  private readonly gameController = new GameController();
-  private playerSessions: PlayerSession[] = [];
+  private readonly players: { [k in PlayerColor]?: PlayerSession } = {};
+  private gameState: GameState = getInitialGameState();
 
   constructor(socket: WebSocket) {
+    console.log(this.sessionId);
     this.addPlayer(socket);
   }
 
   addPlayer(socket: WebSocket) {
-    const playerIndex = this.playerSessions.length;
-    socket.onmessage = (evt) =>
-      this.onMessage(playerIndex, JSON.parse(evt.data));
-    socket.onclose = () => this.removePlayer(socket);
-    this.playerSessions.push({
-      connection: socket,
-    });
+    const playerColor = this.players["black"] ? "white" : "black";
+    this.players[playerColor] = new PlayerSession(
+      socket,
+      () => this.removePlayer(playerColor),
+    );
+    if (Object.keys(this.players).length === 2) {
+      this.start()
+        .then(() => console.log("Game finished"))
+        .catch(() => console.error("Game errored"));
+    }
   }
 
-  removePlayer(socket: WebSocket) {
-    this.playerSessions = this.playerSessions.filter((playerSession) =>
-      playerSession.connection !== socket
-    );
-    if (this.playerSessions.length === 0) {
+  removePlayer(playerColor: PlayerColor) {
+    delete this.players[playerColor];
+    if (Object.keys(this.players).length === 0) {
       this.onCleanUp?.();
     }
   }
 
-  sendMessageToPlayer(playerIndex: number, message: WebsocketMessages) {
-    this.playerSessions[playerIndex].connection.send(JSON.stringify(message));
+  private broadcast(message: ServerWebsocketMessages) {
+    Object.values(this.players).forEach((playerSession) =>
+      playerSession.send(message)
+    );
   }
 
-  private onMessage(playerIndex: number, message: WebsocketMessages) {
-    switch (message.type) {
-      case "roll":
-        const diceRoll = this.gameController.rollForPlayer();
-        this.sendMessageToPlayer(playerIndex, {
+  private onPlayerMessage(
+    playerColor: PlayerColor,
+    messageType: ClientWebsocketMessages["type"],
+  ): Promise<ClientWebsocketMessages> {
+    return this.players[playerColor]!.on(messageType);
+  }
+
+  async start(): Promise<void> {
+    while (!this.gameState.isFinished) {
+      try {
+        this.broadcast({ type: "gamestate", ...this.gameState });
+        await this.onPlayerMessage(this.gameState.currentPlayer, "roll");
+        const diceRoll = rollDice();
+        const diceSum = diceRollSum(diceRoll);
+        this.broadcast({
           type: "diceroll",
-          ...diceRoll,
+          values: diceRoll,
+          validTargets: getPossibleTargetFields(this.gameState, diceSum),
         });
-        break;
-      case "gamestate":
-        break;
-      case "move":
-        break;
-      case "players":
-        break;
-      case "diceroll":
-        break;
-      case "ready":
-        break;
+        const { targetIdx } = await this.onPlayerMessage(
+          this.gameState.currentPlayer,
+          "move",
+        ) as Move;
+        if (isValidMove(this.gameState, targetIdx, diceSum)) {
+          this.gameState = moveToTargetIdx(this.gameState, targetIdx, diceSum);
+        }
+        this.gameState.isFinished = isFinished(this.gameState);
+      } catch (err) {
+        console.error(err.message);
+        continue;
+      }
+      this.broadcast({ type: "score", ...getScore(this.gameState) });
     }
   }
 }

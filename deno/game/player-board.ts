@@ -1,4 +1,4 @@
-import { GameState } from '../shared/models/game-state.model.ts'; 
+import { GameState } from "../shared/models/game-state.model.ts";
 
 export function getNewPlayerBoard(): number[] {
   const board = new Array(16).fill(0);
