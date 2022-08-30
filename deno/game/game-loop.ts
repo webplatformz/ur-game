@@ -2,11 +2,10 @@ import { getInitialGameState } from "./initial-game-state.ts";
 import { isFinished } from "./is-finished.ts";
 import { isValidMove } from "./is-valid-move.ts";
 import { moveToTargetIdx } from "./move.ts";
-import { getNextPlayer } from "./player.ts";
 import { diceRollSum, rollDice } from "./roll-dice.ts";
 
 export async function gameLoop() {
-  const gameState = getInitialGameState();
+  let gameState = getInitialGameState();
   while (!gameState.isFinished) {
     try {
       sendToBothPlayers(gameState);
@@ -16,9 +15,8 @@ export async function gameLoop() {
       const moveTarget = await waitForPlayerAction('move', 5);
       const diceSum = diceRollSum(diceRoll);
       if (isValidMove(gameState, moveTarget, diceSum)) {
-        moveToTargetIdx(gameState, moveTarget, diceSum);
+        gameState = moveToTargetIdx(gameState, moveTarget, diceSum);
       }
-      gameState.currentPlayer = getNextPlayer(gameState.currentPlayer, moveTarget);
       gameState.isFinished = isFinished(gameState);
     } catch (err) {
       console.error(err.message);
