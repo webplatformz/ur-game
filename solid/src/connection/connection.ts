@@ -7,21 +7,30 @@ import { handle } from "./handlers";
 
 const [socket, setSocket] = createSignal<WebSocket>();
 
-export const connectSocket = ({ sessionId = "" } = {}) => {
+export async function connectSocket (sessionId: string | undefined, quickMatch: boolean): Promise<void> {
   const { host, protocol } = location;
 
   const webSocketURL = new URL(
     `${protocol === "https:" ? "wss" : "ws"}://${host}/ws`,
   );
 
-  if (sessionId) webSocketURL.searchParams.append("sessionId", sessionId);
+  if(sessionId) {
+      webSocketURL.searchParams.append("sessionId", sessionId);
+  }
+  if(quickMatch) {
+      webSocketURL.searchParams.append("quickmatch", String(true));
+  }
 
   const socket = new WebSocket(webSocketURL);
 
-  startSocketListeners(socket);
-
-  setSocket(socket);
-};
+  return new Promise(resolve => {
+      socket.onopen = () => {
+          startSocketListeners(socket);
+          setSocket(socket);
+          resolve();
+      }
+  })
+}
 
 const startSocketListeners = (socket: WebSocket) => {
   socket.onmessage = (event) => {
@@ -31,11 +40,6 @@ const startSocketListeners = (socket: WebSocket) => {
 
     const message: ServerWebsocketMessages = JSON.parse(event.data);
     handle(message);
-  };
-
-  socket.onopen = (event) => {
-    console.log("Connection opened:");
-    console.log(event);
   };
 
   socket.onclose = (event) => {

@@ -40,4 +40,8 @@ export class PlayerSession {
   set onOpen(fn: () => void) {
     this.connection.onopen = fn;
   }
+
+  get connected() {
+    return this.connection.readyState === WebSocket.OPEN;
+  }
 }

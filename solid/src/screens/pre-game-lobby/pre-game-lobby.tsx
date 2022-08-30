@@ -3,6 +3,7 @@ import { Component, Show } from 'solid-js';
 import styles from './pre-game-lobby.module.css';
 import Loader from '../../components/loader/loader';
 import Header from '../../components/header/header';
+import {sessionId} from "../../game/game";
 
 type Props = {
   isPrivateGame?: boolean
@@ -15,7 +16,7 @@ const PreGameLobby: Component<Props> = ({ onClose, isPrivateGame = false }) => {
       <Header />
       <h3 class={styles.playerName}>Player34532</h3>
       <Show when={isPrivateGame}>
-        Room id: #4222
+        Room id: {sessionId()}
       </Show>
       <div class={styles.waitingForPlayerContainer}>
         <p>Waiting for other Player</p>
