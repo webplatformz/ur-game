@@ -118,3 +118,11 @@ const boardConfig: Field[] = [
 export function getBoardConfig() {
   return boardConfig;
 }
+
+export function isSafeField(targetIdx: number) {
+  return boardConfig[targetIdx].isSafe;
+}
+
+export function canRollAgainField(targetIdx: number) {
+  return boardConfig[targetIdx].canThrowAgain;
+}

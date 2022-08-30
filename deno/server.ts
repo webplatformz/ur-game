@@ -1,5 +1,5 @@
 import { parse, serve, serveFile } from "./deps.ts";
-import { handleWebsocketConnection } from "./websocket.ts";
+import { handleWebsocketConnection } from "./session/session-handler.ts";
 
 function reqHandler(req: Request) {
   const appDistDir = parse(Deno.args).dist || "solid";

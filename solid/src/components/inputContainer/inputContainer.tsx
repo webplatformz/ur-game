@@ -3,24 +3,30 @@ import type {Component} from 'solid-js';
 import styles from './inputContainer.module.css';
 import {createSignal} from "solid-js";
 
-const InputContaier: Component = () => {
+export interface InputContainerProps {
+    confirmInputValue:(value: string) => void;
+    buttonText: string;
+    placeholderText: string;
+}
+
+const InputContainer: Component<InputContainerProps> = ({confirmInputValue, buttonText, placeholderText}) => {
 
     const [inputValue, setInputValue] = createSignal('');
 
-    // TODO Output Event?
-    const confirmInputValue = () => console.log(inputValue());
-
     return (
             <div class={styles.inputContainer}>
-                <input type="text" placeholder="Enter your name" maxLength={20}
+                <input type="text" placeholder={placeholderText} maxLength={20}
                        onInput={(e) => {
                            setInputValue(e.currentTarget.value);
                        }}
+                       onKeyPress={event => {
+                           if (event.key === 'Enter') { confirmInputValue(inputValue()) }
+                       }}
                 />
-                <button id="btnSubmit" disabled={!inputValue()} onClick={confirmInputValue}>Login</button>
+                <button id="btnSubmit" disabled={!inputValue()} onClick={() => confirmInputValue(inputValue())}>{buttonText}</button>
             </div>
 
     );
 };
 
-export default InputContaier;
+export default InputContainer;

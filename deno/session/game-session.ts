@@ -4,7 +4,9 @@ import { WsMessage } from "../shared/models/ws-message.model.ts";
 
 export class GameSession {
   public readonly sessionId = generateSessionId();
-  private readonly playerSessions: PlayerSession[] = [];
+  private playerSessions: PlayerSession[] = [];
+
+  public onCleanUp?: () => void;
 
   constructor(socket: WebSocket) {
     this.addPlayer(socket);
@@ -13,9 +15,19 @@ export class GameSession {
   addPlayer(socket: WebSocket) {
     const playerIndex = this.playerSessions.length;
     socket.onmessage = (evt) => this.onMessage(playerIndex, evt.data);
+    socket.onclose = () => this.removePlayer(socket);
     this.playerSessions.push({
       connection: socket,
     });
+  }
+
+  removePlayer(socket: WebSocket) {
+    this.playerSessions = this.playerSessions.filter((playerSession) =>
+      playerSession.connection !== socket
+    );
+    if (this.playerSessions.length === 0) {
+      this.onCleanUp?.();
+    }
   }
 
   private onMessage(playerIndex: number, message: WsMessage) {
