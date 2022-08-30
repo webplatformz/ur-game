@@ -2,7 +2,7 @@ import type {Component} from 'solid-js';
 
 import logo from '../../logo.svg';
 import styles from './login.module.css';
-import InputContainer from "../inputContainer/inputContainer";
+import InputContainer from "../../components/inputContainer/inputContainer";
 import {createSignal} from "solid-js";
 
 const Login: Component = () => {
