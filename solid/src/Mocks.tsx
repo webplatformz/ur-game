@@ -1,6 +1,13 @@
-import { Field } from "../shared/models/field.model.ts";
+import { Component } from "solid-js";
+import {
+  boardBlack,
+  BoardConfiguration,
+  GameState,
+  load,
+  update,
+} from "./game/game";
 
-const boardConfig: Field[] = [
+const mockBoardConfig: BoardConfiguration = [
   {
     idx: 0,
     isSafe: true,
@@ -115,14 +122,27 @@ const boardConfig: Field[] = [
   },
 ];
 
-export function getBoardConfig() {
-  return boardConfig;
-}
+const mockInitialGameState: GameState = {
+  boardBlack: [7, ...Array(mockBoardConfig.length - 1).fill(0)],
+  boardWhite: [7, ...Array(mockBoardConfig.length - 1).fill(0)],
+  isFinished: false,
+  currentPlayer: "white",
+};
 
-export function isSafeField(targetIdx: number) {
-  return boardConfig[targetIdx].isSafe;
-}
+const simulateMove = () => {
+  const blackCopy = [...boardBlack()];
+  const tokenIdx = blackCopy.findIndex((token) => token > 0);
 
-export function canRollAgainField(targetIdx: number) {
-  return boardConfig[targetIdx].canThrowAgain;
-}
+  if (tokenIdx === blackCopy.length - 1) return;
+
+  blackCopy[tokenIdx] = blackCopy[tokenIdx] - 1;
+  blackCopy[tokenIdx + 1] = blackCopy[tokenIdx + 1] + 1;
+
+  update({ ...mockInitialGameState, boardBlack: blackCopy });
+};
+
+export const Mocks: Component = () => {
+  load(mockBoardConfig, mockInitialGameState);
+
+  return <button onClick={simulateMove}>Update board</button>;
+};
