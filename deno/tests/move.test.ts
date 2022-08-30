@@ -1,6 +1,6 @@
 import { assertEquals } from "https://deno.land/std@0.153.0/testing/asserts.ts";
-import { moveToTargetIdx } from "../game/move.ts";
-import { getNewPlayerBoard } from "../game/player-board.ts";
+import { getPossibleTargetFields, moveToTargetIdx } from "../game/move.ts";
+import { getNewPlayerBoard } from '../game/player-board.ts';
 import { getStateWithBoards } from "./test-helper.ts";
 
 Deno.test("should move current player token from start to first field", () => {
@@ -138,4 +138,58 @@ Deno.test("should not switch player after moving to roll again field", () => {
   const updatedState = moveToTargetIdx(gameState, targetFieldIdx, diceValue);
 
   assertEquals(updatedState.currentPlayer, "black");
+});
+
+Deno.test("should return movable fields for initial board", () => {
+  const gameState = getStateWithBoards();
+  const diceValue = 3;
+
+  const possibleTargets = getPossibleTargetFields(gameState, diceValue);
+
+  assertEquals(possibleTargets, [3]);
+});
+
+Deno.test("should return movable fields for distributed tokens", () => {
+  const gameState = getStateWithBoards();
+  gameState.boardBlack[4] = 1;
+  gameState.boardBlack[8] = 1;
+  const diceValue = 3;
+
+  const possibleTargets = getPossibleTargetFields(gameState, diceValue);
+
+  assertEquals(possibleTargets, [3, 7, 11]);
+});
+
+Deno.test("should return end field as movable target", () => {
+  const gameState = getStateWithBoards();
+  gameState.boardBlack[14] = 1;
+  const diceValue = 1;
+
+  const possibleTargets = getPossibleTargetFields(gameState, diceValue);
+
+  assertEquals(possibleTargets, [1, 15]);
+});
+
+Deno.test("should return empty targets if no move possible", () => {
+  const gameState = getStateWithBoards();
+  gameState.boardBlack[0] = 0;
+  gameState.boardBlack[7] = 1;
+  gameState.boardWhite[8] = 1;
+  const diceValue = 1;
+
+  const possibleTargets = getPossibleTargetFields(gameState, diceValue);
+
+  assertEquals(possibleTargets, []);
+});
+
+Deno.test("should return occupied target", () => {
+  const gameState = getStateWithBoards();
+  gameState.boardBlack[0] = 0;
+  gameState.boardBlack[6] = 1;
+  gameState.boardWhite[7] = 1;
+  const diceValue = 1;
+
+  const possibleTargets = getPossibleTargetFields(gameState, diceValue);
+
+  assertEquals(possibleTargets, [7]);
 });

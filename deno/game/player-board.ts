@@ -1,12 +1,12 @@
 import { GameState } from '../shared/models/game-state.model.ts'; 
 
-export function getStartingPlayerBoard(): number[] {
+export function getNewPlayerBoard(): number[] {
   const board = new Array(16).fill(0);
   board[0] = 7;
   return board;
 }
 
-export function getPlayerBoards(
+export function getCurrentPlayerBoards(
   gameState: GameState,
 ): { currentPlayerBoard: number[]; opponentPlayerBoard: number[] } {
   const { boardBlack, boardWhite, currentPlayer } = gameState;
