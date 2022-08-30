@@ -1,3 +1,3 @@
-import { DiceValue } from "./dice-value.model.ts";
+import { DieValue } from "./die-value.model.ts";
 
-export type DiceValues = [DiceValue, DiceValue, DiceValue, DiceValue];
+export type DiceValues = [DieValue, DieValue, DieValue, DieValue];
