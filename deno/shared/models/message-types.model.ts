@@ -10,6 +10,8 @@ import { Move } from "./move.model.ts";
 import { Score } from "./score.model.ts";
 // @ts-ignore deno style imports
 import { ErrorPayload } from "./error.model.ts";
+// @ts-ignore deno style imports
+import { GameSession } from "./game-session.model.ts";
 
 type WebsocketMessage<T extends string, P> = { type: T } & P;
 type EmptyPayload = {};
@@ -20,6 +22,7 @@ export type ClientWebsocketMessages =
   | WebsocketMessage<"move", Move>;
 
 export type ServerWebsocketMessages =
+  | WebsocketMessage<"gamesession", GameSession>
   | WebsocketMessage<"gamestate", GameState>
   | WebsocketMessage<"players", Players>
   | WebsocketMessage<"diceroll", DiceRoll>

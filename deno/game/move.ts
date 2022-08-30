@@ -1,8 +1,8 @@
-import {GameState} from '../shared/models/game-state.model.ts';
-import {isSafeField} from './board.ts';
-import {getNextPlayer} from './player.ts';
-import {getCurrentPlayerBoards} from './player-board.ts';
-import {isValidMove} from './is-valid-move.ts';
+import { GameState } from "../shared/models/game-state.model.ts";
+import { isSafeField } from "./board.ts";
+import { getNextPlayer } from "./player.ts";
+import { getCurrentPlayerBoards } from "./player-board.ts";
+import { isValidMove } from "./is-valid-move.ts";
 
 export function moveToTargetIdx(
   gameState: GameState,
@@ -63,9 +63,9 @@ export function getPossibleTargetFields(
       tokens: nrOfTokensOnField,
       fieldIdx: idx,
     }))
-    .filter(({tokens}) => tokens > 0)
-    .filter(({fieldIdx}) =>
+    .filter(({ tokens }) => tokens > 0)
+    .filter(({ fieldIdx }) =>
       isValidMove(gameState, fieldIdx + diceValue, diceValue)
     )
-    .map(({fieldIdx}) => fieldIdx + diceValue);
+    .map(({ fieldIdx }) => fieldIdx + diceValue);
 }
