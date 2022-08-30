@@ -1,6 +1,6 @@
 import { PlayerSession } from "./player-session.ts";
 import { generateSessionId } from "../id-utils.ts";
-import { WsMessage } from "../shared/models/ws-message.model.ts";
+import { WebsocketMessages } from "../shared/models/message-types.model.ts";
 
 export class GameSession {
   public readonly sessionId = generateSessionId();
@@ -30,7 +30,7 @@ export class GameSession {
     }
   }
 
-  private onMessage(playerIndex: number, message: WsMessage) {
+  private onMessage(playerIndex: number, message: WebsocketMessages) {
     switch (message.type) {
       // TODO do stuff
     }
