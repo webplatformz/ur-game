@@ -1,0 +1,27 @@
+.root {
+    background-color: rebeccapurple;
+    width: 8rem;
+    height: 32rem;
+    position: relative;
+}
+
+.svgContainer {
+    background-color: azure;
+    position: absolute;
+    left: 0;
+    width: 100%;
+}
+
+.button {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background: none;
+    margin: 0;
+    padding-top: 20%;
+    padding-bottom: 40%;
+}
+
+.button:hover, .button:focus {
+    background: none;
+}
