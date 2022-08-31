@@ -1,15 +1,15 @@
 import { assertEquals } from "asserts";
 import { isFinished } from "../game/is-finished.ts";
-import { getStateWithBoards } from "./test-helper.ts";
+import { getContextWithBoards } from "./test-helper.ts";
 
 Deno.test("is finished true", () => {
-  const gs = getStateWithBoards();
-  gs.boardDark[0] = 0;
-  gs.boardDark[gs.boardDark.length - 1] = 7;
-  assertEquals(isFinished(gs), true);
+  const ctx = getContextWithBoards();
+  ctx.boardDark[0] = 0;
+  ctx.boardDark[ctx.boardDark.length - 1] = 7;
+  assertEquals(isFinished(ctx), true);
 });
 
 Deno.test("is finished false", () => {
-  const gs = getStateWithBoards();
-  assertEquals(isFinished(gs), false);
+  const ctx = getContextWithBoards();
+  assertEquals(isFinished(ctx), false);
 });

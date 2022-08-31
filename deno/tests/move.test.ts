@@ -1,22 +1,26 @@
 import { assertEquals } from "asserts";
 import { getPossibleTargetFields, moveToTargetIdx } from "../game/move.ts";
 import { getNewPlayerBoard } from "../game/player-board.ts";
-import { getStateWithBoards } from "./test-helper.ts";
+import { getContextWithBoards } from "./test-helper.ts";
 
 Deno.test("should move current player token from start to first field", () => {
   const currentPlayerBoard = getNewPlayerBoard();
-  const gameState = getStateWithBoards(currentPlayerBoard);
+  const gameContext = getContextWithBoards(currentPlayerBoard);
   const startFieldIdx = 0;
   const targetFieldIdx = 1;
   const diceValue = 1;
 
-  assertEquals(gameState.boardDark[startFieldIdx], 7);
-  assertEquals(gameState.boardDark[targetFieldIdx], 0);
+  assertEquals(gameContext.boardDark[startFieldIdx], 7);
+  assertEquals(gameContext.boardDark[targetFieldIdx], 0);
 
-  const updatedState = moveToTargetIdx(gameState, targetFieldIdx, diceValue);
+  const updatedContext = moveToTargetIdx(
+    gameContext,
+    targetFieldIdx,
+    diceValue,
+  );
 
-  assertEquals(updatedState.boardDark[startFieldIdx], 6);
-  assertEquals(updatedState.boardDark[targetFieldIdx], 1);
+  assertEquals(updatedContext.boardDark[startFieldIdx], 6);
+  assertEquals(updatedContext.boardDark[targetFieldIdx], 1);
 });
 
 Deno.test("should move current player token from start to first field and not kill oponent on same safe field", () => {
@@ -28,17 +32,24 @@ Deno.test("should move current player token from start to first field and not ki
   opponentPlayerBoard[targetFieldIdx] = 1;
 
   const diceValue = 1;
-  const gameState = getStateWithBoards(currentPlayerBoard, opponentPlayerBoard);
+  const gameContext = getContextWithBoards(
+    currentPlayerBoard,
+    opponentPlayerBoard,
+  );
 
-  assertEquals(gameState.boardDark[startFieldIdx], 7);
-  assertEquals(gameState.boardDark[targetFieldIdx], 0);
-  assertEquals(gameState.boardLight[targetFieldIdx], 1);
+  assertEquals(gameContext.boardDark[startFieldIdx], 7);
+  assertEquals(gameContext.boardDark[targetFieldIdx], 0);
+  assertEquals(gameContext.boardLight[targetFieldIdx], 1);
 
-  const updatedState = moveToTargetIdx(gameState, targetFieldIdx, diceValue);
+  const updatedContext = moveToTargetIdx(
+    gameContext,
+    targetFieldIdx,
+    diceValue,
+  );
 
-  assertEquals(updatedState.boardDark[startFieldIdx], 6);
-  assertEquals(updatedState.boardDark[targetFieldIdx], 1);
-  assertEquals(updatedState.boardLight[targetFieldIdx], 1);
+  assertEquals(updatedContext.boardDark[startFieldIdx], 6);
+  assertEquals(updatedContext.boardDark[targetFieldIdx], 1);
+  assertEquals(updatedContext.boardLight[targetFieldIdx], 1);
 });
 
 Deno.test("should move current player token to occupied enemey field and kill", () => {
@@ -51,17 +62,24 @@ Deno.test("should move current player token to occupied enemey field and kill", 
   opponentPlayerBoard[targetFieldIdx] = 1;
 
   const diceValue = 2;
-  const gameState = getStateWithBoards(currentPlayerBoard, opponentPlayerBoard);
+  const gameContext = getContextWithBoards(
+    currentPlayerBoard,
+    opponentPlayerBoard,
+  );
 
-  assertEquals(gameState.boardDark[currentTokenIdx], 1);
-  assertEquals(gameState.boardDark[targetFieldIdx], 0);
-  assertEquals(gameState.boardLight[targetFieldIdx], 1);
+  assertEquals(gameContext.boardDark[currentTokenIdx], 1);
+  assertEquals(gameContext.boardDark[targetFieldIdx], 0);
+  assertEquals(gameContext.boardLight[targetFieldIdx], 1);
 
-  const updatedState = moveToTargetIdx(gameState, targetFieldIdx, diceValue);
+  const updatedContext = moveToTargetIdx(
+    gameContext,
+    targetFieldIdx,
+    diceValue,
+  );
 
-  assertEquals(updatedState.boardDark[currentTokenIdx], 0);
-  assertEquals(updatedState.boardDark[targetFieldIdx], 1);
-  assertEquals(updatedState.boardLight[targetFieldIdx], 0);
+  assertEquals(updatedContext.boardDark[currentTokenIdx], 0);
+  assertEquals(updatedContext.boardDark[targetFieldIdx], 1);
+  assertEquals(updatedContext.boardLight[targetFieldIdx], 0);
 });
 
 Deno.test("should move past opponent player token", () => {
@@ -75,19 +93,26 @@ Deno.test("should move past opponent player token", () => {
 
   const targetFieldIdx = 7;
   const diceValue = 4;
-  const gameState = getStateWithBoards(currentPlayerBoard, opponentPlayerBoard);
+  const gameContext = getContextWithBoards(
+    currentPlayerBoard,
+    opponentPlayerBoard,
+  );
 
-  assertEquals(gameState.boardDark[currentTokenIdx], 1);
-  assertEquals(gameState.boardDark[targetFieldIdx], 0);
-  assertEquals(gameState.boardLight[targetFieldIdx], 0);
-  assertEquals(gameState.boardLight[opponentTokenIdx], 1);
+  assertEquals(gameContext.boardDark[currentTokenIdx], 1);
+  assertEquals(gameContext.boardDark[targetFieldIdx], 0);
+  assertEquals(gameContext.boardLight[targetFieldIdx], 0);
+  assertEquals(gameContext.boardLight[opponentTokenIdx], 1);
 
-  const updatedState = moveToTargetIdx(gameState, targetFieldIdx, diceValue);
+  const updatedContext = moveToTargetIdx(
+    gameContext,
+    targetFieldIdx,
+    diceValue,
+  );
 
-  assertEquals(updatedState.boardDark[currentTokenIdx], 0);
-  assertEquals(updatedState.boardDark[targetFieldIdx], 1);
-  assertEquals(updatedState.boardLight[targetFieldIdx], 0);
-  assertEquals(updatedState.boardLight[opponentTokenIdx], 1);
+  assertEquals(updatedContext.boardDark[currentTokenIdx], 0);
+  assertEquals(updatedContext.boardDark[targetFieldIdx], 1);
+  assertEquals(updatedContext.boardLight[targetFieldIdx], 0);
+  assertEquals(updatedContext.boardLight[opponentTokenIdx], 1);
 });
 
 Deno.test("should not past opponent player token", () => {
@@ -101,95 +126,110 @@ Deno.test("should not past opponent player token", () => {
 
   const targetFieldIdx = 7;
   const diceValue = 4;
-  const gameState = getStateWithBoards(currentPlayerBoard, opponentPlayerBoard);
+  const gameContext = getContextWithBoards(
+    currentPlayerBoard,
+    opponentPlayerBoard,
+  );
 
-  assertEquals(gameState.boardDark[currentTokenIdx], 1);
-  assertEquals(gameState.boardDark[targetFieldIdx], 0);
-  assertEquals(gameState.boardLight[targetFieldIdx], 0);
-  assertEquals(gameState.boardLight[opponentTokenIdx], 1);
+  assertEquals(gameContext.boardDark[currentTokenIdx], 1);
+  assertEquals(gameContext.boardDark[targetFieldIdx], 0);
+  assertEquals(gameContext.boardLight[targetFieldIdx], 0);
+  assertEquals(gameContext.boardLight[opponentTokenIdx], 1);
 
-  const updatedState = moveToTargetIdx(gameState, targetFieldIdx, diceValue);
+  const updatedContext = moveToTargetIdx(
+    gameContext,
+    targetFieldIdx,
+    diceValue,
+  );
 
-  assertEquals(updatedState.boardDark[currentTokenIdx], 0);
-  assertEquals(updatedState.boardDark[targetFieldIdx], 1);
-  assertEquals(updatedState.boardLight[targetFieldIdx], 0);
-  assertEquals(updatedState.boardLight[opponentTokenIdx], 1);
+  assertEquals(updatedContext.boardDark[currentTokenIdx], 0);
+  assertEquals(updatedContext.boardDark[targetFieldIdx], 1);
+  assertEquals(updatedContext.boardLight[targetFieldIdx], 0);
+  assertEquals(updatedContext.boardLight[opponentTokenIdx], 1);
 });
 
 Deno.test("should switch player after move", () => {
   const currentPlayerBoard = getNewPlayerBoard();
-  const gameState = getStateWithBoards(currentPlayerBoard);
+  const gameContext = getContextWithBoards(currentPlayerBoard);
   const targetFieldIdx = 1;
   const diceValue = 1;
 
-  assertEquals(gameState.currentPlayer, "dark");
-  const updatedState = moveToTargetIdx(gameState, targetFieldIdx, diceValue);
+  assertEquals(gameContext.currentPlayer, "dark");
+  const updatedContext = moveToTargetIdx(
+    gameContext,
+    targetFieldIdx,
+    diceValue,
+  );
 
-  assertEquals(updatedState.currentPlayer, "light");
+  assertEquals(updatedContext.currentPlayer, "light");
 });
 
 Deno.test("should not switch player after moving to roll again field", () => {
   const currentPlayerBoard = getNewPlayerBoard();
-  const gameState = getStateWithBoards(currentPlayerBoard);
+  const gameContext = getContextWithBoards(currentPlayerBoard);
   const targetFieldIdx = 8;
   const diceValue = 1;
 
-  assertEquals(gameState.currentPlayer, "dark");
-  const updatedState = moveToTargetIdx(gameState, targetFieldIdx, diceValue);
+  assertEquals(gameContext.currentPlayer, "dark");
+  const updatedContext = moveToTargetIdx(
+    gameContext,
+    targetFieldIdx,
+    diceValue,
+  );
 
-  assertEquals(updatedState.currentPlayer, "dark");
+  assertEquals(updatedContext.currentPlayer, "dark");
 });
 
 Deno.test("should return movable fields for initial board", () => {
-  const gameState = getStateWithBoards();
+  const gameContext = getContextWithBoards();
   const diceValue = 3;
 
-  const possibleTargets = getPossibleTargetFields(gameState, diceValue);
+  const possibleTargets = getPossibleTargetFields(gameContext, diceValue);
 
   assertEquals(possibleTargets, [3]);
 });
 
 Deno.test("should return movable fields for distributed tokens", () => {
-  const gameState = getStateWithBoards();
-  gameState.boardDark[4] = 1;
-  gameState.boardDark[8] = 1;
+  const gameContext = getContextWithBoards();
+  gameContext.boardDark[4] = 1;
+  gameContext.boardDark[8] = 1;
   const diceValue = 3;
 
-  const possibleTargets = getPossibleTargetFields(gameState, diceValue);
+  const possibleTargets = getPossibleTargetFields(gameContext, diceValue);
 
   assertEquals(possibleTargets, [3, 7, 11]);
 });
 
 Deno.test("should return end field as movable target", () => {
-  const gameState = getStateWithBoards();
-  gameState.boardDark[14] = 1;
+  const gameContext = getContextWithBoards();
+  gameContext.boardDark[14] = 1;
   const diceValue = 1;
 
-  const possibleTargets = getPossibleTargetFields(gameState, diceValue);
+  const possibleTargets = getPossibleTargetFields(gameContext, diceValue);
 
   assertEquals(possibleTargets, [1, 15]);
 });
 
 Deno.test("should return empty targets if no move possible", () => {
-  const gameState = getStateWithBoards();
-  gameState.boardDark[0] = 0;
-  gameState.boardDark[7] = 1;
-  gameState.boardLight[8] = 1;
+  const gameContext = getContextWithBoards();
+  gameContext.boardDark[0] = 0;
+  gameContext.boardDark[7] = 1;
+  gameContext.boardLight[8] = 1;
   const diceValue = 1;
 
-  const possibleTargets = getPossibleTargetFields(gameState, diceValue);
+  const possibleTargets = getPossibleTargetFields(gameContext, diceValue);
 
   assertEquals(possibleTargets, []);
 });
 
 Deno.test("should return occupied target", () => {
-  const gameState = getStateWithBoards();
-  gameState.boardDark[0] = 0;
-  gameState.boardDark[6] = 1;
-  gameState.boardLight[7] = 1;
+  const gameContext = getContextWithBoards();
+  gameContext.boardDark[0] = 0;
+  gameContext.boardDark[6] = 1;
+  gameContext.boardLight[7] = 1;
   const diceValue = 1;
 
-  const possibleTargets = getPossibleTargetFields(gameState, diceValue);
+  const possibleTargets = getPossibleTargetFields(gameContext, diceValue);
 
   assertEquals(possibleTargets, [7]);
 });

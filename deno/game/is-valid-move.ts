@@ -1,8 +1,8 @@
-import { GameState } from "../shared/models/game-state.model.ts";
+import { GameContext } from "../shared/models/game-context.model.ts";
 import { getCurrentPlayerBoards } from "./player-board.ts";
 
 export function isValidMove(
-  gameState: GameState,
+  gameContext: GameContext,
   targetIdx: number,
   diceValue: number,
 ): boolean {
@@ -10,14 +10,14 @@ export function isValidMove(
     return true;
   }
   const { currentPlayerBoard, opponentPlayerBoard } = getCurrentPlayerBoards(
-    gameState,
+    gameContext,
   );
-  const targetField = gameState.boardConfig[targetIdx];
+  const targetField = gameContext.boardConfig[targetIdx];
 
   const hasTargetCapacity =
     currentPlayerBoard[targetIdx] < targetField.capacity &&
     (opponentPlayerBoard[targetIdx] === 0 || !targetField.isBattleField);
-  const hasReachedEnd = targetIdx === gameState.boardConfig.length - 1;
+  const hasReachedEnd = targetIdx === gameContext.boardConfig.length - 1;
   const isCapturableField = opponentPlayerBoard[targetIdx] !== 0 &&
     targetField.isBattleField && !targetField.isSafe;
 
@@ -25,7 +25,7 @@ export function isValidMove(
     currentPlayerBoard,
     targetIdx,
     diceValue,
-    gameState.boardConfig.length,
+    gameContext.boardConfig.length,
   ) &&
     (
       hasTargetCapacity ||

@@ -2,7 +2,7 @@ import { Field } from "./field.model.ts";
 
 export type PlayerColor = "light" | "dark";
 
-export interface GameState {
+export interface GameContext {
   boardLight: number[];
   boardDark: number[];
   currentPlayer: PlayerColor;
