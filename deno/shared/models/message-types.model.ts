@@ -1,25 +1,27 @@
-// @ts-ignore deno style imports
 import { GameState } from "./game-state.model.ts";
-// @ts-ignore deno style imports
 import { Players } from "./players.model.ts";
-// @ts-ignore deno style imports
 import { DiceRoll } from "./dice-roll.model.ts";
+import { Move } from "./move.model.ts";
+import { Score } from "./score.model.ts";
+import { ErrorPayload } from "./error.model.ts";
+import { GameSession } from "./game-session.model.ts";
 
-export type ClientMessageType = "ready" | "roll" | "move";
-export type ServerMessageType =
-  | "players"
-  | "boardconfig"
-  | "gamestate"
-  | "diceroll";
-export type MessageType = ClientMessageType | ServerMessageType;
+type WebsocketMessage<T extends string, P> = { type: T } & P;
+type EmptyPayload = Record<never, never>;
 
-type WebsocketMessage<T extends MessageType, P> = { type: T } & P;
+export type ClientWebsocketMessages =
+  | WebsocketMessage<"ready", EmptyPayload>
+  | WebsocketMessage<"roll", EmptyPayload>
+  | WebsocketMessage<"move", Move>;
 
-export type WebsocketMessages =
-  | WebsocketMessage<"roll", never>
+export type ServerWebsocketMessages =
+  | WebsocketMessage<"gamesession", GameSession>
   | WebsocketMessage<"gamestate", GameState>
-  // TODO add move message payload
-  | WebsocketMessage<"move", never>
   | WebsocketMessage<"players", Players>
   | WebsocketMessage<"diceroll", DiceRoll>
-  | WebsocketMessage<"ready", never>;
+  | WebsocketMessage<"error", ErrorPayload>
+  | WebsocketMessage<"score", Score>;
+
+export type WebsocketMessages =
+  | ClientWebsocketMessages
+  | ServerWebsocketMessages;

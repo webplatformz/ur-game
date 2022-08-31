@@ -10,14 +10,14 @@ const Board: Component = () => {
       style={{
         display: "grid",
         "grid-template-areas": `
-          "black4 battle5 white4"
-          "black3 battle6 white3"
-          "black2 battle7 white2"
-          "black1 battle8 white1"
-          "black0 battle9 white0"
-          "black15 battle10 white15"
-          "black14 battle11 white14"
-          "black13 battle12 white13"
+          "dark4 battle5 light4"
+          "dark3 battle6 light3"
+          "dark2 battle7 light2"
+          "dark1 battle8 light1"
+          "dark0 battle9 light0"
+          "dark15 battle10 light15"
+          "dark14 battle11 light14"
+          "dark13 battle12 light13"
         `,
       }}
     >
@@ -28,8 +28,8 @@ const Board: Component = () => {
       <For each={safeFields}>
         {(field) => (
           <>
-            <Field idx={field} owner="black" />
-            <Field idx={field} owner="white" />
+            <Field idx={field} owner="dark" />
+            <Field idx={field} owner="light" />
           </>
         )}
       </For>
