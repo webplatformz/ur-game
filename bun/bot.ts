@@ -7,6 +7,8 @@ export class Bot {
     private sessionId: string;
     private color: PlayerColor;
 
+    private readonly THINKING_TIME = 3000;
+
     constructor(socket: WebSocket) {
         this.ws = socket;
         this.ws.onopen = () => this.setupListeners();
@@ -14,7 +16,13 @@ export class Bot {
 
     private setupListeners() {
         this.ws.onerror = e => console.log('err', e);
-        this.ws.onmessage = event => this.handleMessage(JSON.parse(event.data));
+        this.ws.onmessage = event => {
+            try {
+                this.handleMessage(JSON.parse(event.data));
+            } catch (e) {
+                console.info('event data was no JSON object');
+            }
+        };
     }
 
     private handleMessage(message: ServerWebsocketMessages) {
@@ -30,7 +38,7 @@ export class Bot {
         }
     }
 
-    private act() {
+    private async act() {
         if (this.ctx.currentPlayer !== this.color) {
             return;
         }
@@ -39,6 +47,7 @@ export class Bot {
         }
         if (this.ctx.state === 'move') {
             if (this.ctx.currentValidTargets.length > 0) {
+                await this.think();
                 this.send({ type: 'move', targetIdx: this.ctx.currentValidTargets[0] });
             }
         }
@@ -47,5 +56,9 @@ export class Bot {
     private send(msg: ClientWebsocketMessages) {
         console.log('Irving sends his regards:', msg.type);
         this.ws.send(JSON.stringify(msg));
+    }
+
+    private think(): Promise<void> {
+        return new Promise(resolve => setTimeout(resolve, this.THINKING_TIME));
     }
 }
