@@ -35,14 +35,12 @@ const Field: Component<FieldProps> = (
       classList={{
         [style.field]: true,
         [style.fieldBoard]: idx > 0 && idx < 15,
+        [style.fieldValidTarget]: isValidMoveForCurrentPlayer(),
       }}
       onClick={() => isValidMoveForCurrentPlayer() && move(idx)}
     >
       <Show when={tokenCount()}>
-        <Token count={tokenCount} owner={tokenOwner} tokenType={'standard'}/>
-      </Show>
-      <Show when={isValidMoveForCurrentPlayer()}>
-        <Token count={() => 1} owner={() => 'player'} tokenType={'ghost'}></Token>
+        <Token count={tokenCount} owner={tokenOwner}/>
       </Show>
       <img alt="square" class={style.fieldContent} src={chooseImage()}/>
     </div>
