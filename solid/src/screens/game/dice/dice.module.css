@@ -23,3 +23,22 @@
 .button:hover, .button:focus {
     background: none;
 }
+
+.movesNrContainer {
+    opacity: 1;
+    position: absolute;
+    width: 100%;
+    top: 4vw;
+    transition: opacity;
+    transition-duration: 0.1s;
+    transition-delay: 2s;
+}
+
+.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.movesNr {
+    font-size: 3em;
+}

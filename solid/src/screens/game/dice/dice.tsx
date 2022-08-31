@@ -115,9 +115,22 @@ const Dice: Component<Props> = (props) => {
     return getDiceValues()[diceIndex] === 0;
   }
 
+  function getDiceResultAsNumber() {
+    return getDiceValues().reduce<number>((curr, prev) => prev + curr, 0);
+  }
+
   return (
     <div classList={{ [props.class]: true }}>
       <div classList={{ [styles.root]: true }}>
+        <div
+          classList={{
+            [styles.movesNrContainer]: true,
+            [styles.hidden]: !isRolledState(),
+          }}
+        >
+          Move <span class={styles.movesNr}>{getDiceResultAsNumber()}</span>{" "}
+          {getDiceResultAsNumber() === 1 ? "Tile" : "Tiles"}
+        </div>
         <svg
           class={styles.svgContainer}
           height="100%"
