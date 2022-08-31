@@ -1,8 +1,18 @@
 .circle {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+
   width: 50%;
   height: 50%;
 
   background: #000000;
-  border: 20px solid #5D4954;
+  border: 1vw solid #5D4954;
   border-radius: 50%;
+
+  z-index: 1;
 }
