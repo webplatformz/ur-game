@@ -75,7 +75,7 @@ const Dice: Component<Props> = (props) => {
   const [getState, setState] = createSignal<State>({
     type: "WAITING_ON_PLAYER_ROLL",
   });
-  const [getDiceValues, setDiceValues] = createSignal<(0 | 1)[]>([0, 0, 0, 0]);
+  const [getDiceValues, setDiceValues] = createSignal<(0 | 1)[]>([1, 1, 1, 1]);
 
   function handleClickRoll() {
     roll();
