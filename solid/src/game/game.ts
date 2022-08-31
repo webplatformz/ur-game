@@ -3,7 +3,6 @@ import { GameState } from "../../../deno/shared/models/game-state.model";
 import { DiceRoll } from "../../../deno/shared/models/dice-roll.model";
 import { sendMessage } from "../connection/connection";
 
-const [sessionId, setSessionId] = createSignal<string>();
 const [boardBlack, setBoardBlack] = createSignal<GameState["boardBlack"]>([]);
 const [boardWhite, setBoardWhite] = createSignal<GameState["boardWhite"]>([]);
 const [currentPlayer, setCurrentPlayer] = createSignal<
@@ -41,6 +40,4 @@ export {
   diceRoll,
   isFinished,
   loadDiceRoll,
-  sessionId,
-  setSessionId
 };

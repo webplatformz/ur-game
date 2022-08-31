@@ -3,7 +3,7 @@ import { Component, Show } from 'solid-js';
 import styles from './pre-game-lobby.module.css';
 import Loader from '../../components/loader/loader';
 import Header from '../../components/header/header';
-import {sessionId} from "../../game/game";
+import {sessionId} from "../../connection/session";
 
 type Props = {
   isPrivateGame?: boolean
