@@ -4,8 +4,8 @@ import { getNewPlayerBoard } from "./player-board.ts";
 
 export function getInitialGameState(): GameState {
   return {
-    boardBlack: getNewPlayerBoard(),
-    boardWhite: getNewPlayerBoard(),
+    boardDark: getNewPlayerBoard(),
+    boardLight: getNewPlayerBoard(),
     isFinished: false,
     currentPlayer: "dark",
     boardConfig: getBoardConfig(),

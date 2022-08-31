@@ -4,7 +4,7 @@ import { Score } from "../shared/models/score.model.ts";
 export function getScore(gameState: GameState): Score {
   const endIdx = gameState.boardConfig.length - 1;
   return {
-    black: gameState.boardBlack[endIdx],
-    white: gameState.boardWhite[endIdx],
+    dark: gameState.boardDark[endIdx],
+    light: gameState.boardLight[endIdx],
   };
 }

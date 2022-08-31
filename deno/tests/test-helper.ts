@@ -1,12 +1,12 @@
 import { getInitialGameState } from "../game/initial-game-state.ts";
 
 export function getStateWithBoards(
-  boardBlack?: number[],
-  boardWhite?: number[],
+  boardDark?: number[],
+  boardLight?: number[],
 ) {
   return {
     ...getInitialGameState(),
-    ...(boardBlack != null && { boardBlack: boardBlack }),
-    ...(boardWhite != null && { boardWhite: boardWhite }),
+    ...(boardDark != null && { boardDark }),
+    ...(boardLight != null && { boardLight }),
   };
 }
