@@ -1,5 +1,6 @@
 .circle {
   position: absolute;
+  z-index: 1;
 
   left: 0;
   right: 0;
@@ -13,7 +14,7 @@
   border: 1vw solid #5d4954;
   border-radius: 50%;
 
-  z-index: 1;
+  font-size: 3.5vw;
 }
 
 .player {

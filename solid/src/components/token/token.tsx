@@ -1,4 +1,4 @@
-import { Accessor, Component } from "solid-js";
+import { Accessor, Component, Show } from "solid-js";
 import { TokenOwner } from "../../game/useField";
 import style from "./token.module.css";
 
@@ -16,7 +16,9 @@ const Token: Component<TokenProps> = (
     return [style.circle, colorClass].join(" ");
   };
 
-  return <div class={classes()}>{count()}</div>;
+  return <div class={classes()}>
+        <Show when={count() > 1}>{count()}</Show>
+    </div>;
 };
 
 export default Token;
