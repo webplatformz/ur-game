@@ -111,6 +111,7 @@ const Die: Component<Props> = (props) => {
           from="var(--main-color)"
           to="white"
           dur={`${colorToggleDuration}s`}
+          begin="indefinite"
           calcMode="discrete"
           repeatCount={nrOfColorToggles}
         />
@@ -123,6 +124,7 @@ const Die: Component<Props> = (props) => {
             props.endPosition.rotation + 120 * getRandomInt(8, 16)
           } 46.65 46.65`}
           dur="2s"
+          begin="indefinite"
           fill="freeze"
         />
         <animateTransform
