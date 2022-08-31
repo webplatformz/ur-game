@@ -1,78 +1,36 @@
 import {Component} from "solid-js";
 import style from "./board.module.css";
-import rosette from "./../../../assets/rosette.png"
-import four from "./../../../assets/four.png"
-import five from "./../../../assets/five.png"
-import squares from "./../../../assets/squares.png"
+import Field from "../../../components/field/field";
 
 const Board: Component = () => {
     return (
         <div class={style.board}>
-            <div>
-                <img alt="square" class={style.square} src={rosette}/>
-            </div>
-            <div>
-                <img alt="square" class={style.square} src={four}/>
-            </div>
-            <div>
-                <img alt="square" class={style.square} src={five}/>
-            </div>
-            <div>
-                <img alt="square" class={style.square} src={squares}/>
-            </div>
-            <div class={style.columnSeven}>
-                <img alt="square" class={style.square} src={rosette}/>
-            </div>
-            <div class={style.columnEight}>
-                <img alt="square" class={style.square} src={four}/>
-            </div>
+            <Field idx={0} owner={"opponent"}></Field>
+            <Field idx={1} owner={"opponent"}></Field>
+            <Field idx={2} owner={"opponent"}></Field>
+            <Field idx={3} owner={"opponent"}></Field>
+            <Field idx={4} owner={"opponent"}></Field>
+            <Field idx={13} owner={"opponent"}></Field>
+            <Field idx={14} owner={"opponent"}></Field>
+            <Field idx={15} owner={"opponent"}></Field>
 
+            <Field idx={5} owner={"battle"}></Field>
+            <Field idx={6} owner={"battle"}></Field>
+            <Field idx={7} owner={"battle"}></Field>
+            <Field idx={8} owner={"battle"}></Field>
+            <Field idx={9} owner={"battle"}></Field>
+            <Field idx={10} owner={"battle"}></Field>
+            <Field idx={11} owner={"battle"}></Field>
+            <Field idx={12} owner={"battle"}></Field>
 
-            <div>
-                <img alt="square" class={style.square} src={five}/>
-            </div>
-            <div>
-                <img alt="square" class={style.square} src={squares}/>
-            </div>
-            <div>
-                <img alt="square" class={style.square} src={four}/>
-            </div>
-            <div>
-                <img alt="square" class={style.square} src={rosette}/>
-            </div>
-            <div>
-                <img alt="square" class={style.square} src={five}/>
-            </div>
-            <div>
-                <img alt="square" class={style.square} src={squares}/>
-            </div>
-            <div>
-                <img alt="square" class={style.square} src={four}/>
-            </div>
-            <div>
-                <img alt="square" class={style.square} src={five}/>
-            </div>
-
-
-            <div>
-                <img alt="square" class={style.square} src={rosette}/>
-            </div>
-            <div>
-                <img alt="square" class={style.square} src={four}/>
-            </div>
-            <div>
-                <img alt="square" class={style.square} src={five}/>
-            </div>
-            <div>
-                <img alt="square" class={style.square} src={squares}/>
-            </div>
-            <div class={style.columnSeven}>
-                <img alt="square" class={style.square} src={rosette}/>
-            </div>
-            <div class={style.columnEight}>
-                <img alt="square" class={style.square} src={four}/>
-            </div>
-
+            <Field idx={0} owner={"player"}></Field>
+            <Field idx={1} owner={"player"}></Field>
+            <Field idx={2} owner={"player"}></Field>
+            <Field idx={3} owner={"player"}></Field>
+            <Field idx={4} owner={"player"}></Field>
+            <Field idx={13} owner={"player"}></Field>
+            <Field idx={14} owner={"player"}></Field>
+            <Field idx={15} owner={"player"}></Field>
         </div>
     );
 };
