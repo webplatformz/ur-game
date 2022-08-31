@@ -5,6 +5,14 @@
 }
 
 .exit {
+    border: none;
+}
+
+.exit:focus {
+    background-color: unset;
+}
+
+.exit > img {
     width: 3rem;
     margin-right: 4rem;
 }

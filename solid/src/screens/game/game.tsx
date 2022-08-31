@@ -4,10 +4,14 @@ import Board from "./board/board";
 import style from "./game.module.css";
 import Dice from "./dice/dice";
 
-const Game: Component = () => {
+type Props = {
+    exitGame: () => void
+}
+
+const Game: Component<Props> = ({exitGame}) => {
   return (
     <>
-      <Header />
+      <Header exit={exitGame}/>
       <div class={style.content}>
         <div class={style.board}>
           <Board />

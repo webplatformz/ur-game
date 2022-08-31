@@ -49,6 +49,7 @@ function moveToken(board: number[], currTokenIdx: number, targetIdx: number) {
 function updateOpponentBoard(board: number[], targetIdx: number) {
   if (board[targetIdx] === 1 && !isSafeField(targetIdx)) {
     board[targetIdx] = 0;
+    board[0]++;
   }
   return board;
 }

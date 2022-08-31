@@ -60,6 +60,7 @@ Deno.test("should move current player token to occupied enemey field and kill", 
   const opponentPlayerBoard = getNewPlayerBoard();
   const targetFieldIdx = 5;
   opponentPlayerBoard[targetFieldIdx] = 1;
+  opponentPlayerBoard[0] = 0;
 
   const diceValue = 2;
   const gameContext = getContextWithBoards(
@@ -80,6 +81,7 @@ Deno.test("should move current player token to occupied enemey field and kill", 
   assertEquals(updatedContext.boardDark[currentTokenIdx], 0);
   assertEquals(updatedContext.boardDark[targetFieldIdx], 1);
   assertEquals(updatedContext.boardLight[targetFieldIdx], 0);
+  assertEquals(updatedContext.boardLight[0], 1);
 });
 
 Deno.test("should move past opponent player token", () => {
