@@ -1,31 +1,25 @@
-import { ClientWebsocketMessages, ServerWebsocketMessages } from "@shared-models/message-types.model";
-import { createSignal } from "solid-js";
-import { handle } from "./handlers";
+import {ClientWebsocketMessages} from '@shared-models/message-types.model';
+import {handle} from './handlers';
 
-const [socket, setSocket] = createSignal<WebSocket>();
+let socket: WebSocket;
 
-export async function connectSocket (sessionId: string | undefined, quickMatch: boolean): Promise<void> {
+export async function connectSocket(quickMatch: boolean, sessionId?: string): Promise<void> {
   const { host, protocol } = location;
 
-  const webSocketURL = new URL(
-    `${protocol === "https:" ? "wss" : "ws"}://${host}/ws`,
-  );
+  const webSocketURL = new URL(`${protocol === "https:" ? "wss" : "ws"}://${host}/ws`);
 
-  if(sessionId) {
+  if(quickMatch) {
+      webSocketURL.searchParams.append("quickmatch", "true");
+  } else if(sessionId) {
       webSocketURL.searchParams.append("sessionId", sessionId);
   }
-  if(quickMatch) {
-      webSocketURL.searchParams.append("quickmatch", String(true));
-  }
 
-  const socket = new WebSocket(webSocketURL);
-
+  socket = new WebSocket(webSocketURL);
   return new Promise(resolve => {
       socket.onopen = () => {
           startSocketListeners(socket);
-          setSocket(socket);
           resolve();
-      }
+      };
   })
 }
 
@@ -35,8 +29,7 @@ const startSocketListeners = (socket: WebSocket) => {
     console.log(event);
     console.log(JSON.parse(event.data));
 
-    const message: ServerWebsocketMessages = JSON.parse(event.data);
-    handle(message);
+    handle(JSON.parse(event.data));
   };
 
   socket.onclose = (event) => {
@@ -50,10 +43,6 @@ const startSocketListeners = (socket: WebSocket) => {
   };
 };
 
-export const sendMessage = (
-  msg: ClientWebsocketMessages,
-) => {
-  const socketIns = socket();
-
-  socketIns?.send(JSON.stringify(msg));
+export const sendMessage = (msg: ClientWebsocketMessages) => {
+  socket?.send(JSON.stringify(msg));
 };

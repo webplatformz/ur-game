@@ -9,6 +9,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       manifest: {
         name: 'Urly',
+        short_name: 'Urly',
         description: 'The Royal Game of Ur',
         icons: [
           {

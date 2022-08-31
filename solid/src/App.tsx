@@ -6,21 +6,22 @@ import styles from "./App.module.css";
 import Login from "./screens/login/login";
 import BoardScreen from "./screens/game/game";
 import { connectSocket } from "./connection/connection";
-import {navigationState, setNavigationState} from "./navigation";
+import { navigationState, setNavigationState } from "./navigation";
+import { Mocks } from "./Mock";
 
 const App: Component = () => {
   async function handleQuickStart() {
-    await connectSocket(undefined, true);
+    await connectSocket(true, undefined);
     setNavigationState("IN_QUICKMATCH_PRE_GAME_LOBBY");
   }
 
   async function handleJoin(sessionId: string) {
-    await connectSocket(sessionId, false);
+    await connectSocket(false, sessionId);
     setNavigationState("IN_PRIVATE_PRE_GAME_LOBBY");
   }
 
   async function handleHost() {
-    await connectSocket(undefined, false);
+    await connectSocket(false, undefined);
     setNavigationState("IN_PRIVATE_PRE_GAME_LOBBY");
   }
 
@@ -35,6 +36,7 @@ const App: Component = () => {
 
   return (
     <div class={styles.App}>
+      <Mocks />
       <Switch>
         <Match when={navigationState() === "LOGGED_OUT"}>
           <Header />
