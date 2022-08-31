@@ -3,10 +3,15 @@
   "version": "0.0.0",
   "description": "",
   "scripts": {
+    "prestart": "npm run generate-types",
     "start": "vite",
+    "predev": "npm run generate-types",
     "dev": "vite",
+    "prebuild": "npm run generate-types",
     "build": "vite build",
-    "serve": "vite preview"
+    "preserve": "npm run generate-types",
+    "serve": "vite preview",
+    "generate-types": "deno task generate-types --cwd .."
   },
   "license": "MIT",
   "devDependencies": {
