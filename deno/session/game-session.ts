@@ -29,12 +29,15 @@ export class GameSession {
       socket,
     );
     playerSession.onOpen = () => {
-      playerSession.send({type: "gamesession", sessionId: this.sessionId});
-      const playerValues =  Object.values(this.players);
-      if (playerValues.length === 2 && playerValues.every(value => value.connected)) {
+      playerSession.send({ type: "gamesession", sessionId: this.sessionId });
+      const playerValues = Object.values(this.players);
+      if (
+        playerValues.length === 2 &&
+        playerValues.every((value) => value.connected)
+      ) {
         this.start()
-            .then(() => console.log("Game finished"))
-            .catch(() => console.error("Game errored"));
+          .then(() => console.log("Game finished"))
+          .catch(() => console.error("Game errored"));
       }
     };
     playerSession.onClose = () => this.removePlayer(playerColor);
