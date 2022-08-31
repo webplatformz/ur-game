@@ -33,7 +33,10 @@ const Field: Component<FieldProps> = (
   return (
     <div
       style={{'grid-area': `${owner}${idx}`}}
-      class={style.field}
+      classList={{
+        [style.field]: true,
+        [style.fieldBoard]: idx > 0 && idx < 15,
+      }}
     >
       <Show when={tokenCount()}>
         <Token count={tokenCount} owner={tokenOwner}/>
