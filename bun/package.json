@@ -1,0 +1,11 @@
+{
+  "name": "ur-bot",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "serve": "bun run index.ts"
+  },
+  "devDependencies": {
+    "bun-types": "^0.1.0"
+  }
+}
