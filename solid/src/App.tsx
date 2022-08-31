@@ -25,7 +25,7 @@ const App: Component = () => {
     setNavigationState("IN_PRIVATE_PRE_GAME_LOBBY");
   }
 
-  function handleCloseLobby() {
+  function handleClose() {
     setNavigationState("IN_MENU_SCREEN");
   }
 
@@ -50,13 +50,13 @@ const App: Component = () => {
           />
         </Match>
         <Match when={navigationState() === "IN_QUICKMATCH_PRE_GAME_LOBBY"}>
-          <PreGameLobby onClose={handleCloseLobby} />
+          <PreGameLobby onClose={handleClose} />
         </Match>
         <Match when={navigationState() === "IN_PRIVATE_PRE_GAME_LOBBY"}>
-          <PreGameLobby onClose={handleCloseLobby} isPrivateGame />
+          <PreGameLobby onClose={handleClose} isPrivateGame />
         </Match>
         <Match when={navigationState() === "IN_GAME"}>
-          <BoardScreen />
+          <BoardScreen exitGame={handleClose}/>
         </Match>
       </Switch>
     </div>
