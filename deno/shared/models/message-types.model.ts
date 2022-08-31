@@ -1,4 +1,4 @@
-import { GameState } from "./game-state.model.ts";
+import { GameContext } from "./game-context.model.ts";
 import { Players } from "./players.model.ts";
 import { DiceRoll } from "./dice-roll.model.ts";
 import { Move } from "./move.model.ts";
@@ -16,7 +16,7 @@ export type ClientWebsocketMessages =
 
 export type ServerWebsocketMessages =
   | WebsocketMessage<"gamesession", GameSession>
-  | WebsocketMessage<"gamestate", GameState>
+  | WebsocketMessage<"gamestate", GameContext>
   | WebsocketMessage<"players", Players>
   | WebsocketMessage<"diceroll", DiceRoll>
   | WebsocketMessage<"error", ErrorPayload>
