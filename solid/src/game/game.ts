@@ -6,32 +6,32 @@ import { playerColor } from "../connection/session";
 
 const [boardDark, setBoardDark] = createSignal<GameContext["boardDark"]>([]);
 const [boardLight, setBoardLight] = createSignal<GameContext["boardLight"]>([]);
-const [currentPlayer, setCurrentPlayer] = createSignal<
-  GameContext["currentPlayer"]
->("dark");
-const [isFinished, setIsFinished] = createSignal<boolean>(
-  false,
-);
+const [currentPlayer, setCurrentPlayer] =
+  createSignal<GameContext["currentPlayer"]>("dark");
+const [isFinished, setIsFinished] = createSignal<boolean>(false);
 const [boardConfig, setBoardConfig] = createSignal<GameContext["boardConfig"]>(
-  [],
+  []
 );
-const [diceRoll, loadDiceRoll] = createSignal<DiceRoll["values"]>(
-  [0, 0, 0, 0],
-);
+const [diceRoll, loadDiceRoll] = createSignal<DiceRoll["values"]>([0, 0, 0, 0]);
+const [gameState, setGameState] = createSignal<GameContext["state"]>("initial");
+
+const isItPlayersTurn = () => currentPlayer() === playerColor();
 
 export const boards = () => {
   return playerColor() === "light"
     ? { boardPlayer: boardLight(), boardOpponent: boardDark() }
     : { boardPlayer: boardDark(), boardOpponent: boardLight() };
-}
+};
 
 export const updateGame = (gameContext: GameContext) => {
   batch(() => {
     setBoardDark(gameContext.boardDark);
     setBoardLight(gameContext.boardLight);
     setCurrentPlayer(gameContext.currentPlayer);
-    setIsFinished(gameContext.state === 'finished');
+    setIsFinished(gameContext.state === "finished");
     setBoardConfig(gameContext.boardConfig);
+    loadDiceRoll(gameContext.currentDiceRoll);
+    setGameState(gameContext.state);
   });
 };
 
@@ -46,5 +46,6 @@ export {
   currentPlayer,
   diceRoll,
   isFinished,
-  loadDiceRoll,
+  gameState,
+  isItPlayersTurn,
 };
