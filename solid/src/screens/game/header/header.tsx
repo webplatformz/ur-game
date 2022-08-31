@@ -1,13 +1,19 @@
 import {Component} from 'solid-js';
 import logo from '../../../logo.svg';
-import exit from '../../../assets/exit.svg';
+import exitIcon from '../../../assets/exit.svg';
 import styles from './header.module.css'
 
-const Header: Component = () => {
+type Props = {
+    exit: () => void
+}
+
+const Header: Component<Props> = ({ exit }) => {
+
+
     return (
         <header class={styles.header}>
             <img alt="logo" class={styles.logo} src={logo}/>
-            <img alt="exitGame" class={styles.exit} src={exit}/>
+            <button class={styles.exit} onClick={exit}><img alt="exitGame" src={exitIcon}/></button>
         </header>
     );
 };

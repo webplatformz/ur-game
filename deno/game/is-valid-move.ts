@@ -7,8 +7,12 @@ export function isValidMove(
   diceValue: number,
 ): boolean {
   if (diceValue === 0) {
-    return true;
+    return false;
   }
+  if (!isValidInput(targetIdx, diceValue, gameContext.boardConfig.length)) {
+    return false;
+  }
+
   const { currentPlayerBoard, opponentPlayerBoard } = getCurrentPlayerBoards(
     gameContext,
   );
@@ -20,13 +24,9 @@ export function isValidMove(
   const hasReachedEnd = targetIdx === gameContext.boardConfig.length - 1;
   const isCapturableField = opponentPlayerBoard[targetIdx] !== 0 &&
     targetField.isBattleField && !targetField.isSafe;
+  const hasTokenToMove = currentPlayerBoard[targetIdx - diceValue] > 0;
 
-  return isValidMoveInput(
-    currentPlayerBoard,
-    targetIdx,
-    diceValue,
-    gameContext.boardConfig.length,
-  ) &&
+  return hasTokenToMove &&
     (
       hasTargetCapacity ||
       hasReachedEnd ||
@@ -34,14 +34,8 @@ export function isValidMove(
     );
 }
 
-function isValidMoveInput(
-  currentPlayerBoard: number[],
-  targetIdx: number,
-  diceValue: number,
-  boardSize: number,
-) {
-  const hasTokenToMove = currentPlayerBoard[targetIdx - diceValue] > 0;
+function isValidInput(targetIdx: number, diceValue: number, boardSize: number) {
   const isTargetOnBoard = targetIdx >= 0 && targetIdx < boardSize;
   const isValidDiceValue = diceValue >= 0 && diceValue <= 4;
-  return hasTokenToMove && isTargetOnBoard && isValidDiceValue;
+  return isTargetOnBoard && isValidDiceValue;
 }

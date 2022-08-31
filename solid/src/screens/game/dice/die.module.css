@@ -1,0 +1,11 @@
+.triangelContainer {
+}
+
+.triangle {
+ stroke: var(--main-color);
+ stroke-width: 10;
+}
+
+.black {
+ fill: var(--main-color);
+}

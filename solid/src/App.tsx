@@ -7,7 +7,6 @@ import Login from "./screens/login/login";
 import BoardScreen from "./screens/game/game";
 import { connectSocket } from "./connection/connection";
 import { navigationState, setNavigationState } from "./navigation";
-import { Mocks } from "./Mock";
 
 const App: Component = () => {
   async function handleQuickStart() {
@@ -25,7 +24,7 @@ const App: Component = () => {
     setNavigationState("IN_PRIVATE_PRE_GAME_LOBBY");
   }
 
-  function handleCloseLobby() {
+  function handleClose() {
     setNavigationState("IN_MENU_SCREEN");
   }
 
@@ -36,7 +35,6 @@ const App: Component = () => {
 
   return (
     <div class={styles.App}>
-      <Mocks />
       <Switch>
         <Match when={navigationState() === "LOGGED_OUT"}>
           <Header />
@@ -50,13 +48,13 @@ const App: Component = () => {
           />
         </Match>
         <Match when={navigationState() === "IN_QUICKMATCH_PRE_GAME_LOBBY"}>
-          <PreGameLobby onClose={handleCloseLobby} />
+          <PreGameLobby onClose={handleClose} />
         </Match>
         <Match when={navigationState() === "IN_PRIVATE_PRE_GAME_LOBBY"}>
-          <PreGameLobby onClose={handleCloseLobby} isPrivateGame />
+          <PreGameLobby onClose={handleClose} isPrivateGame />
         </Match>
         <Match when={navigationState() === "IN_GAME"}>
-          <BoardScreen />
+          <BoardScreen exitGame={handleClose}/>
         </Match>
       </Switch>
     </div>

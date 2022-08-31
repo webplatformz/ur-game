@@ -1,4 +1,4 @@
-import { assertEquals } from "https://deno.land/std@0.153.0/testing/asserts.ts";
+import { assertEquals } from "asserts";
 import { getNextPlayer } from "../game/player.ts";
 
 Deno.test("should switch player for normal fields", () => {

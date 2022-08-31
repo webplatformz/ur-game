@@ -44,3 +44,13 @@ Deno.test("is invalid if dice value if invalid", () => {
   assertEquals(isValidMove(ctx, 0, -2), false);
   assertEquals(isValidMove(ctx, 8, 8), false);
 });
+
+Deno.test("is invalid for a dice value of zero", () => {
+  const ctx = getContextWithBoards();
+  assertEquals(isValidMove(ctx, 3, 0), false);
+});
+
+Deno.test("is invalid if target is outside board", () => {
+  const ctx = getContextWithBoards();
+  assertEquals(isValidMove(ctx, 20, 1), false);
+});

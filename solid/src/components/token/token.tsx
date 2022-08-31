@@ -1,19 +1,28 @@
-import { Accessor, Component } from "solid-js";
+import { Accessor, Component, Show } from "solid-js";
 import { TokenOwner } from "../../game/useField";
 import style from "./token.module.css";
 
 type TokenProps = {
   count: Accessor<number>;
-  owner: Accessor<TokenOwner>;
+  owner: Accessor<TokenOwner | null>;
+  tokenType: 'standard' | 'ghost';
 };
 
 const Token: Component<TokenProps> = (
-  { count, owner },
+  { count, owner, tokenType },
 ) => {
-  const colorClass = owner() === "player" ? style.player : style.opponent;
-  const classes = [style.circle, colorClass].join(" ");
-
-  return <div class={classes}>{count()}</div>;
+  return (
+    <div
+      classList={{
+        [style.circle]: true,
+        [style.player]: owner() === 'player',
+        [style.opponent]: owner() === 'opponent',
+        [style.ghost]: tokenType === 'ghost',
+      }}
+    >
+        <Show when={count() > 1}>{count()}</Show>
+    </div>
+  );
 };
 
 export default Token;
