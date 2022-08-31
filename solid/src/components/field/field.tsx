@@ -3,6 +3,7 @@ import {FieldOwner, useField} from "../../game/useField";
 import style from "./field.module.css";
 import rosette from "./../../assets/rosette.png"
 import empty from "./../../assets/empty.png"
+import Token from "../token/token";
 
 
 type FieldProps = {
@@ -26,6 +27,7 @@ const Field: Component<FieldProps> = (
 
   return (
     <div style={{"grid-area": `${owner}${idx}`}}>
+      <Token count={tokenCount()}/>
       <img alt="square" class={style.square} src={chooseImage()}/>
     </div>
   );
