@@ -1,8 +1,5 @@
+import { ClientWebsocketMessages, ServerWebsocketMessages } from "@shared-models/message-types.model";
 import { createSignal } from "solid-js";
-import {
-  ClientWebsocketMessages,
-  ServerWebsocketMessages,
-} from "../../../deno/shared/models/message-types.model";
 import { handle } from "./handlers";
 
 const [socket, setSocket] = createSignal<WebSocket>();

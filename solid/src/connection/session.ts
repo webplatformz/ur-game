@@ -1,5 +1,5 @@
+import { PlayerColor } from "@shared-models/game-state.model";
 import { batch, createSignal } from "solid-js";
-import { PlayerColor } from "../../../deno/shared/models/game-state.model";
 
 const [sessionId, setSessionId] = createSignal<string>();
 const [playerColor, setPlayerColor] = createSignal<PlayerColor>();

@@ -1,13 +1,13 @@
+import { DiceRoll } from "@shared-models/dice-roll.model";
+import { GameState } from "@shared-models/game-state.model";
 import { batch, createSignal } from "solid-js";
-import { GameState } from "../../../deno/shared/models/game-state.model";
-import { DiceRoll } from "../../../deno/shared/models/dice-roll.model";
 import { sendMessage } from "../connection/connection";
 
 const [boardBlack, setBoardBlack] = createSignal<GameState["boardBlack"]>([]);
 const [boardWhite, setBoardWhite] = createSignal<GameState["boardWhite"]>([]);
 const [currentPlayer, setCurrentPlayer] = createSignal<
   GameState["currentPlayer"]
->("white");
+>("dark");
 const [isFinished, setIsFinished] = createSignal<GameState["isFinished"]>(
   false,
 );
@@ -15,7 +15,7 @@ const [boardConfig, setBoardConfig] = createSignal<GameState["boardConfig"]>(
   [],
 );
 const [diceRoll, loadDiceRoll] = createSignal<DiceRoll["values"]>(
-  [],
+  [0, 0, 0, 0],
 );
 
 export const updateGame = (gameState: GameState) => {
