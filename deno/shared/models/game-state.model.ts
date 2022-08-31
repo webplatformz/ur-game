@@ -1,7 +1,7 @@
 // @ts-ignore deno style imports
 import { Field } from "./field.model.ts";
 
-export type PlayerColor = "white" | "black";
+export type PlayerColor = "light" | "dark";
 
 export interface GameState {
   boardWhite: number[];

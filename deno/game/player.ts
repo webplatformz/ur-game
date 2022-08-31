@@ -7,5 +7,5 @@ export function getNextPlayer(
 ) {
   return canRollAgainField(targetIdx)
     ? currentPlayer
-    : (currentPlayer === "white" ? "black" : "white");
+    : (currentPlayer === "light" ? "dark" : "light");
 }

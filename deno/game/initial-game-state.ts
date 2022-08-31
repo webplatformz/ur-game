@@ -7,7 +7,7 @@ export function getInitialGameState(): GameState {
     boardBlack: getNewPlayerBoard(),
     boardWhite: getNewPlayerBoard(),
     isFinished: false,
-    currentPlayer: "black",
+    currentPlayer: "dark",
     boardConfig: getBoardConfig(),
   };
 }
