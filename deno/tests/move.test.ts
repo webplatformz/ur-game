@@ -122,10 +122,10 @@ Deno.test("should switch player after move", () => {
   const targetFieldIdx = 1;
   const diceValue = 1;
 
-  assertEquals(gameState.currentPlayer, "black");
+  assertEquals(gameState.currentPlayer, "dark");
   const updatedState = moveToTargetIdx(gameState, targetFieldIdx, diceValue);
 
-  assertEquals(updatedState.currentPlayer, "white");
+  assertEquals(updatedState.currentPlayer, "light");
 });
 
 Deno.test("should not switch player after moving to roll again field", () => {
@@ -134,10 +134,10 @@ Deno.test("should not switch player after moving to roll again field", () => {
   const targetFieldIdx = 8;
   const diceValue = 1;
 
-  assertEquals(gameState.currentPlayer, "black");
+  assertEquals(gameState.currentPlayer, "dark");
   const updatedState = moveToTargetIdx(gameState, targetFieldIdx, diceValue);
 
-  assertEquals(updatedState.currentPlayer, "black");
+  assertEquals(updatedState.currentPlayer, "dark");
 });
 
 Deno.test("should return movable fields for initial board", () => {

@@ -24,17 +24,20 @@ export class GameSession {
   }
 
   addPlayer(socket: WebSocket) {
-    const playerColor = this.players["black"] ? "white" : "black";
+    const playerColor = this.players["dark"] ? "light" : "dark";
     const playerSession = new PlayerSession(
       socket,
     );
     playerSession.onOpen = () => {
-      playerSession.send({type: "gamesession", sessionId: this.sessionId});
-      const playerValues =  Object.values(this.players);
-      if (playerValues.length === 2 && playerValues.every(value => value.connected)) {
+      playerSession.send({ type: "gamesession", sessionId: this.sessionId, playerColor });
+      const playerValues = Object.values(this.players);
+      if (
+        playerValues.length === 2 &&
+        playerValues.every((value) => value.connected)
+      ) {
         this.start()
-            .then(() => console.log("Game finished"))
-            .catch(() => console.error("Game errored"));
+          .then(() => console.log("Game finished"))
+          .catch(() => console.error("Game errored"));
       }
     };
     playerSession.onClose = () => this.removePlayer(playerColor);

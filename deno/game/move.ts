@@ -12,7 +12,7 @@ export function moveToTargetIdx(
   const { currentPlayer } = gameState;
   const currTokenIdx = targetIdx - diceValue;
 
-  const isCurrentPlayerWhite = currentPlayer === "white";
+  const isCurrentPlayerWhite = currentPlayer === "light";
   const { currentPlayerBoard, opponentPlayerBoard } = getCurrentPlayerBoards(
     gameState,
   );
