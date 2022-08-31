@@ -1,6 +1,8 @@
 const sourceDir = "./deno/shared/models";
 const targetDir = "./shared/models";
 
+await Deno.mkdir(targetDir, {recursive: true});
+
 [...Deno.readDirSync(sourceDir)]
   .filter((entry) => entry.isFile)
   .map((file) => file.name)
