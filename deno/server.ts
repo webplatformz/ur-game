@@ -1,7 +1,7 @@
-import { parse, serve, serveFile } from "./deps.ts";
+import {exists, parse, serve, serveFile} from './deps.ts';
 import { handleWebsocketConnection } from "./session/session-handler.ts";
 
-function reqHandler(req: Request) {
+async function reqHandler(req: Request) {
   const appDistDir = parse(Deno.args).dist || "solid";
   const url = new URL(req.url);
   if (url.pathname.startsWith("/ws")) {
@@ -18,7 +18,7 @@ function reqHandler(req: Request) {
 
     return response;
   }
-  if (url.pathname.startsWith("/assets")) {
+  if (url.pathname !== '/' && await exists(`${Deno.cwd()}/${appDistDir}/${url.pathname}`)) {
     return serveFile(req, `${Deno.cwd()}/${appDistDir}/${url.pathname}`);
   }
   return serveFile(req, `${Deno.cwd()}/${appDistDir}/index.html`);

@@ -4,7 +4,7 @@ import PreGameLobby from "./screens/pre-game-lobby/pre-game-lobby";
 import Header from "./components/header/header";
 import styles from "./App.module.css";
 import Login from "./screens/login/login";
-import BoardScreen from "./screens/board-screen/board-screen";
+import BoardScreen from "./screens/game/game";
 import { connectSocket } from "./connection/connection";
 import {navigationState, setNavigationState} from "./navigation";
 

@@ -4,16 +4,16 @@ import { getInitialGameState } from "../game/initial-game-state.ts";
 
 Deno.test("get empty score from initial state", () => {
   const gs = getInitialGameState();
-  assertEquals(getScore(gs), { black: 0, white: 0 });
+  assertEquals(getScore(gs), { dark: 0, light: 0 });
 });
 
 Deno.test("get accurate score", () => {
   const gs = getInitialGameState();
-  const blackScore = 7;
-  gs.boardBlack[0] = 7 - blackScore;
-  gs.boardBlack[gs.boardBlack.length - 1] = blackScore;
-  const whiteScore = 4;
-  gs.boardWhite[0] = 7 - whiteScore;
-  gs.boardWhite[gs.boardWhite.length - 1] = whiteScore;
-  assertEquals(getScore(gs), { black: blackScore, white: whiteScore });
+  const darkScore = 7;
+  gs.boardDark[0] = 7 - darkScore;
+  gs.boardDark[gs.boardDark.length - 1] = darkScore;
+  const lightScore = 4;
+  gs.boardLight[0] = 7 - lightScore;
+  gs.boardLight[gs.boardLight.length - 1] = lightScore;
+  assertEquals(getScore(gs), { dark: darkScore, light: lightScore });
 });

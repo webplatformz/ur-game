@@ -1,13 +1,14 @@
+import { DiceRoll } from "@shared-models/dice-roll.model";
+import { GameState } from "@shared-models/game-state.model";
 import { batch, createSignal } from "solid-js";
-import { GameState } from "../../../deno/shared/models/game-state.model";
-import { DiceRoll } from "../../../deno/shared/models/dice-roll.model";
 import { sendMessage } from "../connection/connection";
+import {playerColor} from "../connection/session";
 
-const [boardBlack, setBoardBlack] = createSignal<GameState["boardBlack"]>([]);
-const [boardWhite, setBoardWhite] = createSignal<GameState["boardWhite"]>([]);
+const [boardDark, setBoardDark] = createSignal<GameState["boardDark"]>([]);
+const [boardLight, setBoardLight] = createSignal<GameState["boardLight"]>([]);
 const [currentPlayer, setCurrentPlayer] = createSignal<
   GameState["currentPlayer"]
->("white");
+>("dark");
 const [isFinished, setIsFinished] = createSignal<GameState["isFinished"]>(
   false,
 );
@@ -15,13 +16,19 @@ const [boardConfig, setBoardConfig] = createSignal<GameState["boardConfig"]>(
   [],
 );
 const [diceRoll, loadDiceRoll] = createSignal<DiceRoll["values"]>(
-  [],
+  [0, 0, 0, 0],
 );
+
+export const boards = () => {
+  return playerColor() === "light"
+  ? { boardPlayer: boardLight(), boardOpponent: boardDark()}
+  : { boardPlayer: boardDark(), boardOpponent: boardLight()};
+}
 
 export const updateGame = (gameState: GameState) => {
   batch(() => {
-    setBoardBlack(gameState.boardBlack);
-    setBoardWhite(gameState.boardWhite);
+    setBoardDark(gameState.boardDark);
+    setBoardLight(gameState.boardLight);
     setCurrentPlayer(gameState.currentPlayer);
     setIsFinished(gameState.isFinished);
     setBoardConfig(gameState.boardConfig);
@@ -33,9 +40,9 @@ export const roll = () => {
 };
 
 export {
-  boardBlack,
+  boardDark,
   boardConfig,
-  boardWhite,
+  boardLight,
   currentPlayer,
   diceRoll,
   isFinished,

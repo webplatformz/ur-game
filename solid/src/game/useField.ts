@@ -1,17 +1,18 @@
-import { GameState } from "../../../deno/shared/models/game-state.model";
-import { boardBlack, boardConfig, boardWhite } from "./game";
+import {boardConfig, boards} from "./game";
 
-export type FieldOwner = GameState["currentPlayer"] | "battle";
+export type FieldOwner = "opponent" | "battle" | "player";
 
 export const useField = (idx: number, owner: FieldOwner) => {
   const tokenCount = () => {
-    const countBlack = boardBlack()[idx] ?? 0;
-    const countWhite = boardWhite()[idx] ?? 0;
 
-    if (owner === "white") return countWhite;
-    if (owner === "black") return countBlack;
+    const {boardOpponent, boardPlayer} = boards()
+    const countOpponent = boardOpponent[idx] ?? 0;
+    const countPlayer = boardPlayer[idx] ?? 0;
 
-    return countBlack + countWhite;
+    if (owner === "player") return countPlayer;
+    if (owner === "opponent") return countOpponent;
+
+    return countOpponent + countPlayer;
   };
 
   const config = () => boardConfig()[idx];

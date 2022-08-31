@@ -1,4 +1,4 @@
 export interface Score {
-  black: number;
-  white: number;
+  dark: number;
+  light: number;
 }

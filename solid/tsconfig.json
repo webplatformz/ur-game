@@ -10,6 +10,11 @@
     "jsxImportSource": "solid-js",
     "types": ["vite/client"],
     "noEmit": true,
-    "isolatedModules": true
-  }
+    "isolatedModules": true,
+    "paths": {
+      "@shared-models/*": ["../shared/models/*"]
+    }
+  },
+  "include": ["src/**/*", "../shared/models/*"],
+  "exclude": ["node_modules"]
 }

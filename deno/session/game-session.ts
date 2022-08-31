@@ -29,7 +29,11 @@ export class GameSession {
       socket,
     );
     playerSession.onOpen = () => {
-      playerSession.send({ type: "gamesession", sessionId: this.sessionId, playerColor });
+      playerSession.send({
+        type: "gamesession",
+        sessionId: this.sessionId,
+        playerColor,
+      });
       const playerValues = Object.values(this.players);
       if (
         playerValues.length === 2 &&

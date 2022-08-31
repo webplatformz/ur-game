@@ -1,20 +1,13 @@
-// @ts-ignore deno style imports
 import { GameState } from "./game-state.model.ts";
-// @ts-ignore deno style imports
 import { Players } from "./players.model.ts";
-// @ts-ignore deno style imports
 import { DiceRoll } from "./dice-roll.model.ts";
-// @ts-ignore deno style imports
 import { Move } from "./move.model.ts";
-// @ts-ignore deno style imports
 import { Score } from "./score.model.ts";
-// @ts-ignore deno style imports
 import { ErrorPayload } from "./error.model.ts";
-// @ts-ignore deno style imports
 import { GameSession } from "./game-session.model.ts";
 
 type WebsocketMessage<T extends string, P> = { type: T } & P;
-type EmptyPayload = {};
+type EmptyPayload = Record<never, never>;
 
 export type ClientWebsocketMessages =
   | WebsocketMessage<"ready", EmptyPayload>
