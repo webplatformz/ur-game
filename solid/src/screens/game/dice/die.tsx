@@ -29,11 +29,9 @@ type Props = {
   black: boolean;
   startPosition: TrianglePosition;
   endPosition: TrianglePosition;
-  readyToRoll: boolean;
+  inRollState: boolean;
 };
 const Die: Component<Props> = (props) => {
-  console.log("props", props);
-
   const rollAnimations: Animations = {
     x: undefined,
     y: undefined,
@@ -49,7 +47,7 @@ const Die: Component<Props> = (props) => {
   };
 
   createEffect(() => {
-    if (!props.readyToRoll) {
+    if (props.inRollState) {
       startAnimations(rollAnimations);
     } else {
       startAnimations(resetAnimations);
