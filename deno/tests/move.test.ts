@@ -13,7 +13,11 @@ Deno.test("should move current player token from start to first field", () => {
   assertEquals(gameContext.boardDark[startFieldIdx], 7);
   assertEquals(gameContext.boardDark[targetFieldIdx], 0);
 
-  const updatedContext = moveToTargetIdx(gameContext, targetFieldIdx, diceValue);
+  const updatedContext = moveToTargetIdx(
+    gameContext,
+    targetFieldIdx,
+    diceValue,
+  );
 
   assertEquals(updatedContext.boardDark[startFieldIdx], 6);
   assertEquals(updatedContext.boardDark[targetFieldIdx], 1);
@@ -28,13 +32,20 @@ Deno.test("should move current player token from start to first field and not ki
   opponentPlayerBoard[targetFieldIdx] = 1;
 
   const diceValue = 1;
-  const gameContext = getContextWithBoards(currentPlayerBoard, opponentPlayerBoard);
+  const gameContext = getContextWithBoards(
+    currentPlayerBoard,
+    opponentPlayerBoard,
+  );
 
   assertEquals(gameContext.boardDark[startFieldIdx], 7);
   assertEquals(gameContext.boardDark[targetFieldIdx], 0);
   assertEquals(gameContext.boardLight[targetFieldIdx], 1);
 
-  const updatedContext = moveToTargetIdx(gameContext, targetFieldIdx, diceValue);
+  const updatedContext = moveToTargetIdx(
+    gameContext,
+    targetFieldIdx,
+    diceValue,
+  );
 
   assertEquals(updatedContext.boardDark[startFieldIdx], 6);
   assertEquals(updatedContext.boardDark[targetFieldIdx], 1);
@@ -51,13 +62,20 @@ Deno.test("should move current player token to occupied enemey field and kill", 
   opponentPlayerBoard[targetFieldIdx] = 1;
 
   const diceValue = 2;
-  const gameContext = getContextWithBoards(currentPlayerBoard, opponentPlayerBoard);
+  const gameContext = getContextWithBoards(
+    currentPlayerBoard,
+    opponentPlayerBoard,
+  );
 
   assertEquals(gameContext.boardDark[currentTokenIdx], 1);
   assertEquals(gameContext.boardDark[targetFieldIdx], 0);
   assertEquals(gameContext.boardLight[targetFieldIdx], 1);
 
-  const updatedContext = moveToTargetIdx(gameContext, targetFieldIdx, diceValue);
+  const updatedContext = moveToTargetIdx(
+    gameContext,
+    targetFieldIdx,
+    diceValue,
+  );
 
   assertEquals(updatedContext.boardDark[currentTokenIdx], 0);
   assertEquals(updatedContext.boardDark[targetFieldIdx], 1);
@@ -75,14 +93,21 @@ Deno.test("should move past opponent player token", () => {
 
   const targetFieldIdx = 7;
   const diceValue = 4;
-  const gameContext = getContextWithBoards(currentPlayerBoard, opponentPlayerBoard);
+  const gameContext = getContextWithBoards(
+    currentPlayerBoard,
+    opponentPlayerBoard,
+  );
 
   assertEquals(gameContext.boardDark[currentTokenIdx], 1);
   assertEquals(gameContext.boardDark[targetFieldIdx], 0);
   assertEquals(gameContext.boardLight[targetFieldIdx], 0);
   assertEquals(gameContext.boardLight[opponentTokenIdx], 1);
 
-  const updatedContext = moveToTargetIdx(gameContext, targetFieldIdx, diceValue);
+  const updatedContext = moveToTargetIdx(
+    gameContext,
+    targetFieldIdx,
+    diceValue,
+  );
 
   assertEquals(updatedContext.boardDark[currentTokenIdx], 0);
   assertEquals(updatedContext.boardDark[targetFieldIdx], 1);
@@ -101,14 +126,21 @@ Deno.test("should not past opponent player token", () => {
 
   const targetFieldIdx = 7;
   const diceValue = 4;
-  const gameContext = getContextWithBoards(currentPlayerBoard, opponentPlayerBoard);
+  const gameContext = getContextWithBoards(
+    currentPlayerBoard,
+    opponentPlayerBoard,
+  );
 
   assertEquals(gameContext.boardDark[currentTokenIdx], 1);
   assertEquals(gameContext.boardDark[targetFieldIdx], 0);
   assertEquals(gameContext.boardLight[targetFieldIdx], 0);
   assertEquals(gameContext.boardLight[opponentTokenIdx], 1);
 
-  const updatedContext = moveToTargetIdx(gameContext, targetFieldIdx, diceValue);
+  const updatedContext = moveToTargetIdx(
+    gameContext,
+    targetFieldIdx,
+    diceValue,
+  );
 
   assertEquals(updatedContext.boardDark[currentTokenIdx], 0);
   assertEquals(updatedContext.boardDark[targetFieldIdx], 1);
@@ -123,7 +155,11 @@ Deno.test("should switch player after move", () => {
   const diceValue = 1;
 
   assertEquals(gameContext.currentPlayer, "dark");
-  const updatedContext = moveToTargetIdx(gameContext, targetFieldIdx, diceValue);
+  const updatedContext = moveToTargetIdx(
+    gameContext,
+    targetFieldIdx,
+    diceValue,
+  );
 
   assertEquals(updatedContext.currentPlayer, "light");
 });
@@ -135,7 +171,11 @@ Deno.test("should not switch player after moving to roll again field", () => {
   const diceValue = 1;
 
   assertEquals(gameContext.currentPlayer, "dark");
-  const updatedContext = moveToTargetIdx(gameContext, targetFieldIdx, diceValue);
+  const updatedContext = moveToTargetIdx(
+    gameContext,
+    targetFieldIdx,
+    diceValue,
+  );
 
   assertEquals(updatedContext.currentPlayer, "dark");
 });
