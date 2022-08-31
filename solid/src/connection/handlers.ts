@@ -8,12 +8,14 @@ export function handle(message: ServerWebsocketMessages) {
     case "gamesession":
       loadSession(message.sessionId, message.playerColor);
       break;
-    case "gamestate":
-      updateGame(message);
-      navigateToGameIfNecessary();
-      break;
-    case "diceroll":
-      loadDiceRoll(message.values);
+    case "gamecontext":
+      if (message.state === 'roll') {
+        updateGame(message);
+        navigateToGameIfNecessary();
+      }
+      if (message.state === 'move') {
+        loadDiceRoll(message.currentDiceRoll);
+      }
       break;
   }
 }
