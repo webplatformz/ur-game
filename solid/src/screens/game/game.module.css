@@ -1,5 +1,6 @@
 .board {
   margin: 4rem;
+  flex-grow: 1;
 }
 
 .content {
