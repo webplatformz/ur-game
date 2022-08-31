@@ -112,7 +112,7 @@ const Dice: Component<Props> = (props) => {
     getState().type === "PLAYER_ROLLED";
 
   function isDiceDark(diceIndex: number) {
-    return getDiceValues()[diceIndex] === 1;
+    return getDiceValues()[diceIndex] === 0;
   }
 
   return (
