@@ -49,5 +49,5 @@ const startSocketListeners = (socket: WebSocket) => {
 };
 
 export const sendMessage = (msg: ClientWebsocketMessages) => {
-  socket!.send(JSON.stringify(msg));
+  socket?.send(JSON.stringify(msg));
 };
