@@ -75,17 +75,20 @@ export class GameSession {
         await this.onPlayerMessage(this.gameState.currentPlayer, "roll");
         const diceRoll = rollDice();
         const diceSum = diceRollSum(diceRoll);
+        const validTargets = getPossibleTargetFields(this.gameState, diceSum);
         this.broadcast({
           type: "diceroll",
           values: diceRoll,
-          validTargets: getPossibleTargetFields(this.gameState, diceSum),
+          validTargets: validTargets,
         });
-        const { targetIdx } = await this.onPlayerMessage(
-          this.gameState.currentPlayer,
-          "move",
-        ) as Move;
-        if (isValidMove(this.gameState, targetIdx, diceSum)) {
-          this.gameState = moveToTargetIdx(this.gameState, targetIdx, diceSum);
+        if (validTargets.length > 0) {
+          const { targetIdx } = await this.onPlayerMessage(
+            this.gameState.currentPlayer,
+            "move",
+          ) as Move;
+          if (isValidMove(this.gameState, targetIdx, diceSum)) {
+            this.gameState = moveToTargetIdx(this.gameState, targetIdx, diceSum);
+          }
         }
         this.gameState.isFinished = isFinished(this.gameState);
       } catch (err) {
