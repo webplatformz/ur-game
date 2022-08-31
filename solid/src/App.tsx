@@ -11,17 +11,17 @@ import { Mocks } from "./Mock";
 
 const App: Component = () => {
   async function handleQuickStart() {
-    await connectSocket(undefined, true);
+    await connectSocket(true, undefined);
     setNavigationState("IN_QUICKMATCH_PRE_GAME_LOBBY");
   }
 
   async function handleJoin(sessionId: string) {
-    await connectSocket(sessionId, false);
+    await connectSocket(false, sessionId);
     setNavigationState("IN_PRIVATE_PRE_GAME_LOBBY");
   }
 
   async function handleHost() {
-    await connectSocket(undefined, false);
+    await connectSocket(false, undefined);
     setNavigationState("IN_PRIVATE_PRE_GAME_LOBBY");
   }
 
