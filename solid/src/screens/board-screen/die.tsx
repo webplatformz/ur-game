@@ -1,4 +1,4 @@
-import { Component, createEffect, Show } from "solid-js";
+import { Component, createEffect } from "solid-js";
 
 import styles from "./die.module.css";
 
@@ -14,6 +14,17 @@ function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
+type Animations = {
+  x: SVGAnimationElement | undefined;
+  y: SVGAnimationElement | undefined;
+  rotate: SVGAnimationElement | undefined;
+  color: SVGAnimationElement | undefined;
+};
+
+function startAnimations(animations: Animations) {
+  Object.values(animations).forEach((a) => a?.beginElement());
+}
+
 type Props = {
   black: boolean;
   startPosition: TrianglePosition;
@@ -23,25 +34,30 @@ type Props = {
 const Die: Component<Props> = (props) => {
   console.log("props", props);
 
+  const rollAnimations: Animations = {
+    x: undefined,
+    y: undefined,
+    rotate: undefined,
+    color: undefined,
+  };
+
+  const resetAnimations: Animations = {
+    x: undefined,
+    y: undefined,
+    rotate: undefined,
+    color: undefined,
+  };
+
   createEffect(() => {
     if (!props.readyToRoll) {
-      animateXRoll?.beginElement();
-      animateYRoll?.beginElement();
-      animateRotateRoll?.beginElement();
+      startAnimations(rollAnimations);
     } else {
-      animateXReset?.beginElement();
-      animateYReset?.beginElement();
-      animateRotateReset?.beginElement();
+      startAnimations(resetAnimations);
     }
   });
 
-  let animateXRoll: SVGAnimationElement | undefined;
-  let animateYRoll: SVGAnimationElement | undefined;
-  let animateRotateRoll: SVGAnimationElement | undefined;
-
-  let animateXReset: SVGAnimationElement | undefined;
-  let animateYReset: SVGAnimationElement | undefined;
-  let animateRotateReset: SVGAnimationElement | undefined;
+  const colorToggleDuration = getRandomInt(1, 9) / 100 + 0.2;
+  const nrOfColorToggles = Math.floor(2 / colorToggleDuration);
 
   return (
     <svg
@@ -53,7 +69,7 @@ const Die: Component<Props> = (props) => {
       viewBox="-50 -50 200 200"
     >
       <animate
-        ref={animateXRoll}
+        ref={rollAnimations.x}
         attributeName="x"
         values={`${props.startPosition.x};${props.endPosition.x}`}
         dur="2s"
@@ -61,7 +77,7 @@ const Die: Component<Props> = (props) => {
         fill="freeze"
       />
       <animate
-        ref={animateXReset}
+        ref={resetAnimations.x}
         attributeName="x"
         values={`${props.endPosition.x};${props.startPosition.x}`}
         dur="1s"
@@ -69,7 +85,7 @@ const Die: Component<Props> = (props) => {
         fill="freeze"
       />
       <animate
-        ref={animateYRoll}
+        ref={rollAnimations.y}
         attributeName="y"
         values={`${props.startPosition.y};${props.endPosition.y}`}
         dur="2s"
@@ -77,7 +93,7 @@ const Die: Component<Props> = (props) => {
         fill="freeze"
       />
       <animate
-        ref={animateYReset}
+        ref={resetAnimations.y}
         attributeName="y"
         values={`${props.endPosition.y};${props.startPosition.y}`}
         dur="1s"
@@ -86,12 +102,22 @@ const Die: Component<Props> = (props) => {
       />
       <polygon points="" />
       <polygon
+        fill="white"
         transform={`rotate(${props.startPosition.rotation} 46.65 46.65)`}
-        points="0,93.3 100,93.3 50,6.7"
+        points="0,78.868 100,78.868 50,-7.735"
         classList={{ [styles.triangle]: true, [styles.black]: props.black }}
       >
+        <animate
+          ref={rollAnimations.color}
+          attributeName="fill"
+          from="var(--main-color)"
+          to="white"
+          dur={`${colorToggleDuration}s`}
+          calcMode="discrete"
+          repeatCount={nrOfColorToggles}
+        />
         <animateTransform
-          ref={animateRotateRoll}
+          ref={rollAnimations.rotate}
           attributeName="transform"
           type="rotate"
           from={`${props.startPosition.rotation} 46.65 46.65`}
@@ -102,7 +128,7 @@ const Die: Component<Props> = (props) => {
           fill="freeze"
         />
         <animateTransform
-          ref={animateRotateReset}
+          ref={resetAnimations.rotate}
           attributeName="transform"
           type="rotate"
           from={`${props.endPosition.rotation} 50 50`}

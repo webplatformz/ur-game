@@ -106,7 +106,7 @@ const Dice: Component<Props> = (props) => {
             startPosition={startPosition[1]}
             endPosition={endPosition[1]}
             readyToRoll={getState().type === "READY_TO_ROLL"}
-            black={false}
+            black={true}
           />
           <Die
             startPosition={startPosition[2]}

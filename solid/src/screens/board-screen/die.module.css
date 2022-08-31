@@ -1,9 +1,7 @@
 .triangelContainer {
- background-color: aqua;
 }
 
 .triangle {
- fill: white;
  stroke: var(--main-color);
  stroke-width: 10;
 }
