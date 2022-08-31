@@ -3,8 +3,8 @@ import { GameState } from "@shared-models/game-state.model";
 import { batch, createSignal } from "solid-js";
 import { sendMessage } from "../connection/connection";
 
-const [boardBlack, setBoardBlack] = createSignal<GameState["boardBlack"]>([]);
-const [boardWhite, setBoardWhite] = createSignal<GameState["boardWhite"]>([]);
+const [boardDark, setBoardDark] = createSignal<GameState["boardDark"]>([]);
+const [boardLight, setBoardLight] = createSignal<GameState["boardLight"]>([]);
 const [currentPlayer, setCurrentPlayer] = createSignal<
   GameState["currentPlayer"]
 >("dark");
@@ -20,8 +20,8 @@ const [diceRoll, loadDiceRoll] = createSignal<DiceRoll["values"]>(
 
 export const updateGame = (gameState: GameState) => {
   batch(() => {
-    setBoardBlack(gameState.boardBlack);
-    setBoardWhite(gameState.boardWhite);
+    setBoardDark(gameState.boardDark);
+    setBoardLight(gameState.boardLight);
     setCurrentPlayer(gameState.currentPlayer);
     setIsFinished(gameState.isFinished);
     setBoardConfig(gameState.boardConfig);
@@ -33,9 +33,9 @@ export const roll = () => {
 };
 
 export {
-  boardBlack,
+  boardDark,
   boardConfig,
-  boardWhite,
+  boardLight,
   currentPlayer,
   diceRoll,
   isFinished,

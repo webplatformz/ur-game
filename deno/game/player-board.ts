@@ -9,8 +9,8 @@ export function getNewPlayerBoard(): number[] {
 export function getCurrentPlayerBoards(
   gameState: GameState,
 ): { currentPlayerBoard: number[]; opponentPlayerBoard: number[] } {
-  const { boardBlack, boardWhite, currentPlayer } = gameState;
+  const { boardDark, boardLight, currentPlayer } = gameState;
   return currentPlayer === "light"
-    ? { currentPlayerBoard: boardWhite, opponentPlayerBoard: boardBlack }
-    : { currentPlayerBoard: boardBlack, opponentPlayerBoard: boardWhite };
+    ? { currentPlayerBoard: boardLight, opponentPlayerBoard: boardDark }
+    : { currentPlayerBoard: boardDark, opponentPlayerBoard: boardLight };
 }

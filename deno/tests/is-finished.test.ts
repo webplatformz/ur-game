@@ -4,8 +4,8 @@ import { getStateWithBoards } from "./test-helper.ts";
 
 Deno.test("is finished true", () => {
   const gs = getStateWithBoards();
-  gs.boardBlack[0] = 0;
-  gs.boardBlack[gs.boardBlack.length - 1] = 7;
+  gs.boardDark[0] = 0;
+  gs.boardDark[gs.boardDark.length - 1] = 7;
   assertEquals(isFinished(gs), true);
 });
 
