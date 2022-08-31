@@ -1,6 +1,8 @@
-import { Accessor, Component, Show } from "solid-js";
-import { TokenOwner } from "../../game/useField";
-import style from "./token.module.css";
+import {Accessor, Component, Show} from 'solid-js';
+import {TokenOwner} from '../../game/useField';
+import style from './token.module.css';
+import {playerColor} from '../../connection/session';
+import {PlayerColor} from '@shared-models/game-context.model';
 
 type TokenProps = {
   count: Accessor<number>;
@@ -9,18 +11,24 @@ type TokenProps = {
 };
 
 const Token: Component<TokenProps> = (
-  { count, owner, tokenType },
+  {count, owner, tokenType},
 ) => {
+  function getTokenColor(): PlayerColor {
+    if (owner() === 'player') {
+      return playerColor()!;
+    }
+    return playerColor() === 'dark' ? 'light' : 'dark';
+  }
+
   return (
     <div
       classList={{
         [style.circle]: true,
-        [style.player]: owner() === 'player',
-        [style.opponent]: owner() === 'opponent',
+        [style[getTokenColor()]]: true,
         [style.ghost]: tokenType === 'ghost',
       }}
     >
-        <Show when={count() > 1}>{count()}</Show>
+      <Show when={count() > 1}>{count()}</Show>
     </div>
   );
 };
