@@ -13,12 +13,11 @@ type FieldProps = {
 const Field: Component<FieldProps> = (
   { idx, owner },
 ) => {
-  const { config, tokenCount, tokenOwner } = useField(idx, owner);
-
-  const { canThrowAgain } = config();
-  // const { count: oldTokenCount, owner: tokenOwner } = token();
+  const { tokenCount, tokenOwner, config } = useField(idx, owner);
 
   const chooseImage = () => {
+    const { canThrowAgain } = config();
+
     if (canThrowAgain) return rosette;
 
     return empty;
