@@ -2,7 +2,6 @@ import { boardConfig, boards } from "./game";
 
 export type FieldOwner = "opponent" | "battle" | "player";
 export type TokenOwner = Exclude<FieldOwner, "battle">;
-type FieldToken = { count: number; owner: TokenOwner };
 
 export const useField = (idx: number, owner: FieldOwner) => {
   const tokenCount = () => {
@@ -14,35 +13,23 @@ export const useField = (idx: number, owner: FieldOwner) => {
     if (owner === "player") return countPlayer;
     if (owner === "opponent") return countOpponent;
 
-    const battleCount = countPlayer + countOpponent;
-    return battleCount;
+    return countPlayer + countOpponent;
   };
 
-  const tokenOwner = () => {
-    const { boardPlayer } = boards();
-
-    const countPlayer = boardPlayer[idx] ?? 0;
-
+  const tokenOwner = (): TokenOwner | null => {
     if (owner !== "battle") return owner;
 
-    return countPlayer > 0 ? "player" : "opponent";
-  };
-
-  const token = (): FieldToken => {
     const { boardPlayer, boardOpponent } = boards();
-
     const countPlayer = boardPlayer[idx] ?? 0;
     const countOpponent = boardOpponent[idx] ?? 0;
 
-    if (owner === "player") return { count: countPlayer, owner };
-    if (owner === "opponent") return { count: countOpponent, owner };
+    if (countPlayer > 0) return "player";
+    if (countOpponent > 0) return "opponent";
 
-    const battleCount = countPlayer + countOpponent;
-    const battleOwner = countPlayer > 0 ? "player" : "opponent";
-    return { count: battleCount, owner: battleOwner };
+    return null;
   };
 
   const config = () => boardConfig()[idx];
 
-  return { token, config, tokenCount, tokenOwner };
+  return { config, tokenCount, tokenOwner };
 };

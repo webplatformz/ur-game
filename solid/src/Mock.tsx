@@ -123,9 +123,12 @@ const mockBoard = [7, ...Array(mockBoardConfig.length - 1).fill(0)];
 const mockInitialGameState: GameContext = {
   boardDark: mockBoard,
   boardLight: mockBoard,
-  isFinished: false,
+  state: "move",
   currentPlayer: "light",
   boardConfig: mockBoardConfig,
+  currentDiceRoll: [1, 0, 1, 0],
+  currentValidTargets: [1, 0, 1],
+  score: { dark: 1, light: 0 },
 };
 
 const simulateMove = () => {
@@ -138,8 +141,6 @@ const simulateMove = () => {
   blackCopy[tokenIdx + 1] = blackCopy[tokenIdx + 1] + 1;
 
   updateGame({ ...mockInitialGameState, boardDark: blackCopy });
-
-  debugger;
 };
 
 export const Mocks: Component = () => {
