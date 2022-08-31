@@ -1,18 +1,18 @@
 import { DiceRoll } from "@shared-models/dice-roll.model";
-import { GameState } from "@shared-models/game-state.model";
+import { GameContext } from "@shared-models/game-context.model";
 import { batch, createSignal } from "solid-js";
 import { sendMessage } from "../connection/connection";
-import {playerColor} from "../connection/session";
+import { playerColor } from "../connection/session";
 
-const [boardDark, setBoardDark] = createSignal<GameState["boardDark"]>([]);
-const [boardLight, setBoardLight] = createSignal<GameState["boardLight"]>([]);
+const [boardDark, setBoardDark] = createSignal<GameContext["boardDark"]>([]);
+const [boardLight, setBoardLight] = createSignal<GameContext["boardLight"]>([]);
 const [currentPlayer, setCurrentPlayer] = createSignal<
-  GameState["currentPlayer"]
+  GameContext["currentPlayer"]
 >("dark");
-const [isFinished, setIsFinished] = createSignal<GameState["isFinished"]>(
+const [isFinished, setIsFinished] = createSignal<boolean>(
   false,
 );
-const [boardConfig, setBoardConfig] = createSignal<GameState["boardConfig"]>(
+const [boardConfig, setBoardConfig] = createSignal<GameContext["boardConfig"]>(
   [],
 );
 const [diceRoll, loadDiceRoll] = createSignal<DiceRoll["values"]>(
@@ -21,17 +21,17 @@ const [diceRoll, loadDiceRoll] = createSignal<DiceRoll["values"]>(
 
 export const boards = () => {
   return playerColor() === "light"
-  ? { boardPlayer: boardLight(), boardOpponent: boardDark()}
-  : { boardPlayer: boardDark(), boardOpponent: boardLight()};
+    ? { boardPlayer: boardLight(), boardOpponent: boardDark() }
+    : { boardPlayer: boardDark(), boardOpponent: boardLight() };
 }
 
-export const updateGame = (gameState: GameState) => {
+export const updateGame = (gameContext: GameContext) => {
   batch(() => {
-    setBoardDark(gameState.boardDark);
-    setBoardLight(gameState.boardLight);
-    setCurrentPlayer(gameState.currentPlayer);
-    setIsFinished(gameState.isFinished);
-    setBoardConfig(gameState.boardConfig);
+    setBoardDark(gameContext.boardDark);
+    setBoardLight(gameContext.boardLight);
+    setCurrentPlayer(gameContext.currentPlayer);
+    setIsFinished(gameContext.state === 'finished');
+    setBoardConfig(gameContext.boardConfig);
   });
 };
 

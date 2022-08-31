@@ -1,11 +1,11 @@
-import { getInitialGameState } from "../game/initial-game-state.ts";
+import { getInitialGameContext } from "../game/get-initial-game-context.ts";
 
-export function getStateWithBoards(
+export function getContextWithBoards(
   boardDark?: number[],
   boardLight?: number[],
 ) {
   return {
-    ...getInitialGameState(),
+    ...getInitialGameContext(),
     ...(boardDark != null && { boardDark }),
     ...(boardLight != null && { boardLight }),
   };

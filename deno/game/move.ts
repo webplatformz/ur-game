@@ -1,20 +1,20 @@
-import { GameState } from "../shared/models/game-state.model.ts";
+import { GameContext } from "../shared/models/game-context.model.ts";
 import { isSafeField } from "./board.ts";
 import { getNextPlayer } from "./player.ts";
 import { getCurrentPlayerBoards } from "./player-board.ts";
 import { isValidMove } from "./is-valid-move.ts";
 
 export function moveToTargetIdx(
-  gameState: GameState,
+  gameContext: GameContext,
   targetIdx: number,
   diceValue: number,
-): GameState {
-  const { currentPlayer } = gameState;
+): GameContext {
+  const { currentPlayer } = gameContext;
   const currTokenIdx = targetIdx - diceValue;
 
   const isCurrentPlayerLight = currentPlayer === "light";
   const { currentPlayerBoard, opponentPlayerBoard } = getCurrentPlayerBoards(
-    gameState,
+    gameContext,
   );
 
   const updatedCurrPlayerBoard = moveToken(
@@ -26,10 +26,10 @@ export function moveToTargetIdx(
     opponentPlayerBoard,
     targetIdx,
   );
-  const nextPlayer = getNextPlayer(gameState.currentPlayer, targetIdx);
+  const nextPlayer = getNextPlayer(gameContext.currentPlayer, targetIdx);
 
   return {
-    ...gameState,
+    ...gameContext,
     currentPlayer: nextPlayer,
     ...(isCurrentPlayerLight
       ? { boardLight: updatedCurrPlayerBoard }
@@ -54,10 +54,10 @@ function updateOpponentBoard(board: number[], targetIdx: number) {
 }
 
 export function getPossibleTargetFields(
-  gameState: GameState,
+  gameContext: GameContext,
   diceValue: number,
 ) {
-  const { currentPlayerBoard } = getCurrentPlayerBoards(gameState);
+  const { currentPlayerBoard } = getCurrentPlayerBoards(gameContext);
   return currentPlayerBoard
     .map((nrOfTokensOnField, idx) => ({
       tokens: nrOfTokensOnField,
@@ -65,7 +65,7 @@ export function getPossibleTargetFields(
     }))
     .filter(({ tokens }) => tokens > 0)
     .filter(({ fieldIdx }) =>
-      isValidMove(gameState, fieldIdx + diceValue, diceValue)
+      isValidMove(gameContext, fieldIdx + diceValue, diceValue)
     )
     .map(({ fieldIdx }) => fieldIdx + diceValue);
 }

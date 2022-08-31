@@ -1,4 +1,4 @@
-import {exists, parse, serve, serveFile} from './deps.ts';
+import { exists, parse, serve, serveFile } from "./deps.ts";
 import { handleWebsocketConnection } from "./session/session-handler.ts";
 
 async function reqHandler(req: Request) {
@@ -18,7 +18,10 @@ async function reqHandler(req: Request) {
 
     return response;
   }
-  if (url.pathname !== '/' && await exists(`${Deno.cwd()}/${appDistDir}/${url.pathname}`)) {
+  if (
+    url.pathname !== "/" &&
+    await exists(`${Deno.cwd()}/${appDistDir}/${url.pathname}`)
+  ) {
     return serveFile(req, `${Deno.cwd()}/${appDistDir}/${url.pathname}`);
   }
   return serveFile(req, `${Deno.cwd()}/${appDistDir}/index.html`);
