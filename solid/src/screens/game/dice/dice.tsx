@@ -75,7 +75,7 @@ const Dice: Component<Props> = (props) => {
   const [getState, setState] = createSignal<State>({
     type: "WAITING_ON_PLAYER_ROLL",
   });
-  const [getDiceValues, setDiceValues] = createSignal<(0 | 1)[]>([0, 0, 0, 0]);
+  const [getDiceValues, setDiceValues] = createSignal<(0 | 1)[]>([1, 1, 1, 1]);
 
   function handleClickRoll() {
     roll();
@@ -112,12 +112,25 @@ const Dice: Component<Props> = (props) => {
     getState().type === "PLAYER_ROLLED";
 
   function isDiceDark(diceIndex: number) {
-    return getDiceValues()[diceIndex] === 1;
+    return getDiceValues()[diceIndex] === 0;
+  }
+
+  function getDiceResultAsNumber() {
+    return getDiceValues().reduce<number>((curr, prev) => prev + curr, 0);
   }
 
   return (
     <div classList={{ [props.class]: true }}>
       <div classList={{ [styles.root]: true }}>
+        <div
+          classList={{
+            [styles.movesNrContainer]: true,
+            [styles.hidden]: !isRolledState(),
+          }}
+        >
+          Move <span class={styles.movesNr}>{getDiceResultAsNumber()}</span>{" "}
+          {getDiceResultAsNumber() === 1 ? "Tile" : "Tiles"}
+        </div>
         <svg
           class={styles.svgContainer}
           height="100%"
