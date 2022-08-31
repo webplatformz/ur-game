@@ -2,9 +2,10 @@ import { GameContext, PlayerColor } from "../shared/models/game-context.model";
 import { ClientWebsocketMessages, ServerWebsocketMessages } from "../shared/models/message-types.model";
 
 export class Bot {
+    public sessionId: string;
+
     private ws: WebSocket;
     private ctx: GameContext;
-    private sessionId: string;
     private color: PlayerColor;
 
     private readonly THINKING_TIME = 3000;
