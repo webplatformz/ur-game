@@ -6,8 +6,11 @@ export function getInitialGameContext(): GameContext {
   return {
     boardDark: getNewPlayerBoard(),
     boardLight: getNewPlayerBoard(),
-    isFinished: false,
     currentPlayer: "dark",
+    currentDiceRoll: [0, 0, 0, 0],
+    currentValidTargets: [],
     boardConfig: getBoardConfig(),
+    state: "initial",
+    score: { dark: 0, light: 0 },
   };
 }
