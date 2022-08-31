@@ -1,3 +1,9 @@
-.square {
+.field {
+  position: relative;
+}
+
+.fieldContent {
+  left: 0;
+  position: absolute;
   width: 100%;
 }

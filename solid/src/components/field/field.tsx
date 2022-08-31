@@ -26,9 +26,9 @@ const Field: Component<FieldProps> = (
 
 
   return (
-    <div style={{"grid-area": `${owner}${idx}`}}>
+    <div style={{"grid-area": `${owner}${idx}`}} class={style.field}>
       <Token count={tokenCount()}/>
-      <img alt="square" class={style.square} src={chooseImage()}/>
+      <img alt="square" class={style.fieldContent} src={chooseImage()}/>
     </div>
   );
 };
