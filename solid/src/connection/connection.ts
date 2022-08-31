@@ -1,8 +1,7 @@
-import { ClientWebsocketMessages, ServerWebsocketMessages } from "@shared-models/message-types.model";
-import { createSignal } from "solid-js";
-import { handle } from "./handlers";
+import {ClientWebsocketMessages, ServerWebsocketMessages} from '@shared-models/message-types.model';
+import {handle} from './handlers';
 
-const [socket, setSocket] = createSignal<WebSocket>();
+let socket: WebSocket;
 
 export async function connectSocket (sessionId: string | undefined, quickMatch: boolean): Promise<void> {
   const { host, protocol } = location;
@@ -18,14 +17,13 @@ export async function connectSocket (sessionId: string | undefined, quickMatch: 
       webSocketURL.searchParams.append("quickmatch", String(true));
   }
 
-  const socket = new WebSocket(webSocketURL);
+  socket = new WebSocket(webSocketURL);
 
   return new Promise(resolve => {
       socket.onopen = () => {
           startSocketListeners(socket);
-          setSocket(socket);
           resolve();
-      }
+      };
   })
 }
 
@@ -50,10 +48,6 @@ const startSocketListeners = (socket: WebSocket) => {
   };
 };
 
-export const sendMessage = (
-  msg: ClientWebsocketMessages,
-) => {
-  const socketIns = socket();
-
-  socketIns?.send(JSON.stringify(msg));
+export const sendMessage = (msg: ClientWebsocketMessages) => {
+  socket!.send(JSON.stringify(msg));
 };
