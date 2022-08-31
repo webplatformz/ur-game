@@ -2,6 +2,7 @@ import { DiceRoll } from "@shared-models/dice-roll.model";
 import { GameState } from "@shared-models/game-state.model";
 import { batch, createSignal } from "solid-js";
 import { sendMessage } from "../connection/connection";
+import {playerColor} from "../connection/session";
 
 const [boardDark, setBoardDark] = createSignal<GameState["boardDark"]>([]);
 const [boardLight, setBoardLight] = createSignal<GameState["boardLight"]>([]);
@@ -17,6 +18,12 @@ const [boardConfig, setBoardConfig] = createSignal<GameState["boardConfig"]>(
 const [diceRoll, loadDiceRoll] = createSignal<DiceRoll["values"]>(
   [0, 0, 0, 0],
 );
+
+export const boards = () => {
+  return playerColor() === "light"
+  ? { boardPlayer: boardLight(), boardOpponent: boardDark()}
+  : { boardPlayer: boardDark(), boardOpponent: boardLight()};
+}
 
 export const updateGame = (gameState: GameState) => {
   batch(() => {

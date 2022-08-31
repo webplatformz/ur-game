@@ -1,5 +1,9 @@
-import { Component } from "solid-js";
-import { FieldOwner, useField } from "../../game/useField";
+import {Component} from "solid-js";
+import {FieldOwner, useField} from "../../game/useField";
+import style from "./field.module.css";
+import rosette from "./../../assets/rosette.png"
+import empty from "./../../assets/empty.png"
+
 
 type FieldProps = {
   idx: number;
@@ -9,22 +13,20 @@ type FieldProps = {
 const Field: Component<FieldProps> = (
   { idx, owner },
 ) => {
-  const { tokenCount } = useField(idx, owner);
+  const { tokenCount,config } = useField(idx, owner);
+  const {canThrowAgain} = config();
+
+  const chooseImage = () => {
+    if (canThrowAgain) {
+      return rosette;
+    }
+    return empty;
+  };
+
 
   return (
-    <div
-      style={{
-        display: "flex",
-        "justify-content": "center",
-        "align-items": "center",
-        border: "white 1px solid",
-        width: "200px",
-        height: "200px",
-        "background-color": "orange",
-        "grid-area": `${owner}${idx}`,
-      }}
-    >
-      {tokenCount()}: {owner}-{idx}
+    <div style={{"grid-area": `${owner}${idx}`}}>
+      <img alt="square" class={style.square} src={chooseImage()}/>
     </div>
   );
 };
