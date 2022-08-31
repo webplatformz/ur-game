@@ -17,11 +17,11 @@
   font-size: 3.5vw;
 }
 
-.player {
+.dark {
   background: black;
 }
 
-.opponent {
+.light {
   background: white;
 }
 
