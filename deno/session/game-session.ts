@@ -28,15 +28,17 @@ export class GameSession {
     const playerSession = new PlayerSession(
       socket,
     );
-    playerSession.onOpen = () =>
-      playerSession.send({ type: "gamesession", sessionId: this.sessionId });
+    playerSession.onOpen = () => {
+      playerSession.send({type: "gamesession", sessionId: this.sessionId});
+      const playerValues =  Object.values(this.players);
+      if (playerValues.length === 2 && playerValues.every(value => value.connected)) {
+        this.start()
+            .then(() => console.log("Game finished"))
+            .catch(() => console.error("Game errored"));
+      }
+    };
     playerSession.onClose = () => this.removePlayer(playerColor);
     this.players[playerColor] = playerSession;
-    if (Object.keys(this.players).length === 2) {
-      this.start()
-        .then(() => console.log("Game finished"))
-        .catch(() => console.error("Game errored"));
-    }
   }
 
   removePlayer(playerColor: PlayerColor) {
