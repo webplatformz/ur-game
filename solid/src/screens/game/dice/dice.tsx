@@ -107,24 +107,6 @@ const Dice: Component<Props> = (props) => {
     }
   });
 
-  // TODO Delete
-  function handleMockNextState() {
-    switch (getState().type) {
-      case "WAITING_ON_PLAYER_ROLL":
-        setState({ type: "PLAYER_ROLLED", result: [0, 1, 1, 0] });
-        break;
-      case "PLAYER_ROLLED":
-        setState({ type: "WAITING_ON_OPPONENT_ROLL" });
-        break;
-      case "WAITING_ON_OPPONENT_ROLL":
-        setState({ type: "OPPONENT_ROLLED", result: [1, 1, 0, 0] });
-        break;
-      case "OPPONENT_ROLLED":
-        setState({ type: "WAITING_ON_PLAYER_ROLL" });
-        break;
-    }
-  }
-
   const isRolledState = () =>
     getState().type === "OPPONENT_ROLLED" ||
     getState().type === "PLAYER_ROLLED";
@@ -135,8 +117,6 @@ const Dice: Component<Props> = (props) => {
 
   return (
     <div classList={{ [props.class]: true }}>
-      {/*TODO Delete*/}
-      <button onClick={handleMockNextState}>MOCK NEXT ROUND</button>
       <div classList={{ [styles.root]: true }}>
         <svg
           class={styles.svgContainer}
