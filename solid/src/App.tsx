@@ -7,7 +7,6 @@ import Login from "./screens/login/login";
 import BoardScreen from "./screens/game/game";
 import { connectSocket } from "./connection/connection";
 import { navigationState, setNavigationState } from "./navigation";
-import { Mocks } from "./Mock";
 
 const App: Component = () => {
   async function handleQuickStart() {
@@ -36,7 +35,6 @@ const App: Component = () => {
 
   return (
     <div class={styles.App}>
-      <Mocks />
       <Switch>
         <Match when={navigationState() === "LOGGED_OUT"}>
           <Header />
