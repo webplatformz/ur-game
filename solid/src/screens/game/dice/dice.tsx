@@ -1,6 +1,7 @@
 import { Component, createEffect, createSignal, Show } from "solid-js";
 import Die, { TrianglePosition } from "./die";
 import styles from "./dice.module.css";
+import { diceRoll, gameState, isItPlayersTurn, roll } from "../../../game/game";
 
 // TODO: Use shared type
 type DiceResult = (0 | 1)[];
@@ -77,15 +78,33 @@ const Dice: Component<Props> = (props) => {
   const [getDiceValues, setDiceValues] = createSignal<(0 | 1)[]>([0, 0, 0, 0]);
 
   function handleClickRoll() {
-    // TODO
-    // roll();
-    handleMockNextState();
+    roll();
   }
 
   createEffect(() => {
     const state = getState();
     if (state.type === "OPPONENT_ROLLED" || state.type === "PLAYER_ROLLED")
       setDiceValues(state.result);
+  });
+
+  createEffect(() => {
+    console.log("new game context created");
+    switch (gameState()) {
+      case "move":
+        if (isItPlayersTurn()) {
+          setState({ type: "PLAYER_ROLLED", result: diceRoll() });
+        } else {
+          setState({ type: "OPPONENT_ROLLED", result: diceRoll() });
+        }
+        break;
+      case "roll":
+        if (isItPlayersTurn()) {
+          setState({ type: "WAITING_ON_PLAYER_ROLL" });
+        } else {
+          setState({ type: "WAITING_ON_OPPONENT_ROLL" });
+        }
+        break;
+    }
   });
 
   // TODO Delete
