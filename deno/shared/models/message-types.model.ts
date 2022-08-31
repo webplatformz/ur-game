@@ -7,7 +7,7 @@ import { ErrorPayload } from "./error.model.ts";
 import { GameSession } from "./game-session.model.ts";
 
 type WebsocketMessage<T extends string, P> = { type: T } & P;
-type EmptyPayload = {};
+type EmptyPayload = Record<never, never>;
 
 export type ClientWebsocketMessages =
   | WebsocketMessage<"ready", EmptyPayload>
