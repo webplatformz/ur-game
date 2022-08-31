@@ -24,7 +24,7 @@ export class GameSession {
   }
 
   addPlayer(socket: WebSocket) {
-    const playerColor = this.players["black"] ? "white" : "black";
+    const playerColor = this.players["dark"] ? "light" : "dark";
     const playerSession = new PlayerSession(
       socket,
     );
