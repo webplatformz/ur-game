@@ -5,7 +5,26 @@
     gap: 5rem;
 }
 
+.menuContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: fit-content;
+    gap: 2rem;
+}
+
+.menuContainer button {
+    margin: 0.5em;
+}
+
+.menuContainer input{
+    margin: 0.5em;
+}
+
 .joinContainer {
     display: flex;
     flex-direction: row;
+}
+
+.menuEntry {
 }

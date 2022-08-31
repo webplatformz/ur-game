@@ -2,6 +2,11 @@
   position: relative;
 }
 
+.fieldBoard {
+  background-color: var(--field-bg-color);
+  box-shadow: 0 0 0 4px var(--main-color);
+}
+
 .fieldContent {
   left: 0;
   position: absolute;
