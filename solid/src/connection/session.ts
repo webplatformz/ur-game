@@ -1,4 +1,4 @@
-import { PlayerColor } from "@shared-models/game-state.model";
+import { PlayerColor } from "@shared-models/game-context.model";
 import { batch, createSignal } from "solid-js";
 
 const [sessionId, setSessionId] = createSignal<string>();

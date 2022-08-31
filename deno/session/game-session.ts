@@ -1,8 +1,11 @@
 import { PlayerSession } from "./player-session.ts";
 import { generateSessionId } from "../id-utils.ts";
-import { GameState, PlayerColor } from "../shared/models/game-state.model.ts";
+import {
+  GameContext,
+  PlayerColor,
+} from "../shared/models/game-context.model.ts";
 import { getScore } from "../game/get-score.ts";
-import { getInitialGameState } from "../game/initial-game-state.ts";
+import { getInitialGameContext } from "../game/get-initial-game-context.ts";
 import {
   ClientWebsocketMessages,
   ServerWebsocketMessages,
@@ -17,7 +20,7 @@ export class GameSession {
   public readonly sessionId = generateSessionId();
   public onCleanUp?: () => void;
   private readonly players: { [k in PlayerColor]?: PlayerSession } = {};
-  private gameState: GameState = getInitialGameState();
+  private gameContext: GameContext = getInitialGameContext();
 
   constructor(socket: WebSocket) {
     this.addPlayer(socket);
@@ -69,13 +72,13 @@ export class GameSession {
   }
 
   async start(): Promise<void> {
-    while (!this.gameState.isFinished) {
+    while (!this.gameContext.isFinished) {
       try {
-        this.broadcast({ type: "gamestate", ...this.gameState });
-        await this.onPlayerMessage(this.gameState.currentPlayer, "roll");
+        this.broadcast({ type: "gamestate", ...this.gameContext });
+        await this.onPlayerMessage(this.gameContext.currentPlayer, "roll");
         const diceRoll = rollDice();
         const diceSum = diceRollSum(diceRoll);
-        const validTargets = getPossibleTargetFields(this.gameState, diceSum);
+        const validTargets = getPossibleTargetFields(this.gameContext, diceSum);
         this.broadcast({
           type: "diceroll",
           values: diceRoll,
@@ -83,19 +86,23 @@ export class GameSession {
         });
         if (validTargets.length > 0) {
           const { targetIdx } = await this.onPlayerMessage(
-            this.gameState.currentPlayer,
+            this.gameContext.currentPlayer,
             "move",
           ) as Move;
-          if (isValidMove(this.gameState, targetIdx, diceSum)) {
-            this.gameState = moveToTargetIdx(this.gameState, targetIdx, diceSum);
+          if (isValidMove(this.gameContext, targetIdx, diceSum)) {
+            this.gameContext = moveToTargetIdx(
+              this.gameContext,
+              targetIdx,
+              diceSum,
+            );
           }
         }
-        this.gameState.isFinished = isFinished(this.gameState);
+        this.gameContext.isFinished = isFinished(this.gameContext);
       } catch (err) {
         console.error(err.message);
         continue;
       }
-      this.broadcast({ type: "score", ...getScore(this.gameState) });
+      this.broadcast({ type: "score", ...getScore(this.gameContext) });
     }
   }
 }

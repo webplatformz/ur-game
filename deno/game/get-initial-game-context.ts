@@ -1,8 +1,8 @@
-import { GameState } from "../shared/models/game-state.model.ts";
+import { GameContext } from "../shared/models/game-context.model.ts";
 import { getBoardConfig } from "./board.ts";
 import { getNewPlayerBoard } from "./player-board.ts";
 
-export function getInitialGameState(): GameState {
+export function getInitialGameContext(): GameContext {
   return {
     boardDark: getNewPlayerBoard(),
     boardLight: getNewPlayerBoard(),
