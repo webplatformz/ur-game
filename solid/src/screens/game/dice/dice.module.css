@@ -17,8 +17,27 @@
     width: 100%;
     background: none;
     margin: 0;
-    padding-top: 12%;
-    padding-bottom: 60%;
+    height: 10vw;
+    display: inline-flex;
+    align-items: start;
+    justify-content: center;
+    padding-top: 1.2vw;
+    cursor: pointer;
+}
+
+@keyframes breathing {
+    0% {opacity: 0;}
+    100% {opacity: 0.5;}
+}
+
+.buttonGlow {
+    position: absolute;
+    background: white;
+    left: 0;
+    height: 10vw;
+    width: 100%;
+    animation: breathing 1s infinite alternate ease;
+    z-index: -1;
 }
 
 .button:hover, .button:focus {

@@ -8,19 +8,19 @@ type DiceResult = (0 | 1)[];
 
 type State =
   | {
-    type: "WAITING_ON_PLAYER_ROLL";
-  }
+      type: "WAITING_ON_PLAYER_ROLL";
+    }
   | {
-    type: "PLAYER_ROLLED";
-    result: DiceResult;
-  }
+      type: "PLAYER_ROLLED";
+      result: DiceResult;
+    }
   | {
-    type: "WAITING_ON_OPPONENT_ROLL";
-  }
+      type: "WAITING_ON_OPPONENT_ROLL";
+    }
   | {
-    type: "OPPONENT_ROLLED";
-    result: DiceResult;
-  };
+      type: "OPPONENT_ROLLED";
+      result: DiceResult;
+    };
 
 const startPosition: TrianglePosition[] = [
   {
@@ -128,8 +128,7 @@ const Dice: Component<Props> = (props) => {
             [styles.hidden]: !isRolledState(),
           }}
         >
-          Move <span class={styles.movesNr}>{getDiceResultAsNumber()}</span>
-          {" "}
+          Move <span class={styles.movesNr}>{getDiceResultAsNumber()}</span>{" "}
           {getDiceResultAsNumber() === 1 ? "Tile" : "Tiles"}
         </div>
         <svg
@@ -167,6 +166,7 @@ const Dice: Component<Props> = (props) => {
           <button class={styles.button} onClick={handleClickRoll}>
             ROLL!
           </button>
+          <div class={styles.buttonGlow} />
         </Show>
       </div>
     </div>
