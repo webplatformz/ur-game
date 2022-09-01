@@ -6,6 +6,8 @@ import empty from './../../assets/empty.png';
 import Token from '../token/token';
 import {currentValidTargets, gameState, isItPlayersTurn, move} from '../../game/game';
 
+export type TokenAnimation = "fromRight" | "fromLeft" | "fromTop" | "fromBottom";
+
 type FieldProps = {
   idx: number;
   owner: FieldOwner;
@@ -20,6 +22,26 @@ const Field: Component<FieldProps> = (
     const {canThrowAgain} = config();
     if (canThrowAgain) return rosette;
     return empty;
+  };
+
+  const animationDirection = () => {
+    const isBattle = owner === "battle";
+
+    if (isBattle) {
+      if (5 < idx) {
+        return "fromLeft";
+      } else {
+        return tokenOwner() === "opponent" ? "fromTop" : "fromBottom";
+      }
+    } else if (owner === "opponent" && idx === 13) {
+      return "fromBottom"
+    } else if (owner === "player" && idx === 13) {
+      return "fromTop"
+    } else if (0 < idx && idx != 13) {
+      return "fromRight";
+    }
+
+    return null;
   };
 
   function isValidMoveForCurrentPlayer() {
@@ -40,7 +62,7 @@ const Field: Component<FieldProps> = (
       onClick={() => isValidMoveForCurrentPlayer() && move(idx)}
     >
       <Show when={tokenCount()}>
-        <Token count={tokenCount} owner={tokenOwner}/>
+        <Token count={tokenCount} owner={tokenOwner} animationDirection={animationDirection}/>
       </Show>
       <img alt="square" class={style.fieldContent} src={chooseImage()}/>
     </div>
