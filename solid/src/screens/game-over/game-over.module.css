@@ -1,0 +1,29 @@
+.rootContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2em;
+}
+
+.winnerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+
+.victoryMsg {
+  font-size: 2em;
+}
+
+.playerName {
+  font-size: 3em;
+  font-weight: 600;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2em;
+}
