@@ -1,7 +1,7 @@
 import {Component, createEffect, createSignal, Show} from 'solid-js';
 import Die, {TrianglePosition} from './die';
 import styles from './dice.module.css';
-import {diceRoll, gameState, isItPlayersTurn, roll} from '../../../game/game';
+import {diceRoll, gameState, isPlayersTurn, roll, setDiceRollAnimationInProgress} from '../../../game/game';
 import {DiceValues} from '@shared-models/dice-values.model';
 
 type State =
@@ -73,10 +73,12 @@ const Dice: Component<Props> = (props) => {
   const [getState, setState] = createSignal<State>({
     type: "WAITING_ON_PLAYER_ROLL",
   });
-  const [getDiceValues, setDiceValues] = createSignal<(0 | 1)[]>([1, 1, 1, 1]);
+  const [getDiceValues, setDiceValues] = createSignal<DiceValues>([1, 1, 1, 1]);
 
   function handleClickRoll() {
+    setDiceRollAnimationInProgress(true);
     roll();
+    setTimeout(() => setDiceRollAnimationInProgress(false), 2_000);
   }
 
   createEffect(() => {
@@ -89,14 +91,14 @@ const Dice: Component<Props> = (props) => {
   createEffect(() => {
     switch (gameState()) {
       case "move":
-        if (isItPlayersTurn()) {
+        if (isPlayersTurn()) {
           setState({ type: "PLAYER_ROLLED", result: diceRoll() });
         } else {
           setState({ type: "OPPONENT_ROLLED", result: diceRoll() });
         }
         break;
       case "roll":
-        if (isItPlayersTurn()) {
+        if (isPlayersTurn()) {
           setState({ type: "WAITING_ON_PLAYER_ROLL" });
         } else {
           setState({ type: "WAITING_ON_OPPONENT_ROLL" });
