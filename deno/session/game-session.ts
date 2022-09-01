@@ -108,7 +108,9 @@ export class GameSession {
         }
         if (isFinished(this.gameContext)) {
           this.gameContext.state = "finished";
+          this.gameContext.currentPlayer = this.gameContext.currentPlayer === "light" ? "dark" : "light";
         }
+
         this.gameContext.score = getScore(this.gameContext);
       } catch (err) {
         console.error(err.message);

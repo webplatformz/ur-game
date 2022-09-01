@@ -5,11 +5,11 @@ import rosette from "./../../assets/rosette.png";
 import empty from "./../../assets/empty.png";
 import Token from "../token/token";
 import {
-  currentValidTargets,
+  currentValidTargets, diceRollAnimationInProgress,
   gameState,
-  isItPlayersTurn,
+  isPlayersTurn,
   move,
-} from "../../game/game";
+} from '../../game/game';
 
 export type TokenAnimation =
   | "fromRight"
@@ -53,7 +53,8 @@ const Field: Component<FieldProps> = ({ idx, owner }) => {
 
   function isValidMoveForCurrentPlayer() {
     return (
-      isItPlayersTurn() &&
+      !diceRollAnimationInProgress() &&
+      isPlayersTurn() &&
       gameState() === "move" &&
       owner !== "opponent" &&
       currentValidTargets().includes(idx)

@@ -1,6 +1,6 @@
-import { Component, createEffect, createSignal } from "solid-js";
+import {Accessor, Component, createEffect, createSignal} from 'solid-js';
 
-import styles from "./die.module.css";
+import styles from './die.module.css';
 
 export type TrianglePosition = {
   x: number;
@@ -25,13 +25,13 @@ function startAnimations(animations: Animations) {
   Object.values(animations).forEach((a) => a?.beginElement());
 }
 
-type Props = {
-  black: boolean;
+export interface DieProps {
+  black: Accessor<boolean>;
   startPosition: TrianglePosition;
   endPosition: TrianglePosition;
-  inRollState: boolean;
-};
-const Die: Component<Props> = (props) => {
+  inRollState: Accessor<boolean>;
+}
+const Die: Component<DieProps> = ({black, startPosition, endPosition, inRollState}) => {
   const [getRollState, setRollState] = createSignal(false);
   const rollAnimations: Animations = {
     x: undefined,
@@ -48,8 +48,8 @@ const Die: Component<Props> = (props) => {
   };
 
   createEffect(() => {
-    if (props.inRollState !== getRollState()) {
-      setRollState(props.inRollState);
+    if (inRollState() !== getRollState()) {
+      setRollState(inRollState());
     }
   });
 
@@ -68,8 +68,8 @@ const Die: Component<Props> = (props) => {
 
   return (
     <svg
-      x={props.startPosition.x}
-      y={props.startPosition.y}
+      x={startPosition.x}
+      y={startPosition.y}
       class={styles.triangelContainer}
       height="50"
       width="50"
@@ -78,7 +78,7 @@ const Die: Component<Props> = (props) => {
       <animate
         ref={rollAnimations.x}
         attributeName="x"
-        values={`${props.startPosition.x};${props.endPosition.x}`}
+        values={`${startPosition.x};${endPosition.x}`}
         dur="2s"
         begin="indefinite"
         fill="freeze"
@@ -86,7 +86,7 @@ const Die: Component<Props> = (props) => {
       <animate
         ref={resetAnimations.x}
         attributeName="x"
-        values={`${props.endPosition.x};${props.startPosition.x}`}
+        values={`${endPosition.x};${startPosition.x}`}
         dur="1s"
         begin="indefinite"
         fill="freeze"
@@ -94,7 +94,7 @@ const Die: Component<Props> = (props) => {
       <animate
         ref={rollAnimations.y}
         attributeName="y"
-        values={`${props.startPosition.y};${props.endPosition.y}`}
+        values={`${startPosition.y};${endPosition.y}`}
         dur="2s"
         begin="indefinite"
         fill="freeze"
@@ -102,16 +102,16 @@ const Die: Component<Props> = (props) => {
       <animate
         ref={resetAnimations.y}
         attributeName="y"
-        values={`${props.endPosition.y};${props.startPosition.y}`}
+        values={`${endPosition.y};${startPosition.y}`}
         dur="1s"
         begin="indefinite"
         fill="freeze"
       />
       <polygon
         fill="white"
-        transform={`rotate(${props.startPosition.rotation} 46.65 46.65)`}
+        transform={`rotate(${startPosition.rotation} 46.65 46.65)`}
         points="0,78.868 100,78.868 50,-7.735"
-        classList={{ [styles.triangle]: true, [styles.black]: props.black }}
+        classList={{ [styles.triangle]: true, [styles.black]: black() }}
       >
         <animate
           ref={rollAnimations.color}
@@ -127,9 +127,9 @@ const Die: Component<Props> = (props) => {
           ref={rollAnimations.rotate}
           attributeName="transform"
           type="rotate"
-          from={`${props.startPosition.rotation} 46.65 46.65`}
+          from={`${startPosition.rotation} 46.65 46.65`}
           to={`${
-            props.endPosition.rotation + 120 * getRandomInt(8, 16)
+            endPosition.rotation + 120 * getRandomInt(8, 16)
           } 46.65 46.65`}
           dur="2s"
           begin="indefinite"
@@ -139,8 +139,8 @@ const Die: Component<Props> = (props) => {
           ref={resetAnimations.rotate}
           attributeName="transform"
           type="rotate"
-          from={`${props.endPosition.rotation} 50 50`}
-          to={`${props.startPosition.rotation} 50 50`}
+          from={`${endPosition.rotation} 50 50`}
+          to={`${startPosition.rotation} 50 50`}
           dur="1s"
           fill="freeze"
         />
