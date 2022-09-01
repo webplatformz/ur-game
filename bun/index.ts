@@ -3,7 +3,7 @@ import { Bot } from "./bot";
 let bots: Bot[] = [];
 
 export default {
-    port: 9001,
+    port: 8080,
     fetch(req: Request) {
         const params = new URL(req.url).searchParams;
         const sessionId = params.get('sessionId');
