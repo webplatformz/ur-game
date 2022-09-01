@@ -49,7 +49,7 @@ export class Bot {
         if (this.ctx.state === 'move') {
             if (this.ctx.currentValidTargets.length > 0) {
                 await this.think();
-                this.send({ type: 'move', targetIdx: this.ctx.currentValidTargets[0] });
+                this.send({ type: 'move', targetIdx: this.ctx.currentValidTargets[this.ctx.currentValidTargets.length -1] });
             }
         }
     }
