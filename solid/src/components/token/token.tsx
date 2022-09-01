@@ -5,7 +5,7 @@ import style from "./token.module.css";
 type TokenProps = {
   count: Accessor<number>;
   owner: Accessor<TokenOwner | null>;
-  tokenType: 'standard' | 'ghost';
+  tokenType: "standard" | "ghost";
 };
 
 const Token: Component<TokenProps> = (
@@ -15,12 +15,12 @@ const Token: Component<TokenProps> = (
     <div
       classList={{
         [style.circle]: true,
-        [style.player]: owner() === 'player',
-        [style.opponent]: owner() === 'opponent',
-        [style.ghost]: tokenType === 'ghost',
+        [style.player]: owner() === "player",
+        [style.opponent]: owner() === "opponent",
+        [style.ghost]: tokenType === "ghost",
       }}
     >
-        <Show when={count() > 1}>{count()}</Show>
+      <Show when={count() > 1}>{count()}</Show>
     </div>
   );
 };
