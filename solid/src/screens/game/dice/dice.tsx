@@ -83,12 +83,12 @@ const Dice: Component<Props> = (props) => {
 
   createEffect(() => {
     const state = getState();
-    if (state.type === "OPPONENT_ROLLED" || state.type === "PLAYER_ROLLED")
+    if (state.type === "OPPONENT_ROLLED" || state.type === "PLAYER_ROLLED") {
       setDiceValues(state.result);
+    }
   });
 
   createEffect(() => {
-    console.log("new game context created");
     switch (gameState()) {
       case "move":
         if (isItPlayersTurn()) {
@@ -166,6 +166,7 @@ const Dice: Component<Props> = (props) => {
           <button class={styles.button} onClick={handleClickRoll}>
             ROLL!
           </button>
+          <div class={styles.buttonGlow} />
         </Show>
       </div>
     </div>

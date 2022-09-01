@@ -1,26 +1,31 @@
-import {ClientWebsocketMessages} from '@shared-models/message-types.model';
-import {handle} from './handlers';
+import { ClientWebsocketMessages } from "@shared-models/message-types.model";
+import { handle } from "./handlers";
 
 let socket: WebSocket;
 
-export async function connectSocket(quickMatch: boolean, sessionId?: string): Promise<void> {
+export async function connectSocket(
+  quickMatch: boolean,
+  sessionId?: string,
+): Promise<void> {
   const { host, protocol } = location;
 
-  const webSocketURL = new URL(`${protocol === "https:" ? "wss" : "ws"}://${host}/ws`);
+  const webSocketURL = new URL(
+    `${protocol === "https:" ? "wss" : "ws"}://${host}/ws`,
+  );
 
-  if(quickMatch) {
-      webSocketURL.searchParams.append("quickmatch", "true");
-  } else if(sessionId) {
-      webSocketURL.searchParams.append("sessionId", sessionId);
+  if (quickMatch) {
+    webSocketURL.searchParams.append("quickmatch", "true");
+  } else if (sessionId) {
+    webSocketURL.searchParams.append("sessionId", sessionId);
   }
 
   socket = new WebSocket(webSocketURL);
-  return new Promise(resolve => {
-      socket.onopen = () => {
-          startSocketListeners(socket);
-          resolve();
-      };
-  })
+  return new Promise((resolve) => {
+    socket.onopen = () => {
+      startSocketListeners(socket);
+      resolve();
+    };
+  });
 }
 
 const startSocketListeners = (socket: WebSocket) => {

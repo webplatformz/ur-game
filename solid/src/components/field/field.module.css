@@ -1,15 +1,48 @@
 .field {
-  position: relative;
+    position: relative;
 }
 
 .fieldBoard {
-  background-color: var(--field-bg-color);
-  box-shadow: 0 0 0 4px var(--main-color);
+    background-color: var(--field-bg-color);
+    box-shadow: 0 0 0 4px var(--main-color);
+}
+
+.fieldValidTarget {
+    cursor: pointer;
+}
+
+.fieldValidTarget.fieldBoard {
+    background-color: var(--field-bg-color);
+    animation: glow-onboard 1s infinite alternate-reverse ease;
+}
+
+.fieldValidTarget:not(.fieldBoard) {
+    background-color: var(--main-bg-color);
+    animation: glow-offboard 1s infinite alternate-reverse ease;
 }
 
 .fieldContent {
-  left: 0;
-  position: absolute;
-  width: 100%;
+    left: 0;
+    position: absolute;
+    width: 100%;
 }
 
+@keyframes glow-onboard {
+    0% {
+        background-color: var(--field-bg-color);
+    }
+
+    100% {
+        background-color: #a49094;
+    }
+}
+
+@keyframes glow-offboard {
+    0% {
+        background-color: var(--main-bg-color);
+    }
+
+    100% {
+        background-color: #bab0aa;
+    }
+}

@@ -10,13 +10,15 @@ type EmptyPayload = Record<never, never>;
 export type ClientWebsocketMessages =
   | WebsocketMessage<"ready", EmptyPayload>
   | WebsocketMessage<"roll", EmptyPayload>
-  | WebsocketMessage<"move", Move>;
+  | WebsocketMessage<"move", Move>
+  | WebsocketMessage<"leave", EmptyPayload>;
 
 export type ServerWebsocketMessages =
   | WebsocketMessage<"gamesession", GameSession>
   | WebsocketMessage<"gamecontext", GameContext>
   | WebsocketMessage<"players", Players>
-  | WebsocketMessage<"error", ErrorPayload>;
+  | WebsocketMessage<"error", ErrorPayload>
+  | WebsocketMessage<"menu", EmptyPayload>;
 
 export type WebsocketMessages =
   | ClientWebsocketMessages

@@ -15,14 +15,9 @@ const PreGameLobby: Component<Props> = ({ onClose, isPrivateGame = false }) => {
     <div class={styles.rootContainer}>
       <Header />
       <h3 class={styles.playerName}>Player {playerColor()}</h3>
-      <Show when={isPrivateGame}>
-        <div>
-          Room id:
-          <p class={styles.sessionId}>{sessionId()}</p>
-        </div>
-      </Show>
+      <Show when={isPrivateGame}>Room id: {sessionId()}</Show>
       <div class={styles.waitingForPlayerContainer}>
-        <p class={styles.waitingMessage}>Waiting for other Player</p>
+        <p>Waiting for other PlayUr</p>
         <Loader color={"var(--main-color)"} />
         <button onClick={onClose}>Leave Lobby</button>
       </div>
