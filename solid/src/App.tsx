@@ -12,17 +12,22 @@ import { leaveGame } from "./game/game";
 
 const App: Component = () => {
   async function handleQuickStart() {
-    await connectSocket(true, undefined);
+    await connectSocket(true, false, undefined);
+    setNavigationState("IN_QUICKMATCH_PRE_GAME_LOBBY");
+  }
+
+  async function handleBotMatch() {
+    await connectSocket(false, true, undefined);
     setNavigationState("IN_QUICKMATCH_PRE_GAME_LOBBY");
   }
 
   async function handleJoin(sessionId: string) {
-    await connectSocket(false, sessionId);
+    await connectSocket(false, false, sessionId);
     setNavigationState("IN_PRIVATE_PRE_GAME_LOBBY");
   }
 
   async function handleHost() {
-    await connectSocket(false, undefined);
+    await connectSocket(false, false, undefined);
     setNavigationState("IN_PRIVATE_PRE_GAME_LOBBY");
   }
 
@@ -51,6 +56,7 @@ const App: Component = () => {
             onHost={handleHost}
             onJoin={handleJoin}
             onQuickStart={handleQuickStart}
+            onBotStart={handleBotMatch}
           />
         </Match>
         <Match when={navigationState() === "IN_QUICKMATCH_PRE_GAME_LOBBY"}>

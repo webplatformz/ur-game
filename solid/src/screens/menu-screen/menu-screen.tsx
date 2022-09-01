@@ -8,14 +8,18 @@ type Props = {
   onHost: () => void;
   onJoin: (sessionId: string) => void;
   onQuickStart: () => void;
+  onBotStart: () => void;
 };
-const MenuScreen: Component<Props> = ({ onHost, onJoin, onQuickStart }) => {
+const MenuScreen: Component<Props> = ({ onHost, onJoin, onQuickStart, onBotStart }) => {
   return (
     <div class={styles.rootContainer}>
       <Header />
       <div class={styles.menuContainer}>
         <button class={styles.menuEntry} onClick={onQuickStart}>
           Quick Start
+        </button>
+        <button class={styles.menuEntry} onClick={onBotStart}>
+          Play against a bot
         </button>
         <InputContainer
           confirmInputValue={onJoin}

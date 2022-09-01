@@ -1,3 +1,4 @@
+import { BotPlayerSession } from "./bot-session.ts";
 import { GameSession } from "./game-session.ts";
 
 let quickMatchWaitingPlayerSession: GameSession | undefined = undefined;
@@ -11,6 +12,7 @@ function createCleanupSessionFunction(sessionId: string) {
 export function handleWebsocketConnection(
   socket: WebSocket,
   quickMatch: boolean,
+  botMatch: boolean,
   sessionId: string | null,
 ) {
   if (sessionId) {
@@ -35,6 +37,11 @@ export function handleWebsocketConnection(
       quickMatchWaitingPlayerSession.onCleanUp = () =>
         quickMatchWaitingPlayerSession = undefined;
     }
+  } else if (botMatch) {
+    const gameSession = new GameSession(socket);
+    gameSession.addPlayer();
+    gameSession.onCleanUp = createCleanupSessionFunction(gameSession.sessionId);
+    sessions.push(gameSession);
   } else {
     const gameSession = new GameSession(socket);
     gameSession.onCleanUp = createCleanupSessionFunction(gameSession.sessionId);
