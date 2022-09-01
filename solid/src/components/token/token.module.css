@@ -47,6 +47,10 @@
   position: absolute;
   z-index: 1;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   left: 0;
   right: 0;
   top: 0;
