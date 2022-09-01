@@ -1,26 +1,24 @@
-import { Component, createEffect, createSignal, Show } from "solid-js";
-import Die, { TrianglePosition } from "./die";
-import styles from "./dice.module.css";
-import { diceRoll, gameState, isItPlayersTurn, roll } from "../../../game/game";
-
-// TODO: Use shared type
-type DiceResult = (0 | 1)[];
+import {Component, createEffect, createSignal, Show} from 'solid-js';
+import Die, {TrianglePosition} from './die';
+import styles from './dice.module.css';
+import {diceRoll, gameState, isItPlayersTurn, roll} from '../../../game/game';
+import {DiceValues} from '@shared-models/dice-values.model';
 
 type State =
   | {
       type: "WAITING_ON_PLAYER_ROLL";
     }
   | {
-      type: "PLAYER_ROLLED";
-      result: DiceResult;
-    }
+    type: "PLAYER_ROLLED";
+    result: DiceValues;
+  }
   | {
       type: "WAITING_ON_OPPONENT_ROLL";
     }
   | {
-      type: "OPPONENT_ROLLED";
-      result: DiceResult;
-    };
+    type: "OPPONENT_ROLLED";
+    result: DiceValues;
+  };
 
 const startPosition: TrianglePosition[] = [
   {
@@ -112,7 +110,7 @@ const Dice: Component<Props> = (props) => {
     getState().type === "PLAYER_ROLLED";
 
   function isDiceDark(diceIndex: number) {
-    return getDiceValues()[diceIndex] === 0;
+    return () => getDiceValues()[diceIndex] === 0;
   }
 
   function getDiceResultAsNumber() {
@@ -140,25 +138,25 @@ const Dice: Component<Props> = (props) => {
           <Die
             startPosition={startPosition[0]}
             endPosition={endPosition[0]}
-            inRollState={isRolledState()}
+            inRollState={isRolledState}
             black={isDiceDark(0)}
           />
           <Die
             startPosition={startPosition[1]}
             endPosition={endPosition[1]}
-            inRollState={isRolledState()}
+            inRollState={isRolledState}
             black={isDiceDark(1)}
           />
           <Die
             startPosition={startPosition[2]}
             endPosition={endPosition[2]}
-            inRollState={isRolledState()}
+            inRollState={isRolledState}
             black={isDiceDark(2)}
           />
           <Die
             startPosition={startPosition[3]}
             endPosition={endPosition[3]}
-            inRollState={isRolledState()}
+            inRollState={isRolledState}
             black={isDiceDark(3)}
           />
         </svg>
