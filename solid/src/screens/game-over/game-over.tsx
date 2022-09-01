@@ -1,8 +1,8 @@
-import { Component } from 'solid-js';
+import { Component } from "solid-js";
 
-import styles from './game-over.module.css';
-import Header from '../../components/header/header';
-import { currentPlayer } from '../../game/game';
+import styles from "./game-over.module.css";
+import Header from "../../components/header/header";
+import { currentPlayer } from "../../game/game";
 
 type Props = {
   onRematch: () => void;

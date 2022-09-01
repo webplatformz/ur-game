@@ -1,4 +1,4 @@
-import { Component, createEffect } from "solid-js";
+import { Component, createEffect, createSignal } from "solid-js";
 
 import styles from "./die.module.css";
 
@@ -32,6 +32,7 @@ type Props = {
   inRollState: boolean;
 };
 const Die: Component<Props> = (props) => {
+  const [getRollState, setRollState] = createSignal(false);
   const rollAnimations: Animations = {
     x: undefined,
     y: undefined,
@@ -47,9 +48,17 @@ const Die: Component<Props> = (props) => {
   };
 
   createEffect(() => {
-    if (props.inRollState) {
+    if (props.inRollState !== getRollState()) {
+      setRollState(props.inRollState);
+    }
+  });
+
+  createEffect(() => {
+    if (getRollState()) {
+      console.log("startAnimations");
       startAnimations(rollAnimations);
     } else {
+      console.log("endAnimations");
       startAnimations(resetAnimations);
     }
   });
@@ -98,7 +107,6 @@ const Die: Component<Props> = (props) => {
         begin="indefinite"
         fill="freeze"
       />
-      <polygon points="" />
       <polygon
         fill="white"
         transform={`rotate(${props.startPosition.rotation} 46.65 46.65)`}

@@ -12,6 +12,7 @@
 
 .button {
     position: absolute;
+    font-size: 1.5vw;
     left: 0;
     width: 100%;
     background: none;
@@ -25,6 +26,7 @@
 }
 
 .movesNrContainer {
+    font-size: 1.25vw;
     opacity: 1;
     position: absolute;
     width: 100%;

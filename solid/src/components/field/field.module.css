@@ -1,15 +1,31 @@
 .field {
-  position: relative;
+    position: relative;
 }
 
 .fieldBoard {
-  background-color: var(--field-bg-color);
-  box-shadow: 0 0 0 4px var(--main-color);
+    background-color: var(--field-bg-color);
+    box-shadow: 0 0 0 4px var(--main-color);
+}
+
+.fieldValidTarget {
+    background-color: var(--field-bg-color);
+    animation: glow 2s infinite alternate ease;
+    transition: background-color;
+    cursor: pointer;
 }
 
 .fieldContent {
-  left: 0;
-  position: absolute;
-  width: 100%;
+    left: 0;
+    position: absolute;
+    width: 100%;
 }
 
+@keyframes glow {
+    0%, 100% {
+        background-color: var(--field-bg-color);
+    }
+
+    50% {
+        background-color: #a49094;
+    }
+}

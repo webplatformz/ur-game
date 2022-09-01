@@ -11,14 +11,18 @@ import {
   move,
 } from "../../game/game";
 
+export type TokenAnimation =
+  | "fromRight"
+  | "fromLeft"
+  | "fromTop"
+  | "fromBottom";
+
 type FieldProps = {
   idx: number;
   owner: FieldOwner;
 };
 
-const Field: Component<FieldProps> = (
-  { idx, owner },
-) => {
+const Field: Component<FieldProps> = ({ idx, owner }) => {
   const { tokenCount, tokenOwner, config } = useField(idx, owner);
 
   const chooseImage = () => {
@@ -27,11 +31,33 @@ const Field: Component<FieldProps> = (
     return empty;
   };
 
+  const animationDirection = () => {
+    const isBattle = owner === "battle";
+
+    if (isBattle) {
+      if (5 < idx) {
+        return "fromLeft";
+      } else {
+        return tokenOwner() === "opponent" ? "fromTop" : "fromBottom";
+      }
+    } else if (owner === "opponent" && idx === 13) {
+      return "fromBottom";
+    } else if (owner === "player" && idx === 13) {
+      return "fromTop";
+    } else if (0 < idx && idx != 13) {
+      return "fromRight";
+    }
+
+    return null;
+  };
+
   function isValidMoveForCurrentPlayer() {
-    return isItPlayersTurn() &&
+    return (
+      isItPlayersTurn() &&
       gameState() === "move" &&
       owner !== "opponent" &&
-      currentValidTargets().includes(idx);
+      currentValidTargets().includes(idx)
+    );
   }
 
   return (
@@ -40,15 +66,16 @@ const Field: Component<FieldProps> = (
       classList={{
         [style.field]: true,
         [style.fieldBoard]: idx > 0 && idx < 15,
+        [style.fieldValidTarget]: isValidMoveForCurrentPlayer(),
       }}
       onClick={() => isValidMoveForCurrentPlayer() && move(idx)}
     >
       <Show when={tokenCount()}>
-        <Token count={tokenCount} owner={tokenOwner} tokenType={"standard"} />
-      </Show>
-      <Show when={isValidMoveForCurrentPlayer()}>
-        <Token count={() => 1} owner={() => "player"} tokenType={"ghost"}>
-        </Token>
+        <Token
+          count={tokenCount}
+          owner={tokenOwner}
+          animationDirection={animationDirection}
+        />
       </Show>
       <img alt="square" class={style.fieldContent} src={chooseImage()} />
     </div>
