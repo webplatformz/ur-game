@@ -30,7 +30,9 @@ const Token: Component<TokenProps> = ({ count, owner, animationDirection }) => {
         [style.animationFromBottom]: animationDirection() === "fromBottom",
       }}
     >
-      <Show when={count() > 1}>{count()}</Show>
+      <Show when={count() > 1}>
+        <p>{count()}</p>
+      </Show>
     </div>
   );
 };

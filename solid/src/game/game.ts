@@ -16,12 +16,14 @@ const [boardConfig, setBoardConfig] = createSignal<GameContext["boardConfig"]>(
   [],
 );
 const [diceRoll, loadDiceRoll] = createSignal<DiceRoll["values"]>([0, 0, 0, 0]);
+const [diceRollAnimationInProgress, setDiceRollAnimationInProgress] =
+  createSignal<boolean>(false);
 const [gameState, setGameState] = createSignal<GameContext["state"]>("initial");
 const [currentValidTargets, setCurrentValidTargets] = createSignal<
   GameContext["currentValidTargets"]
 >([]);
 
-const isItPlayersTurn = () => currentPlayer() === playerColor();
+const isPlayersTurn = () => currentPlayer() === playerColor();
 
 export const boards = () => {
   return playerColor() === "light"
@@ -67,7 +69,9 @@ export {
   currentPlayer,
   currentValidTargets,
   diceRoll,
+  diceRollAnimationInProgress,
   gameState,
   isFinished,
-  isItPlayersTurn,
+  isPlayersTurn,
+  setDiceRollAnimationInProgress,
 };
