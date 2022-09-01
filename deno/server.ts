@@ -10,6 +10,7 @@ async function reqHandler(req: Request) {
       handleWebsocketConnection(
         socket,
         url.searchParams.has("quickmatch"),
+        url.searchParams.has("botmatch"),
         url.searchParams.get("sessionId"),
       );
     } catch (error: any) {

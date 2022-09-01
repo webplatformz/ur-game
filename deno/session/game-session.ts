@@ -14,6 +14,8 @@ import {
   ServerWebsocketMessages,
 } from "../shared/models/message-types.model.ts";
 import { Move } from "../shared/models/move.model.ts";
+import { BotPlayerSession } from "./bot-session.ts";
+import { HumanPlayerSession } from "./human-player-session.ts";
 import { PlayerSession } from "./player-session.ts";
 
 export class GameSession {
@@ -26,11 +28,11 @@ export class GameSession {
     this.addPlayer(socket);
   }
 
-  addPlayer(socket: WebSocket) {
+  addPlayer(socket?: WebSocket) {
     const playerColor = this.players["dark"] ? "light" : "dark";
-    const playerSession = new PlayerSession(
-      socket,
-    );
+    const playerSession = socket
+      ? new HumanPlayerSession(socket)
+      : new BotPlayerSession();
     playerSession.onOpen = () => {
       playerSession.send({
         type: "gamesession",
@@ -83,7 +85,9 @@ export class GameSession {
       try {
         this.gameContext.state = "roll";
         this.broadcast({ type: "gamecontext", ...this.gameContext });
+        console.log("context sent");
         await this.onPlayerMessage(this.gameContext.currentPlayer, "roll");
+        console.log("roll incoming");
         this.gameContext.currentDiceRoll = rollDice();
         const diceSum = diceRollSum(this.gameContext.currentDiceRoll);
         this.gameContext.currentValidTargets = getPossibleTargetFields(

@@ -5,6 +5,7 @@ let socket: WebSocket;
 
 export async function connectSocket(
   quickMatch: boolean,
+  botMatch: boolean,
   sessionId?: string,
 ): Promise<void> {
   const { host, protocol } = location;
@@ -15,6 +16,8 @@ export async function connectSocket(
 
   if (quickMatch) {
     webSocketURL.searchParams.append("quickmatch", "true");
+  } else if (botMatch) {
+    webSocketURL.searchParams.append("botmatch", "true");
   } else if (sessionId) {
     webSocketURL.searchParams.append("sessionId", sessionId);
   }
