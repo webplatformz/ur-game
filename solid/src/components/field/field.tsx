@@ -1,4 +1,4 @@
-import { Component, Show } from "solid-js";
+import { Component, createSignal, Show } from "solid-js";
 import { FieldOwner, useField } from "../../game/useField";
 import style from "./field.module.css";
 import rosette from "./../../assets/rosette.png";
@@ -6,6 +6,7 @@ import empty from "./../../assets/empty.png";
 import Token from "../token/token";
 import {
   currentValidTargets,
+  diceRoll,
   gameState,
   isItPlayersTurn,
   move,
@@ -21,6 +22,8 @@ type FieldProps = {
   idx: number;
   owner: FieldOwner;
 };
+
+const [originTokenIdx, setOriginTokenIdx] = createSignal<number>();
 
 const Field: Component<FieldProps> = ({ idx, owner }) => {
   const { tokenCount, tokenOwner, config } = useField(idx, owner);
@@ -60,15 +63,44 @@ const Field: Component<FieldProps> = ({ idx, owner }) => {
     );
   }
 
+  function isOriginTokenIdx(idx: number) {
+    const isOrigin = originTokenIdx() === idx &&
+      isItPlayersTurn() &&
+      gameState() === "move" &&
+      owner !== "opponent";
+    return isOrigin;
+  }
+
+  function getOrigin(hoveredIdx: number) {
+    const originTokens = currentValidTargets()
+      .filter((idx) => idx === hoveredIdx)
+      .map(
+        (hoveredIdx) =>
+          hoveredIdx -
+          diceRoll().reduce<number>((curr, prev) => prev + curr, 0),
+      );
+    return originTokens[0];
+  }
+
   return (
     <div
       style={{ "grid-area": `${owner}${idx}` }}
       classList={{
         [style.field]: true,
         [style.fieldBoard]: idx > 0 && idx < 15,
+        [style.originToken]: isOriginTokenIdx(idx),
         [style.fieldValidTarget]: isValidMoveForCurrentPlayer(),
       }}
-      onClick={() => isValidMoveForCurrentPlayer() && move(idx)}
+      onMouseOver={() => {
+        setOriginTokenIdx(getOrigin(idx));
+      }}
+      onMouseLeave={() => {
+        setOriginTokenIdx(undefined);
+      }}
+      onClick={() => {
+        setOriginTokenIdx(undefined);
+        return isValidMoveForCurrentPlayer() && move(idx);
+      }}
     >
       <Show when={tokenCount()}>
         <Token
