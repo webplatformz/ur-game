@@ -7,6 +7,8 @@ import Login from "./screens/login/login";
 import BoardScreen from "./screens/game/game";
 import { connectSocket } from "./connection/connection";
 import { navigationState, setNavigationState } from "./navigation";
+import GameOver from "./screens/game-over/game-over";
+import { leaveGame } from "./game/game";
 
 const App: Component = () => {
   async function handleQuickStart() {
@@ -33,6 +35,10 @@ const App: Component = () => {
     setNavigationState("IN_MENU_SCREEN");
   }
 
+  function handleRematch() {
+    // TODO rematch
+  }
+
   return (
     <div class={styles.App}>
       <Switch>
@@ -54,7 +60,10 @@ const App: Component = () => {
           <PreGameLobby onClose={handleClose} isPrivateGame />
         </Match>
         <Match when={navigationState() === "IN_GAME"}>
-          <BoardScreen exitGame={handleClose}/>
+          <BoardScreen exitGame={leaveGame} />
+        </Match>
+        <Match when={navigationState() === "IN_GAME_OVER"}>
+          <GameOver onRematch={handleRematch} onBackHome={leaveGame} />
         </Match>
       </Switch>
     </div>

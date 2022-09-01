@@ -1,6 +1,6 @@
 import { ServerWebsocketMessages } from "@shared-models/message-types.model";
 import { updateGame } from "../game/game";
-import { navigateToGameIfNecessary } from "../navigation";
+import { navigateToGameIfNecessary, navigateToMenu } from "../navigation";
 import { loadSession } from "./session";
 
 export function handle(message: ServerWebsocketMessages) {
@@ -11,6 +11,9 @@ export function handle(message: ServerWebsocketMessages) {
     case "gamecontext":
       updateGame(message);
       navigateToGameIfNecessary();
+      break;
+    case "menu":
+      navigateToMenu();
       break;
   }
 }

@@ -33,6 +33,10 @@ export class PlayerSession {
     this.connection.send(JSON.stringify(message));
   }
 
+  close() {
+    this.connection.close();
+  }
+
   set onClose(fn: (closeEvent: CloseEvent) => void) {
     this.connection.onclose = fn;
   }

@@ -7,11 +7,11 @@ import { diceRollSum, rollDice } from "../game/roll-dice.ts";
 import { generateSessionId } from "../id-utils.ts";
 import {
   GameContext,
-  PlayerColor
+  PlayerColor,
 } from "../shared/models/game-context.model.ts";
 import {
   ClientWebsocketMessages,
-  ServerWebsocketMessages
+  ServerWebsocketMessages,
 } from "../shared/models/message-types.model.ts";
 import { Move } from "../shared/models/move.model.ts";
 import { PlayerSession } from "./player-session.ts";
@@ -42,6 +42,7 @@ export class GameSession {
         playerValues.length === 2 &&
         playerValues.every((value) => value.connected)
       ) {
+        this.onLeaveGame();
         this.start()
           .then(() => console.log("Game finished"))
           .catch(() => console.error("Game errored"));
@@ -56,6 +57,12 @@ export class GameSession {
     if (Object.keys(this.players).length === 0) {
       this.onCleanUp?.();
     }
+  }
+
+  private disconnectPlayers() {
+    Object.values(this.players).forEach((player) => {
+      player.close();
+    });
   }
 
   private broadcast(message: ServerWebsocketMessages) {
@@ -109,5 +116,16 @@ export class GameSession {
       }
       this.broadcast({ type: "gamecontext", ...this.gameContext });
     }
+  }
+
+  private onLeaveGame() {
+    Object.keys(this.players).forEach((player: string) => {
+      this.onPlayerMessage(player as PlayerColor, "leave").then(() => {
+        if (Object.keys(this.players).length > 0) {
+          this.broadcast({ type: "menu" });
+          this.disconnectPlayers();
+        }
+      });
+    });
   }
 }
