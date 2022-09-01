@@ -1,20 +1,26 @@
-import {Component, createEffect, createSignal, Show} from 'solid-js';
-import Die, {TrianglePosition} from './die';
-import styles from './dice.module.css';
-import {diceRoll, gameState, isPlayersTurn, roll, setDiceRollAnimationInProgress} from '../../../game/game';
-import {DiceValues} from '@shared-models/dice-values.model';
+import { Component, createEffect, createSignal, Show } from "solid-js";
+import Die, { TrianglePosition } from "./die";
+import styles from "./dice.module.css";
+import {
+  diceRoll,
+  gameState,
+  isPlayersTurn,
+  roll,
+  setDiceRollAnimationInProgress,
+} from "../../../game/game";
+import { DiceValues } from "@shared-models/dice-values.model";
 
 type State =
   | {
-      type: "WAITING_ON_PLAYER_ROLL";
-    }
+    type: "WAITING_ON_PLAYER_ROLL";
+  }
   | {
     type: "PLAYER_ROLLED";
     result: DiceValues;
   }
   | {
-      type: "WAITING_ON_OPPONENT_ROLL";
-    }
+    type: "WAITING_ON_OPPONENT_ROLL";
+  }
   | {
     type: "OPPONENT_ROLLED";
     result: DiceValues;
@@ -128,7 +134,8 @@ const Dice: Component<Props> = (props) => {
             [styles.hidden]: !isRolledState(),
           }}
         >
-          Move <span class={styles.movesNr}>{getDiceResultAsNumber()}</span>{" "}
+          Move <span class={styles.movesNr}>{getDiceResultAsNumber()}</span>
+          {" "}
           {getDiceResultAsNumber() === 1 ? "Tile" : "Tiles"}
         </div>
         <svg

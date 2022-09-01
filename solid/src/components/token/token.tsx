@@ -31,7 +31,7 @@ const Token: Component<TokenProps> = ({ count, owner, animationDirection }) => {
       }}
     >
       <Show when={count() > 1}>
-          <p>{count()}</p>
+        <p>{count()}</p>
       </Show>
     </div>
   );

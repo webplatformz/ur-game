@@ -1,6 +1,6 @@
-import {Accessor, Component, createEffect, createSignal} from 'solid-js';
+import { Accessor, Component, createEffect, createSignal } from "solid-js";
 
-import styles from './die.module.css';
+import styles from "./die.module.css";
 
 export type TrianglePosition = {
   x: number;
@@ -31,7 +31,9 @@ export interface DieProps {
   endPosition: TrianglePosition;
   inRollState: Accessor<boolean>;
 }
-const Die: Component<DieProps> = ({black, startPosition, endPosition, inRollState}) => {
+const Die: Component<DieProps> = (
+  { black, startPosition, endPosition, inRollState },
+) => {
   const [getRollState, setRollState] = createSignal(false);
   const rollAnimations: Animations = {
     x: undefined,
@@ -128,9 +130,7 @@ const Die: Component<DieProps> = ({black, startPosition, endPosition, inRollStat
           attributeName="transform"
           type="rotate"
           from={`${startPosition.rotation} 46.65 46.65`}
-          to={`${
-            endPosition.rotation + 120 * getRandomInt(8, 16)
-          } 46.65 46.65`}
+          to={`${endPosition.rotation + 120 * getRandomInt(8, 16)} 46.65 46.65`}
           dur="2s"
           begin="indefinite"
           fill="freeze"

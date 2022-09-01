@@ -1,10 +1,10 @@
-import {DiceRoll} from '@shared-models/dice-roll.model';
-import {GameContext} from '@shared-models/game-context.model';
-import {Move} from '@shared-models/move.model';
-import {batch, createSignal} from 'solid-js';
-import {sendMessage} from '../connection/connection';
-import {playerColor} from '../connection/session';
-import {navigateToGameOver} from '../navigation';
+import { DiceRoll } from "@shared-models/dice-roll.model";
+import { GameContext } from "@shared-models/game-context.model";
+import { Move } from "@shared-models/move.model";
+import { batch, createSignal } from "solid-js";
+import { sendMessage } from "../connection/connection";
+import { playerColor } from "../connection/session";
+import { navigateToGameOver } from "../navigation";
 
 const [boardDark, setBoardDark] = createSignal<GameContext["boardDark"]>([]);
 const [boardLight, setBoardLight] = createSignal<GameContext["boardLight"]>([]);
@@ -16,7 +16,8 @@ const [boardConfig, setBoardConfig] = createSignal<GameContext["boardConfig"]>(
   [],
 );
 const [diceRoll, loadDiceRoll] = createSignal<DiceRoll["values"]>([0, 0, 0, 0]);
-const [diceRollAnimationInProgress, setDiceRollAnimationInProgress] = createSignal<boolean>(false);
+const [diceRollAnimationInProgress, setDiceRollAnimationInProgress] =
+  createSignal<boolean>(false);
 const [gameState, setGameState] = createSignal<GameContext["state"]>("initial");
 const [currentValidTargets, setCurrentValidTargets] = createSignal<
   GameContext["currentValidTargets"]
@@ -68,9 +69,9 @@ export {
   currentPlayer,
   currentValidTargets,
   diceRoll,
+  diceRollAnimationInProgress,
   gameState,
   isFinished,
   isPlayersTurn,
   setDiceRollAnimationInProgress,
-  diceRollAnimationInProgress,
 };

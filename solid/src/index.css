@@ -2,6 +2,7 @@
   --main-bg-color: #e6dbd0;
   --main-color: #5d4954;
   --field-bg-color: #796367;
+  --field-bg-color-highlight: #ad7882;
 }
 
 * {
@@ -11,7 +12,9 @@
 
 @font-face {
   font-family: 'MHLegajo-Regular1';
-  src: url('assets/JMHLegajo-Regular1.ttf.woff'), url('assets/JMHLegajo-Regular1.ttf.eot') format('truetype'), url('assets/JMHLegajo-Regular1.ttf.svg') format('svg');
+  src: url('assets/JMHLegajo-Regular1.ttf.woff'),
+    url('assets/JMHLegajo-Regular1.ttf.eot') format('truetype'),
+    url('assets/JMHLegajo-Regular1.ttf.svg') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -33,15 +36,15 @@ button {
   border-radius: 3px;
   margin: 1em;
   padding: 0.5em 1.5em;
-  color: #5D4954;
+  color: #5d4954;
   outline: none;
-  border: 3px solid #5D4954;
+  border: 3px solid #5d4954;
 }
 
 button:disabled {
   opacity: 0.5;
   pointer-events: none;
-  border: 1px solid #5D4954;
+  border: 1px solid #5d4954;
 }
 
 input {
