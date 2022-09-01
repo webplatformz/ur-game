@@ -89,7 +89,6 @@ const Dice: Component<Props> = (props) => {
   });
 
   createEffect(() => {
-    console.log("new game context created");
     switch (gameState()) {
       case "move":
         if (isItPlayersTurn()) {

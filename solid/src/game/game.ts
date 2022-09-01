@@ -4,7 +4,7 @@ import { Move } from "@shared-models/move.model";
 import { batch, createSignal } from "solid-js";
 import { sendMessage } from "../connection/connection";
 import { playerColor } from "../connection/session";
-import { setNavigationState } from "../navigation";
+import { navigateToGameOver } from "../navigation";
 
 const [boardDark, setBoardDark] = createSignal<GameContext["boardDark"]>([]);
 const [boardLight, setBoardLight] = createSignal<GameContext["boardLight"]>([]);
@@ -42,7 +42,9 @@ export const updateGame = (gameContext: GameContext) => {
   });
 
   if (isFinished()) {
-    setNavigationState("IN_GAME_OVER");
+    setTimeout(() => {
+      navigateToGameOver();
+    }, 2000);
   }
 };
 

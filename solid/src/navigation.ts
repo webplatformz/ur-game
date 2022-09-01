@@ -21,3 +21,7 @@ export function navigateToGameIfNecessary() {
 export function navigateToMenu() {
   setNavigationState("IN_MENU_SCREEN");
 }
+
+export function navigateToGameOver() {
+  setNavigationState("IN_GAME_OVER");
+}
